@@ -1,27 +1,40 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import signinImg from '../../../images/signin.svg';
-import fbBtnSvg from '../../../images/facebook-app-symbol.svg';
-import gpBtnSvg from '../../../images/google-plus.svg';
-import authBtnSvg from '../../../images/auth0.svg';
 import TextField from '../../../components/uielements/textfield';
 import Scrollbars from '../../../components/utility/customScrollBar';
 import Button from '../../../components/uielements/button';
 import authAction from '../../../redux/auth/actions';
 import IntlMessages from '../../../components/utility/intlMessages';
 import SignUpStyleWrapper from './signup.style';
-import Auth0 from '../../../helpers/auth0/index';
-import Firebase from '../../../helpers/firebase';
-import FirebaseLogin from '../../../components/firebase';
 import { Checkbox } from './signup.style';
-
+import { YearPicker, MonthPicker, DayPicker } from 'react-dropdown-date';
+import { ValidatorComponent } from 'react-form-validator-core';
 const { login } = authAction;
 
-class SignUp extends Component {
+class SignUp extends ValidatorComponent {
   state = {
     redirectToReferrer: false,
+    username: "", email: "", password: "", confirmPassword: "",
+    gender: ''  ,
+    dob: { day: "", year: "", month: "" }
   };
+ 
+  errorText() {
+    const { isValid } = this.state;
+
+    if (isValid) {
+        return null;
+    }
+
+    return (
+        <div style={{ color: 'red' }}>
+            {this.getErrorMessage()}
+        </div>
+    );
+}
+
   componentWillReceiveProps(nextProps) {
     if (
       this.props.isLoggedIn !== nextProps.isLoggedIn &&
@@ -30,11 +43,27 @@ class SignUp extends Component {
       this.setState({ redirectToReferrer: true });
     }
   }
+
   handleLogin = () => {
-    const { login } = this.props;
-    login();
-    this.props.history.push('/dashboard');
+  const { login } = this.props;
+  login();
+  console.log(this.state.username)
+  console.log(this.state.email)
+  this.validate({
+    username: {minlength:3, required: true},
+    email: {email: true},
+    confirmPassword : {equalPassword : this.state.password}
+  });
+  console.log(this.state.gender)
+  //  this.props.history.push('/signin');
   };
+
+  Changegender = (e) => {  
+    this.setState({  
+            gender: e.target.value  
+    })  
+}
+
   render() {
     return (
       <SignUpStyleWrapper className="mateSignUpPage">
@@ -66,11 +95,15 @@ class SignUp extends Component {
               </p>
             </div>
             <div className="mateSignInPageForm">
+            <div>
+            {this.errorText()}
+          </div>
               <div className="mateInputWrapper">
                 <TextField
                   label="Username"
                   placeholder="Username"
                   margin="normal"
+                  onChange={(username) => this.setState({ username: username})} 
                 />
               </div>
               <div className="mateInputWrapper">
@@ -79,6 +112,9 @@ class SignUp extends Component {
                   placeholder="Email"
                   margin="normal"
                   type="Email"
+                  value={this.state.email}
+                  validators={['required', 'isEmail']}
+                  ref="email" onChange={(email) => this.setState({email :email})} 
                 />
               </div>
               <div className="mateInputWrapper">
@@ -87,6 +123,7 @@ class SignUp extends Component {
                   placeholder="Password"
                   margin="normal"
                   type="Password"
+                  ref="password" onChange={(password) => this.setState({password})} 
                 />
               </div>
               <div className="mateInputWrapper">
@@ -95,9 +132,75 @@ class SignUp extends Component {
                   placeholder="Confirm Password"
                   margin="normal"
                   type="Password"
+                  ref="confirmPassword" onChange={(confirmPassword) => this.setState({confirmPassword})}
                 />
               </div>
+              <div>  
+                              <input type="radio" value="Male" checked={this.state.gender == "Male"} onChange={this.Changegender} />Male  
+                             <input type="radio" value="Female" checked={this.state.gender == "Female"} onChange={this.Changegender} />Female  
+                              </div>
             </div>
+            <div className="row">
+      <div className="col pr-1 px-0 col-xs-6">
+         <YearPicker
+          defaultValue={'select year'}
+          start={2010}                // default is 1900
+          end={2020}                  // default is current year
+          reverse                     // default is ASCENDING
+          value={this.state.dob.year}     // mandatory
+          onChange={(year) => {       // mandatory
+            this.setState({ dob : {year : year}});
+            console.log(year);
+          }}
+          id={'year'}
+          name={'year'}
+          classes={'classes'}
+          optionClasses={'option classes'}
+        />
+       
+      
+      </div>
+      <div className="col pr-1 px-0 col-xs-6">
+      <MonthPicker
+          defaultValue={'select month'}
+          numeric                   // to get months as numbers
+          short                     // default is full name
+          caps                      // default is Titlecase
+          endYearGiven              // mandatory if end={} is given in YearPicker
+          year={this.state.dob.year}    // mandatory
+          required={true}           // default is false
+                // default is false
+          value={this.state.dob.month}  // mandatory
+          onChange={(month) => {    // mandatory
+            this.setState({ dob : {month : month} });
+            console.log(month);
+          }}
+          id={'month'}
+          name={'month'}
+          classes={'classes'}
+          optionClasses={'option classes'}
+        />
+      </div>
+      <div className="col px-0 col-xs-6">
+      <DayPicker
+          defaultValue={'select day'}
+          year={this.state.dob.year}    // mandatory
+          month={this.state.dob.month}  // mandatory
+          endYearGiven              // mandatory if end={} is given in YearPicker
+          required={true}           // default is false
+              // default is false
+          value={this.state.dob.day}    // mandatory
+          onChange={(day) => {      // mandatory
+            this.setState({ dob: { day: day} });
+            console.log(day);
+          }}
+          id={'day'}
+          name={'day'}
+          classes={'classes'}
+          optionClasses={'option classes'}
+        />
+      </div>
+    </div>
             <div className="mateAgreement">
               <div className="mateLoginSubmitCheck">
                 <Checkbox color="primary" className="mateTermsCheck" />
@@ -111,67 +214,7 @@ class SignUp extends Component {
                 </Button>
               </div>
             </div>
-            <div className="mateLoginSubmitText">
-              <span>or Sign Up with </span>
-            </div>
-            <div className="mateLoginOtherBtn">
-              <div className="mateLoginOtherBtnWrap">
-                <Button
-                  onClick={this.handleLogin}
-                  type="button"
-                  className="btnFacebook"
-                >
-                  <div className="mateLoginOtherIcon">
-                    <img src={fbBtnSvg} alt="facebook Btn" />
-                  </div>
-                  <IntlMessages id="page.signUpFacebook" />
-                </Button>
-              </div>
-              <div className="mateLoginOtherBtnWrap">
-                <Button
-                  onClick={this.handleLogin}
-                  type="button"
-                  className="btnGooglePlus"
-                >
-                  <div className="mateLoginOtherIcon">
-                    <img src={gpBtnSvg} alt="Google Plus Btn" />
-                  </div>
-                  <IntlMessages id="page.signUpGooglePlus" />
-                </Button>
-              </div>
-              <div className="mateLoginOtherBtnWrap">
-                {Auth0.isValid ? (
-                  <Button
-                    type="button"
-                    className="btnAuthZero"
-                    onClick={() => {
-                      Auth0.login(this.handleLogin);
-                    }}
-                  >
-                    <div className="mateLoginOtherIcon">
-                      <img src={authBtnSvg} alt="Authentication Btn" />
-                    </div>
-                    <IntlMessages id="page.signUpAuth0" />
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    className="btnAuthZero"
-                    onClick={this.handleLogin}
-                  >
-                    <div className="mateLoginOtherIcon">
-                      <img src={authBtnSvg} alt="Authentication Btn" />
-                    </div>
-                    <IntlMessages id="page.signUpAuth0" />
-                  </Button>
-                )}
-              </div>
-              <div className="mateLoginOtherBtnWrap">
-                {Firebase.isValid && (
-                  <FirebaseLogin signup={true} login={this.handleLogin} />
-                )}
-              </div>
-            </div>
+          
           </Scrollbars>
         </div>
       </SignUpStyleWrapper>
