@@ -63,25 +63,22 @@ class SignUp extends Component {
     axios
       .post(API_URL.concat("/users/signup/"), body, config)
       .then((response) =>{
-          console.log(response.status);
           if(response.status === 201)
           {
             this.setState({class: "success" });
-            this.setState({message : response.data.message });
+            this.setState({message:"User registered SuccessFully" });
           }
           if(response.status===200)
           {
             this.setState({message: response.data.message });
             this.setState({class: "error" });
           }
-          // console.log(this.state.class);
           this.setState({open:true});
       })
       .catch((error) => {
           console.log(error);
       });
-    //console.log(this.props.isAuthenticated);
-   // this.props.signUp(user);
+
   }
 
   
@@ -108,16 +105,8 @@ class SignUp extends Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
-   handleClick = () => {
-    this.setState({open: true });
-  };
-
    handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    this.setState({open: false });
+       this.setState({open: false });
   };
   render() {
     function Alert(props) {
@@ -145,6 +134,13 @@ class SignUp extends Component {
               </button>
             </Link>
           </div>
+          <div>
+            <Snackbar open={this.state.open} autoHideDuration={6000}>
+              <Alert onClose={this.handleClose} severity={this.state.class}>
+                {this.state.message}
+              </Alert>
+            </Snackbar>
+            </div>
           <Scrollbars style={{ height: '100%' }}>
             {/* <div className="mateSignInPageGreet">
               <h1>Its Free, Join Us</h1>
@@ -153,13 +149,7 @@ class SignUp extends Component {
                 information.
               </p>
             </div> */}
-            <div>
-            <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}>
-              <Alert onClose={this.handleClose} severity={this.state.class}>
-                {this.state.message}
-              </Alert>
-            </Snackbar>
-            </div>
+           
             <div className="mateSignInPageForm">
               <div className="mateInputWrapper">
                   <TextField
@@ -248,12 +238,12 @@ class SignUp extends Component {
               </div>
             </div>
             <div className="mateAgreement">
-              <div className="mateLoginSubmitCheck">
+              {/* <div className="mateLoginSubmitCheck">
                 <Checkbox color="primary" className="mateTermsCheck" />
                 <span className="mateTermsText">
                   <IntlMessages id="page.signUpTermsConditions" />
                 </span>
-              </div>
+              </div> */}
               <div className="mateLoginSubmit">
                 <Button type="button" onClick={this.handleSignUp}>
                   Sign Up
