@@ -14,13 +14,16 @@ import SignInStyleWrapper from './signin.style';
 import Auth0 from '../../../helpers/auth0';
 import Firebase from '../../../helpers/firebase';
 import FirebaseLogin from '../../../components/firebase';
+import {loginUserService} from "./../../../services/loginUserService";
+import { LOGIN_SUCCESS, LOGIN_FAIL, GET_ERROR } from '../../../redux/actions/types/auth';
+import { loginUser } from '../../../redux/actions/loginAction';
 
 const { login } = authAction;
 class SignIn extends Component {
   state = {
     redirectToReferrer: false,
-    username: 'demo@gmail.com',
-    password: 'demodemo',
+    username: 'hamza',
+    password: '123',
   };
   componentWillReceiveProps(nextProps) {
     if (
@@ -30,11 +33,29 @@ class SignIn extends Component {
       this.setState({ redirectToReferrer: true });
     }
   }
-  handleLogin = () => {
-    const { login } = this.props;
-    const { username, password } = this.state;
-    login({ username, password });
-    this.props.history.push('/dashboard');
+  handleLogin = async () => {
+    // const { login } = this.props;
+    // const { username, password } = this.state;
+    // login({ username, password });
+    // this.props.history.push('/dashboard');
+    const loginServiceResponse = await loginUserService(this.state.username, this.state.password);
+    console.log("RESPONSE RECEIVED: ",loginServiceResponse);
+    if(loginServiceResponse.status===200)
+    {
+      //loginUser();
+      console.log("LOGIN");
+    }
+    else if(loginServiceResponse.status===401)
+    {
+      console.log("INVALID");
+      //login failed, prompt for invalid username/password
+    }
+    else
+    {
+      console.log("ERROR");
+      //unexpted error, prompt for unexpected error
+    }
+
   };
   onChangeUsername = event => this.setState({ username: event.target.value });
   onChangePassword = event => this.setState({ password: event.target.value });

@@ -16,7 +16,7 @@ import Auth0 from '../../../helpers/auth0/index';
 import Firebase from '../../../helpers/firebase';
 import FirebaseLogin from '../../../components/firebase';
 import { Checkbox } from './signup.style';
-import{API_URL} from "../../../config"
+import{API_URL} from "./../../../services/config"
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
