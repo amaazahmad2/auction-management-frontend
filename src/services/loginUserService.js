@@ -13,7 +13,7 @@ export async function loginUserService(username,password ){
         }
     }
     // const {data:response} = await 
-    await axios.post(apiEndpoint,userObj,config)
+    const resp = await axios.post(apiEndpoint,userObj,config)
     .then((response) =>{
         // console.log(response);
         // if(response.status === 200) //successfully logged-in
@@ -23,19 +23,13 @@ export async function loginUserService(username,password ){
         //     console.log("INVALID PASSWORD");
         //     return response.status;
         // }
-        console.log(response);
-        const returnObj={
-            status: response.status,
-            data: {...response.data}
-        };
-        console.log("RETURN OBJ: ",returnObj)
-        return returnObj;
+        return response;
     })
     .catch((error) => {
         //console.log("ERROR");
         //console.log(error.status);
-        return error.status;
+        return error;
     });
 
-
+    return resp;
 }

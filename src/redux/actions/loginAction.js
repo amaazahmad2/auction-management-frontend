@@ -9,10 +9,18 @@ import { LOGIN_SUCCESS, LOGIN_FAIL, GET_ERROR } from './../actions/types/auth';
 
 const apiEndpoint = API_URL + "/users/login/";
 
-export async function loginUser(){
+export function loginUserAction(userObj){
     return{
         type: LOGIN_SUCCESS,
         payload:{
+            uuid:userObj.uuid,
+            token:userObj.token,
+            email: userObj.email,
+            phone_number: userObj.phone_number,
+            username: userObj.username,
+            name: userObj.name,
+            birthday: userObj.birthday,
+            gender: userObj.gender
 
         }
     }

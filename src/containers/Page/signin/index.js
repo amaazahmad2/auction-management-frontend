@@ -15,48 +15,67 @@ import Auth0 from '../../../helpers/auth0';
 import Firebase from '../../../helpers/firebase';
 import FirebaseLogin from '../../../components/firebase';
 import {loginUserService} from "./../../../services/loginUserService";
-import { LOGIN_SUCCESS, LOGIN_FAIL, GET_ERROR } from '../../../redux/actions/types/auth';
-import { loginUser } from '../../../redux/actions/loginAction';
+import {store, history} from './../../../redux/store.js'
+import { loginUserAction } from '../../../redux/actions/loginAction';
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from '@material-ui/lab/Alert'
 
 const { login } = authAction;
 class SignIn extends Component {
   state = {
-    redirectToReferrer: false,
+    // redirectToReferrer: false,
     username: 'hamza',
     password: '123',
+    alertOpen:false,
+    alertMessage:"",
+    alertSeverity:"info"
   };
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.isLoggedIn !== nextProps.isLoggedIn &&
-      nextProps.isLoggedIn === true
-    ) {
-      this.setState({ redirectToReferrer: true });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
+  //     nextProps.isLoggedIn === true
+  //   ) {
+  //     this.setState({ redirectToReferrer: true });
+  //   }
+  // }
   handleLogin = async () => {
     // const { login } = this.props;
     // const { username, password } = this.state;
     // login({ username, password });
     // this.props.history.push('/dashboard');
     const loginServiceResponse = await loginUserService(this.state.username, this.state.password);
-    console.log("RESPONSE RECEIVED: ",loginServiceResponse);
+    //console.log("RESPONSE RECEIVED: ",loginServiceResponse);
     if(loginServiceResponse.status===200)
     {
-      //loginUser();
-      console.log("LOGIN");
+      this.setState({alertMessage:"Logged-In Successfully", alertSeverity:"success", alertOpen:true})
+      store.dispatch(loginUserAction(loginServiceResponse.data));
+      this.props.history.push('/dashboard');
+      
+      
+      //console.log(loginServiceResponse);
     }
     else if(loginServiceResponse.status===401)
     {
-      console.log("INVALID");
+      //console.log("INVALID");
+      //window.alert("INVALID PASSWORD");
+      this.setState({alertMessage:"Invalid Username or Password", alertSeverity:"error"});
       //login failed, prompt for invalid username/password
     }
     else
     {
-      console.log("ERROR");
+      //console.log("ERROR");
+      //window.alert("UNEXPECTED ERROR OCCURRED");
+      this.setState({alertMessage:"Unexpected Error Occurred",alertSeverity:"error"});
       //unexpted error, prompt for unexpected error
     }
+    this.setState({alertOpen:true})
 
   };
+
+  handleAlertClose = () => {
+    this.setState({ alertOpen: false });
+  };
+
   onChangeUsername = event => this.setState({ username: event.target.value });
   onChangePassword = event => this.setState({ password: event.target.value });
   render() {
@@ -87,6 +106,21 @@ class SignIn extends Component {
               </button>
             </Link>
           </div>
+          <div>
+                        <Snackbar
+                            open={this.state.alertOpen}
+                            autoHideDuration={6000}
+                            onClose={this.handleAlertClose}
+                        >
+                            <Alert
+                            elevation={6} variant="filled"
+                                onClose={this.handleAlertClose}
+                                severity={this.state.alertSeverity}
+                            >
+                                {this.state.alertMessage}
+                            </Alert>
+                        </Snackbar>
+                    </div>
           <Scrollbars style={{ height: '100%' }}>
             <div className="mateSignInPageGreet">
               <h1>Hello User,</h1>
