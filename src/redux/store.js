@@ -5,7 +5,6 @@ import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import rootSaga from './sagas';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
@@ -23,10 +22,7 @@ const store = createStore(
     ...reducers,
     router: connectRouter(history),
   }),
-  composeWithDevTools(
-    applyMiddleware(...middlewares),
-    // other store enhancers if any
-  ));
-
+  composeEnhancers(applyMiddleware(...middlewares))
+);
 sagaMiddleware.run(rootSaga);
 export { store, history };
