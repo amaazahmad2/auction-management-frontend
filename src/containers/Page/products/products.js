@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Highlight, Snippet } from 'react-instantsearch/dom';
+import Fab from '@material-ui/core/Fab';
+
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
   GridListViewWrapper,
@@ -79,9 +81,10 @@ class Hit extends Component {
                 name="algoliaRating"
               />
         <Countdown date={`${year}-12-24T00:00:00`} />
-                     <Button variant="contained" size="small" color="primary" style={{color: "red",width:"30px",height:"30px"}}>
-        Primary
-      </Button>
+        <Fab variant="extended">
+            checking badge
+        </Fab>
+
             </div>
      
           </div>
