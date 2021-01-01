@@ -45,11 +45,10 @@ const onSubmit=(values)=>{
     values['tags']=tags;
     values['type']=type;
 
-    // console.log(values);
     const config = {
         headers: {
           "content-type": "application/json",
-          "Authorization" : "Bearer 105c1a72cf9aeaacad5be7359540eabb9c5559d0"
+          "Authorization" : "Token " +localStorage.getItem('token'),
         },
       };
       const body = JSON.stringify(values);
