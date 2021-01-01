@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useState }  from 'react';
 import LayoutWrapper from '../components/utility/layoutWrapper';
 import Papersheet from '../components/utility/papersheet';
 import { FullColumn } from '../components/utility/rowColumn';
@@ -7,8 +7,8 @@ import image from '../images/honey.jpg';
 import Hit from '../containers/Page/products/products'
 
 //product-create
-import MyInnerForm from '../containers/Page/products/createProduct'
-import ImageCrop from '../containers/Page/products/image-croper'
+import ProductCreate from './Page/products/create-product'
+import Counter from '../containers/Page/products/create-product'
 import { FormsComponentWrapper, FormsMainWrapper } from '../containers/Page/products/product.style';
 
 let hit={
@@ -16,7 +16,17 @@ let hit={
 	'rating' : 2,
 	'image':image
 };
+
+
+let images={}
+
+const setImages = (event)=>{
+	console.log(event.target.value);
+}
+
 export default () => (
+	
+
 	<LayoutWrapper>
 		<FullColumn>
 			<Papersheet title={<IntlMessages id="sidebar.dashboard" />}>
@@ -38,13 +48,14 @@ export default () => (
 		
 		
 		
-		<FormsMainWrapper>
+		{/* <FormsMainWrapper>
           	<FormsComponentWrapper className="mateFormsComponent">
 				<FullColumn>
-					<ImageCrop/>
-					<MyInnerForm/>
+					<Counter />
+					<MyInnerForm setSelect={setSelect}/>
 				</FullColumn>
 			</FormsComponentWrapper>
-        </FormsMainWrapper>
+        </FormsMainWrapper> */}
+		<ProductCreate />
 	</LayoutWrapper>
 );

@@ -59,7 +59,6 @@ class SignUp extends Component {
       },
     };
     const body = JSON.stringify(user);
-    console.log(API_URL.concat("/users/signup/"));
     axios
       .post(API_URL.concat("/users/signup/"), body, config)
       .then((response) =>{

@@ -5,6 +5,7 @@ import {
   FormHelperText,
   FormControlLabel,
 } from '../../../components/uielements/form';
+import Input from '@material-ui/core/Input';
 import validationSchema from './validate';
 import Button from '../../../components/uielements/button';
 import TextField from '../../../components/uielements/textfield';
@@ -13,7 +14,6 @@ import Checkbox from '../../../components/uielements/checkbox';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
-import { NULL } from 'node-sass';
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -60,6 +60,20 @@ const RenderToggle = ({ id, error, errorText, label, value, onChange }) => (
   </div>
 );
 
+const handleChangeMulti=(event)=>{
+  // const { options } = event.target;
+  // const value = [];
+  // for (let i = 0, l = options.length; i < l; i += 1) {
+  //   if (options[i].selected) {
+  //     value.push(options[i].value);
+  //   }
+  // // this.setState(tags:value);
+  // console.log(value);
+  
+  console.log(event.target.value)
+  //this.setState({values.tags:[1,2,3]});
+}
+
 // const isFeatured = ({ error, errorText, ...props}) =>{
 
 // }
@@ -85,23 +99,28 @@ const MyInnerForm = ({
   handleReset,
   setFieldValue,
   onSubmit,
+  tags,
+  setTags,
+  type,
+  setType,
 }) => {
   return (
     <form className="mainFormsWrapper">
       <div className="mainFormsInfoWrapper">
         <div className="mainFormsInfoField">
           <RenderTextField
+            required
             label="Product Title"
-            id="productTitle"
-            value={values.productTitle}
+            id="title"
+            value={values.title}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={errors.productTitle && touched.productTitle}
-            errorText={errors.productTitle}
+            error={errors.title && touched.title}
+            errorText={errors.title}
           />
         </div>
         
-      <div className="mateFormsCheckList">
+      {/* <div className="mateFormsCheckList">
         <h4 className="radiButtonHeader">Is Featured Product</h4>
         <RenderRadioGroup
           label="Is Featured Product"
@@ -125,7 +144,7 @@ const MyInnerForm = ({
             />
           </div>
         </RenderRadioGroup>
-      </div>
+      </div> */}
       <div className="mainFormsInfoField">
 
       <FormControl>
@@ -133,11 +152,11 @@ const MyInnerForm = ({
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value=""
-          onChange={handleChange}
+          value={type}
+          onChange={setType}
         >   
-          <MenuItem value={10}>auction product</MenuItem>
-          <MenuItem value={20}>limited product</MenuItem>
+          <MenuItem value={'auction'}>auction product</MenuItem>
+          <MenuItem value={'limited'}>limited product</MenuItem>
         </Select>
       </FormControl>
       </div>
@@ -147,7 +166,7 @@ const MyInnerForm = ({
             id="startingTime"
             label="Starting Time"
             type="datetime-local"
-            value={values.startingTime}
+            value={values.open_Time}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors.startingTime && touched.startingTime}
@@ -181,38 +200,62 @@ const MyInnerForm = ({
           <RenderTextField
             label="Enter video link"
             id="video_link"
-            value={values.video_link}
+            value={values.link_video}
             onChange={handleChange}
             onBlur={handleBlur}
             error={errors.video_link && touched.video_link}
             errorText={errors.video_link}
           />
         </div>
-        {values.product_type === 'auction' && (
+        <div className="mainFormsInfoField">
+
+      <FormControl>
+        <InputLabel id="tag-label">Tags</InputLabel>
+        <Select
+          multiple
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          // id="tags"
+          value={tags}
+          onChange={setTags}
+          // renderValue={(selected) => selected.join(', ')}
+          input={<Input />}
+
+        >   
+          <MenuItem value={'t1'}>t1</MenuItem>
+          <MenuItem value={'t2'}>t2</MenuItem>
+          <MenuItem value={'t3'}>t3</MenuItem>
+          <MenuItem value={'t4'}>t4</MenuItem>
+          <MenuItem value={'t5'}>t5</MenuItem>
+
+        </Select>
+      </FormControl>
+      </div>
+        
+        <div className="mainFormsInfoField">
+        <RenderTextField
+          label="Price"
+          id="price"
+          type="number"
+          value={values.price}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          error={errors.price && touched.price}
+          errorText={errors.price}
+        />
+      </div>
+        
+        {type === 'limited' && (
             <div className="mainFormsInfoField">
             <RenderTextField
-              label="Enter starting price"
-              id="starting_price"
+              label="Stock"
+              id="stock"
               type="number"
-              value={values.starting_price}
+              value={values.stock}
               onChange={handleChange}
               onBlur={handleBlur}
-              error={errors.starting_price && touched.starting_price}
-              errorText={errors.starting_price}
-            />
-          </div>
-        )}
-        {values.product_type === 'limited' && (
-            <div className="mainFormsInfoField">
-            <RenderTextField
-              label="Enter starting price"
-              id="starting_price"
-              type="number"
-              value={values.starting_price}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={errors.starting_price && touched.starting_price}
-              errorText={errors.starting_price}
+              error={errors.stock && touched.stocks}
+              errorText={errors.stock}
             />
           </div>
         
@@ -221,7 +264,7 @@ const MyInnerForm = ({
         </div>
 
       <div className="mateFormsFooter">
-        <div className="mateFormsChecBoxList">
+        {/* <div className="mateFormsChecBoxList">
           <RenderToggle
             label="I agree all statements in terms of service"
             id="agredTerms"
@@ -230,13 +273,12 @@ const MyInnerForm = ({
             onBlur={handleBlur}
             error={!errors.agredTerms && touched.agredTerms}
             errorText={'Please agree'}
-          />
-        </div>
+          /> */}
+        {/* </div> */}
         <div className="mateFormsSubmit">
           <Button
             className={values.agredTerms ? 'mateFormsSubmitBtn' : ''}
             onClick={() => onSubmit(values)}
-            disabled={!values.agredTerms}
           >
             Submit
           </Button>
@@ -256,18 +298,15 @@ const MyInnerForm = ({
 
 export default withFormik({
   mapPropsToValues: () => ({
-    email: '',
-    firstName: '',
     close_time: '',
-    product_type:'auction',
-    starting_price:null,
+    title:'',
+    type:'',
     price: null,
     stock: null,
-    startingTime:'',
-    endingTime:'',
-    description: '',
+    close_time:'',
+    open_time:'',
+    detail: '',
     link_video:'',
-    agredTerms: false,
   }),
   validationSchema,
   displayName: 'BasicForm',
