@@ -57,8 +57,9 @@ class SignIn extends Component {
                 alertSeverity: "success",
                 alertOpen: true,
             });
-            localStorage.setItem("token", loginServiceResponse.data.token);
-            store.dispatch(loginUserAction(loginServiceResponse.data));
+            localStorage.setItem("token", loginServiceResponse.data.data.token);
+            // console.log( loginServiceResponse);
+            store.dispatch(loginUserAction(loginServiceResponse.data.data));
             this.props.history.push("/dashboard");
         } else if (loginServiceResponse.status === 401) {
             this.setState({
