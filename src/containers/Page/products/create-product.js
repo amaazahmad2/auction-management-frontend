@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import axios from "axios";
-import{API_URL} from "../../../config"
+import{API_URL} from "../../../services/config"
 
 import React, { useState } from 'react';
 import MultiImageInput from 'react-multiple-image-input';

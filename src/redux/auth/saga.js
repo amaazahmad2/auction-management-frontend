@@ -39,10 +39,10 @@ export function* checkAuthorization() {
 }
 export default function* rootSaga() {
   yield all([
-    yield takeEvery(actions.CHECK_AUTHORIZATION, checkAuthorization),
-    yield takeEvery(actions.LOGIN_REQUEST, loginRequest),
-    yield takeEvery(actions.LOGIN_SUCCESS, loginSuccess),
-    yield takeEvery(actions.LOGIN_ERROR, loginError),
-    yield takeEvery(actions.LOGOUT, logout),
+    // yield takeEvery(actions.CHECK_AUTHORIZATION, checkAuthorization),
+    // yield takeEvery(actions.LOGIN_REQUEST, loginRequest),
+    // //yield takeEvery(actions.LOGIN_SUCCESS, loginSuccess),
+    // yield takeEvery(actions.LOGIN_ERROR, loginError),
+    // yield takeEvery(actions.LOGOUT, logout),
   ]);
 }
