@@ -11,6 +11,14 @@ const routes = [
     path: 'blank-page',
     component: lazy(() => import('../BlankPage')),
   },
+  {
+    path:'seller/create-product',
+    component:lazy(()=> import("../Page/createProduct/create-product"))
+  },
+  {
+    path:'list-of-products',
+    component: lazy(()=> import('../Page/listOfProducts/listOfProducts'))
+  }
 ];
 
 class AppRouter extends Component {

@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import MultiImageInput from 'react-multiple-image-input';
 import LayoutWrapper from '../../../components/utility/layoutWrapper';
 import ImageCrop from './image-croper'
-import { FormsComponentWrapper, FormsMainWrapper } from '../products/product.style';
+import { FormsComponentWrapper, FormsMainWrapper } from './product.style';
 import { FullColumn } from '../../../components/utility/rowColumn';
 import MyInnerForm from './createProduct-form'
 import { set } from 'immutable';

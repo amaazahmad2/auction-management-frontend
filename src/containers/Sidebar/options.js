@@ -9,6 +9,14 @@ const options = [
     label: 'sidebar.blankPage',
     key: 'blank-page',
   },
+  {
+    label:'Create Product',
+    key: 'seller/create-product'
+  },
+  {
+    label:'List of Products',
+    key:'list-of-products'
+  }
 ];
 const getBreadcrumbOption = () => {
   const preKeys = getDefaultPath();

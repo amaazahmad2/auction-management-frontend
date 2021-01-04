@@ -4,12 +4,12 @@ import Papersheet from '../components/utility/papersheet';
 import { FullColumn } from '../components/utility/rowColumn';
 import IntlMessages from '../components/utility/intlMessages';
 import image from '../images/honey.jpg';
-import Hit from '../containers/Page/products/products'
+import Hit from './Page/createProduct'
 
 //product-create
-import ProductCreate from './Page/products/create-product'
-import Counter from '../containers/Page/products/create-product'
-import { FormsComponentWrapper, FormsMainWrapper } from '../containers/Page/products/product.style';
+//import ProductCreate from './Page/createProduct/create-product'
+// import Counter from './Page/createProduct/create-product'
+// import { FormsComponentWrapper, FormsMainWrapper } from './Page/createProduct/product.style';
 
 let hit={
 	'price':100,
@@ -56,6 +56,6 @@ export default () => (
 				</FullColumn>
 			</FormsComponentWrapper>
         </FormsMainWrapper> */}
-		<ProductCreate />
+		{/* <ProductCreate /> */}
 	</LayoutWrapper>
 );
