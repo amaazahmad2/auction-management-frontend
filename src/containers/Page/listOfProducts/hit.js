@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Highlight, Snippet } from 'react-instantsearch/dom';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Highlight, Snippet } from "react-instantsearch/dom";
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
   GridListViewWrapper,
   Button,
   CartIcon,
   Rate,
-} from '../../../components/algolia/algoliaComponent.style';
+} from "../../../components/algolia/algoliaComponent.style";
 
 // const { addToCart, changeViewTopbarCart } = ecommerceActions;
 
@@ -31,12 +31,12 @@ class Hit extends Component {
     //   }
     // });
     return (
-      <GridListViewWrapper >
+      <GridListViewWrapper>
         <div className="alGridImage">
           <img alt="#" src={hit.image} />
           {/* {!addedTocart ? ( */}
-         {/* <Button */}
-        {/* //       onClick={() => {
+          {/* <Button */}
+          {/* //       onClick={() => {
                 this.setState({ addCartLoading: true });
                 const update = () => {
                   this.props.addToCart(hit);
@@ -89,4 +89,4 @@ function mapStateToProps(state) {
     productQuantity,
   };
 }
-export default(Hit);
+export default Hit;

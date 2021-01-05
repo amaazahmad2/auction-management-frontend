@@ -1,31 +1,40 @@
 import React from "react";
 import LayoutWrapper from "../../../components/utility/layoutWrapper";
 import Papersheet from "../../../components/utility/papersheet";
-import { FullColumn } from "../../../components/utility/rowColumn";
-import hit from "./hit";
+import { Column, FullColumn } from "../../../components/utility/rowColumn";
 import Hit from "./products";
+import { Row, Col, Container } from "reactstrap";
 
-// let dummy = [];
-// for (var i = 0; i < 10; ++i) {
-//   dummy.push(
-//     new Hit(
-//       {
-//         image:
-//           "https://png.pngtree.com/element_our/sm/20180323/sm_5ab4a26e8d73b.jpg",
-//       },
-//       { price: 1200 }
-//     )
-//   );
-// }
+let dummy = [
+  {
+    image:
+      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
+    price: 6969,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
+    price: 69,
+  },
+  {
+    image:
+      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
+    price: 69420,
+  },
+];
 
-// let pp = (element) => {
-//   return <Hit hit={element}></Hit>;
-// };
+let arrFun = (element) => {
+  return <Hit hit={element}></Hit>;
+};
 
 export default () => (
   <LayoutWrapper>
     <FullColumn>
-      <Papersheet title="List of Products"></Papersheet>
+      <Papersheet title="List of Products">
+        <div className="row">
+          <div className="col-md-12">{dummy.map(arrFun)}</div>
+        </div>
+      </Papersheet>
     </FullColumn>
   </LayoutWrapper>
 );
