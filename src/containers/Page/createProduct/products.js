@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Highlight, Snippet } from "react-instantsearch/dom";
-import Fab from "@material-ui/core/Fab";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Highlight, Snippet } from 'react-instantsearch/dom';
+import Fab from '@material-ui/core/Fab';
 
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
@@ -9,9 +9,9 @@ import {
   Button,
   CartIcon,
   Rate,
-} from "../../../components/algolia/algoliaComponent.style";
+} from '../../../components/algolia/algoliaComponent.style';
 // import Button from '@material-ui/core/Button';
-import Countdown from "./countdown";
+import Countdown from '../products/countdown'
 // const { addToCart, changeViewTopbarCart } = ecommerceActions;
 
 class Hit extends Component {
@@ -23,11 +23,8 @@ class Hit extends Component {
   }
   render() {
     const currentDate = new Date();
-    const year =
-      currentDate.getMonth() === 11 && currentDate.getDate() > 23
-        ? currentDate.getFullYear() + 1
-        : currentDate.getFullYear();
-
+    const year = (currentDate.getMonth() === 11 && currentDate.getDate() > 23) ? currentDate.getFullYear() + 1 : currentDate.getFullYear();
+  
     const { hit } = this.props;
     // const className =
     //   this.props.view === 'gridView'
@@ -40,12 +37,12 @@ class Hit extends Component {
     //   }
     // });
     return (
-      <GridListViewWrapper>
+      <GridListViewWrapper >
         <div className="alGridImage">
           <img alt="#" src={hit.image} />
           {/* {!addedTocart ? ( */}
-          {/* <Button */}
-          {/* //       onClick={() => {
+         {/* <Button */}
+        {/* //       onClick={() => {
                 this.setState({ addCartLoading: true });
                 const update = () => {
                   this.props.addToCart(hit);
@@ -65,15 +62,13 @@ class Hit extends Component {
               View Cart
             </Button>
           )}*/}
-        </div>
+        </div> 
         <div className="alGridContents">
-          <div class="alGridName">
+        <div class="alGridName">
             <span class="ais-Highlight">
-              <span class="ais-Highlight-nonHighlighted">
-                Amazon - Fire TV Stick
-              </span>
+            <span class="ais-Highlight-nonHighlighted">Amazon - Fire TV Stick</span>
             </span>
-          </div>
+        </div>
 
           <div className="alGridPriceRating">
             <span className="alGridPrice">${hit.price}</span>
@@ -85,9 +80,13 @@ class Hit extends Component {
                 value={hit.rating}
                 name="algoliaRating"
               />
-              <Countdown date={`${year}-12-24T00:00:00`} />
-              <Fab variant="extended">checking badge</Fab>
+        <Countdown date={`${year}-12-24T00:00:00`} />
+        <Fab variant="extended">
+            checking badge
+        </Fab>
+
             </div>
+     
           </div>
 
           <div className="alGridDescription">
@@ -104,4 +103,4 @@ function mapStateToProps(state) {
     productQuantity,
   };
 }
-export default Hit;
+export default(Hit);

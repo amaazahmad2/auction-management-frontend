@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import LayoutWrapper from "../../../components/utility/layoutWrapper";
 import Papersheet from "../../../components/utility/papersheet";
@@ -38,3 +39,20 @@ export default () => (
     </FullColumn>
   </LayoutWrapper>
 );
+=======
+import React from 'react';
+import LayoutWrapper from '../../../components/utility/layoutWrapper';
+import Papersheet from '../../../components/utility/papersheet';
+import { FullColumn } from '../../../components/utility/rowColumn';
+
+
+export default () => (
+	<LayoutWrapper>
+		<FullColumn>
+			<Papersheet title="List of Products">
+				Implement list of products here
+			</Papersheet>
+		</FullColumn>
+	</LayoutWrapper>
+);
+>>>>>>> 9949984081d6e977ff3c4095bac4593df612d03b
