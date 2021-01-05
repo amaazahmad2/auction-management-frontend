@@ -4,7 +4,6 @@ import Papersheet from '../components/utility/papersheet';
 import { FullColumn } from '../components/utility/rowColumn';
 import IntlMessages from '../components/utility/intlMessages';
 import image from '../images/honey.jpg';
-import Hit from './Page/createProduct'
 
 //product-create
 //import ProductCreate from './Page/createProduct/create-product'

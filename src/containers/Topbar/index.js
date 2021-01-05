@@ -9,8 +9,13 @@ import TopbarSearch from './topbarSearch';
 // import SecondarySidebar from '../SecondarySidebar';
 import TopbarNotification from './sidebarNotification';
 import TopbarUser from './topbarUser';
+import Button from './../../components/uielements/button/index';
+import SellerPopupModal from './sellerPopupModal'
+
+
 const { toggleCollapsed } = appActions;
 const { switchActivation } = themeActions;
+
 
 class Topbar extends Component {
   render() {
@@ -66,9 +71,15 @@ class Topbar extends Component {
                 </div>
               </li>
 
+              <li>
+                <SellerPopupModal></SellerPopupModal>
+              </li>
+
               <li className="topbarUser">
                 <TopbarUser {...propsTopbar} />
               </li>
+
+              
             </ul>
           </TopbarComponents>
         </Toolbar>
