@@ -14,7 +14,7 @@ function ImageCrop({images, setImages}) {
   return (
     <LayoutWrapper>
 
-    <MultiImageInput
+    <MultiImageInput max={10}
         theme="light"
         images={images}
         setImages={setImages}

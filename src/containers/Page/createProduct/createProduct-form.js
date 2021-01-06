@@ -106,6 +106,10 @@ const MyInnerForm = ({
 }) => {
   return (
     <form className="mainFormsWrapper">
+      <div className="container" style={{
+        color: "white", backgroundColor: "white", borderRadius: "7px",
+        width: "fit-content", padding: "5px"
+      }}>
       <div className="mainFormsInfoWrapper">
         <div className="mainFormsInfoField">
           <RenderTextField
@@ -291,6 +295,7 @@ const MyInnerForm = ({
             Reset
           </Button>
         </div>
+      </div>
       </div>
     </form>
   );

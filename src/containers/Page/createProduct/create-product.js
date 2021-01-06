@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import axios from "axios";
-import{API_URL} from "../../../services/config"
-
+import { API_URL } from "../../../services/config"
+import Papersheet from "../../../components/utility/papersheet";
 import React, { useState } from 'react';
 import MultiImageInput from 'react-multiple-image-input';
 import LayoutWrapper from '../../../components/utility/layoutWrapper';
@@ -12,77 +12,72 @@ import MyInnerForm from './createProduct-form'
 import { set } from 'immutable';
 function ProductCreate() {
 
-       
-const [images, setImages] = useState({});
-const [close_time, setClose_time] = useState({});
-const [type, setType] = useState({});
-const [price, setPrice] = useState({});
-const [stock, setStock] = useState({});
-const [open_time, setOpen_time] = useState({});
-const [detail, setDetail] = useState({});
-const [link_video, setLink_video] = useState({});
-const [status, setStatus] = useState({});
-const [tags, setTags] = useState([]);
-const [title, setTitle] = useState({});
 
-const setTagsSelect=(event)=>{
-    setTags(event.target.value)
-}
-
-const setProductType=(event)=>{
-    setType(event.target.value)
-
-}
-
-const onSubmit=(values)=>{
-     let imageArray =[];
-   
-    for (const [key, value] of Object.entries(images)) {
-        imageArray[key] = new Object();
-        imageArray[key]['image']=value;
+    const [images, setImages] = useState({});
+    const [type, setType] = useState({});
+    const [tags, setTags] = useState([]);
+    
+    const setTagsSelect = (event) => {
+        setTags(event.target.value)
     }
-    values['images']=imageArray;
-    values['tags']=tags;
-    values['type']=type;
 
-    const config = {
-        headers: {
-          "content-type": "application/json",
-          "Authorization" : "Token " +localStorage.getItem('token'),
-        },
-      };
-      const body = JSON.stringify(values);
-      axios
-        .post(API_URL.concat("/product/create-product/"), body, config)
-        .then((response) =>{
-            // if(response.status === 201)
-            // {
-            //   this.setState({class: "success" });
-            //   this.setState({message:"User registered SuccessFully" });
-            // }
-            // if(response.status===200)
-            // {
-            //   this.setState({message: response.data.message });
-            //   this.setState({class: "error" });
-            // }
-            // this.setState({open:true});
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+    const setProductType = (event) => {
+        setType(event.target.value)
 
-}
+    }
+
+    const onSubmit = (values) => {
+        let imageArray = [];
+
+        for (const [key, value] of Object.entries(images)) {
+            imageArray[key] = new Object();
+            imageArray[key]['image'] = value;
+        }
+        values['images'] = imageArray;
+        values['tags'] = tags;
+        values['type'] = type;
+
+        const config = {
+            headers: {
+                "content-type": "application/json",
+                "Authorization": "Token " + localStorage.getItem('token'),
+            },
+        };
+        const body = JSON.stringify(values);
+        axios
+            .post(API_URL.concat("/product/create-product/"), body, config)
+            .then((response) => {
+                // if(response.status === 201)
+                // {
+                //   this.setState({class: "success" });
+                //   this.setState({message:"User registered SuccessFully" });
+                // }
+                // if(response.status===200)
+                // {
+                //   this.setState({message: response.data.message });
+                //   this.setState({class: "error" });
+                // }
+                // this.setState({open:true});
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+    }
 
 
 
     return (
         <FormsMainWrapper>
-          	<FormsComponentWrapper className="mateFormsComponent">
-				<FullColumn>
-					{/* <Counter /> */}
-                    <ImageCrop images={images} setImages={setImages}/>
-                    <MyInnerForm 
+            <FormsComponentWrapper className="mateFormsComponent" style={{
+                color: "white", backgroundColor: "white", borderRadius: "7px",
+                width: "fit-content", padding: "5px"
+            }}>
+                <FullColumn>
+                    {/* <Counter /> */}
+                    <ImageCrop images={images} setImages={setImages} />
+                    <MyInnerForm
                         // setTitle={setTitle}
                         // setClose_time={setClose_time}
                         // setType={setType}
@@ -100,9 +95,19 @@ const onSubmit=(values)=>{
                         onSubmit={onSubmit}
 
                     />
-				</FullColumn>
-			</FormsComponentWrapper>
+                </FullColumn>
+            </FormsComponentWrapper>
         </FormsMainWrapper>
     );
 }
-export default ProductCreate;
+//export default ProductCreate;
+
+export default () => (
+    <LayoutWrapper>
+        <FullColumn>
+            <Papersheet title="Create Product">
+                <ProductCreate />
+            </Papersheet>
+        </FullColumn>
+    </LayoutWrapper>
+);
