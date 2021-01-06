@@ -1,20 +1,21 @@
-import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+import React from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
+import CameraIcon from "@material-ui/icons/PhotoCamera";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
 import Fab from "@material-ui/core/Fab";
+import { Row, Col } from "reactstrap";
 
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
@@ -28,12 +29,12 @@ import Countdown from "./countdown";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
+      {"Copyright © "}
       <Link color="inherit" href="https://material-ui.com/">
         Your Website
-      </Link>{' '}
+      </Link>{" "}
       {new Date().getFullYear()}
-      {'.'}
+      {"."}
     </Typography>
   );
 }
@@ -54,12 +55,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(8),
   },
   card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   cardContent: {
     flexGrow: 1,
@@ -69,6 +70,52 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
 }));
+
+function getFirstLabelText(card) {
+  return card.type == "auction" ? " For Auction" : " Limited";
+}
+
+function getSecondLabelText(card) {
+  if (card.type == "auction") {
+    //needs to be implemented through an API call?
+    if (/*timeRemaining==0 */ !1) {
+      return "Time Out!";
+    } else {
+      return "Latest Bid: $" + card.currentBid;
+    }
+  } else {
+    if (card.quantityInStock == 0) {
+      return "Item out of stock ";
+    } else {
+      return "Items in Stock: " + card.quantityInStock;
+    }
+  }
+}
+
+function returnColoredLabel(color, card) {
+  return (
+    <Box
+      component="div"
+      fontSize={12}
+      style={{
+        color: "white",
+        backgroundColor: color,
+        borderRadius: "7px",
+        width: "fit-content",
+        padding: "6px",
+        maxHeight: "20px",
+        maxWidth: "100px",
+      }}
+    >
+      {
+        /* {" "}
+      {card.type == "auction" ? "Current Bid: $" : "Items in Stock: "}
+      {card.type == "auction" ? card.currentBid : card.quantityInStock} */
+        getSecondLabelText(card)
+      }
+    </Box>
+  );
+}
 
 export default function Album({ props }) {
   const classes = useStyles();
@@ -92,20 +139,50 @@ export default function Album({ props }) {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={card.image} z-index="1">
-                    <Box component="div" style={{color: "white", backgroundColor:"black", borderRadius:"7px",
-                        width:"fit-content", padding:"5px"
-                        }}>
-                      {card.type}
-                    </Box>
+                    image={card.image}
+                    z-index="1"
+                  >
+                    <Grid
+                      container
+                      spacing={1}
+                      style={{
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Box
+                        component="div"
+                        fontSize={12}
+                        style={{
+                          color: "white",
+                          backgroundColor: "darkblue",
+                          borderRadius: "7px",
+                          width: "fit-content",
+                          padding: "5px",
+                        }}
+                      >
+                        {" "}
+                        {getFirstLabelText(card)}
+                      </Box>
+                      {card.quantityInStock > 0 /*|| time is NOT up*/
+                        ? returnColoredLabel("green", card)
+                        : returnColoredLabel("red", card)}
+                    </Grid>
                   </CardMedia>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {card.name}
+                      {" "}
+                      <span>{card.name}</span>
                     </Typography>
-                    <span> ${card.price} </span>
-                    <br></br>
-                    <Countdown date={`${year}-12-24T00:00:00`} />
+                    <span>
+                      {" "}
+                      {card.type == "auction" ? "" : "\n$" + card.price}{" "}
+                    </span>
+
+                    {card.type == "auction" ? (
+                      <Countdown date={`${year}-12-24T00:00:00`} />
+                    ) : (
+                      ""
+                    )}
                   </CardContent>
                 </Card>
               </Grid>
