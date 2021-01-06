@@ -15,6 +15,8 @@ let dummy = [
     price: 6,
     rating: 3,
     quantityInStock: 0,
+    //need to get from API call
+    timeLeft: 10,
   },
   {
     name: "Legons",
@@ -25,6 +27,8 @@ let dummy = [
     rating: 3,
     quantityInStock: 1,
     currentBid: 1200,
+    //need to get from API call
+    timeLeft: 0,
   },
   {
     name: "Neutrinos",
@@ -35,6 +39,8 @@ let dummy = [
     rating: 4,
     quantityInStock: 1,
     currentBid: 6900,
+    //need to get from API call
+    timeLeft: 10,
   },
   {
     name: "Blackhole",
@@ -44,6 +50,8 @@ let dummy = [
     price: 9,
     rating: 5,
     quantityInStock: 42,
+    //need to get from API call
+    timeLeft: 10,
   },
 ];
 

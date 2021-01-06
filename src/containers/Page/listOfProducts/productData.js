@@ -78,10 +78,10 @@ function getFirstLabelText(card) {
 function getSecondLabelText(card) {
   if (card.type == "auction") {
     //needs to be implemented through an API call?
-    if (/*timeRemaining==0 */ !1) {
-      return "Time Out!";
+    if (/*timeRemaining==0 */ card.timeLeft == 0) {
+      return "Sold!";
     } else {
-      return "Latest Bid: $" + card.currentBid;
+      return "Ready to Bid!";
     }
   } else {
     if (card.quantityInStock == 0) {
@@ -93,6 +93,9 @@ function getSecondLabelText(card) {
 }
 
 function returnColoredLabel(color, card) {
+  if (card.timeLeft == 0) {
+    color = "red";
+  }
   return (
     <Box
       component="div"
@@ -163,8 +166,9 @@ export default function Album({ props }) {
                         {" "}
                         {getFirstLabelText(card)}
                       </Box>
-                      {card.quantityInStock > 0 /*|| time is NOT up*/
-                        ? returnColoredLabel("green", card)
+                      {card.quantityInStock > 0
+                        ? /*|| time is NOT up*/
+                          returnColoredLabel("green", card)
                         : returnColoredLabel("red", card)}
                     </Grid>
                   </CardMedia>
@@ -175,14 +179,12 @@ export default function Album({ props }) {
                     </Typography>
                     <span>
                       {" "}
-                      {card.type == "auction" ? "" : "\n$" + card.price}{" "}
+                      {card.type == "auction"
+                        ? "\n" + card.currentBid + " coins"
+                        : "\n" + card.price + " coins"}{" "}
                     </span>
 
-                    {card.type == "auction" ? (
-                      <Countdown date={`${year}-12-24T00:00:00`} />
-                    ) : (
-                      ""
-                    )}
+                    <Countdown date={`${year}-12-24T00:00:00`} />
                   </CardContent>
                 </Card>
               </Grid>
