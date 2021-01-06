@@ -82,20 +82,20 @@ class Countdown extends Component {
 
   render() {
     const countDown = this.state;
-
+    const hour = [" Hrs ", " Mins ", " Secs "];
     return (
       <div className="Countdown">
         <span className="Countdown-col">
           <span className="Countdown-col-element">
               <strong>{this.addLeadingZeros(countDown.days)}</strong>
-              <span>{countDown.days === 1 ? 'Day' : 'Days'}</span>
+              <span>{countDown.days === 1 ? ' Day ' : ' Days '}</span>
           </span>
         </span>
 
         <span className="Countdown-col">
           <span className="Countdown-col-element">
             <strong>{this.addLeadingZeros(countDown.hours)}</strong>
-            <span>Hours</span>
+            <span> {hour[0]} </span>
           </span>
         </span>
 
@@ -103,14 +103,14 @@ class Countdown extends Component {
         <span className="Countdown-col">
           <span className="Countdown-col-element">
             <strong>{this.addLeadingZeros(countDown.min)}</strong>
-            <span>Min</span>
+            <span>{hour[1]}</span>
           </span>
         </span>
 
         <span className="Countdown-col">
           <span className="Countdown-col-element">
             <strong>{this.addLeadingZeros(countDown.sec)}</strong>
-            <span>Sec</span>
+            <span>{hour[2]}</span>
           </span>
         </span>
       </div>
