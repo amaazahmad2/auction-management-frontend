@@ -16,10 +16,6 @@ const options = [
   {
     label:'List of Products',
     key:'list-of-products'
-  },
-  {
-    label:'Buy Coins',
-    key: 'buy-coins'
   }
 ];
 const getBreadcrumbOption = () => {
