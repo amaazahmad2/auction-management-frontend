@@ -5,6 +5,7 @@ import { Column, FullColumn } from "../../../components/utility/rowColumn";
 import Hit from "./products";
 import { Row, Col, Container } from "reactstrap";
 import Album from "./productData.js";
+import { getListOfProducts } from "../../../services/productsServices";
 
 let dummy = [
   {
@@ -55,15 +56,16 @@ let dummy = [
   },
 ];
 
-export default () => (
-  <LayoutWrapper>
-    <FullColumn>
-      <Papersheet title="List of Products">
-        <div className="row">
-          {/* <div className="col-md-12">{dummy.map(arrFun)}</div> */}
-          <Album props={dummy} />
-        </div>
-      </Papersheet>
-    </FullColumn>
-  </LayoutWrapper>
-);
+export default function ListOfProducts() {
+  return (
+    <LayoutWrapper>
+      <FullColumn>
+        <Papersheet title="List of Products">
+          <div className="row">
+            <Album props={dummy} />
+          </div>
+        </Papersheet>
+      </FullColumn>
+    </LayoutWrapper>
+  );
+}
