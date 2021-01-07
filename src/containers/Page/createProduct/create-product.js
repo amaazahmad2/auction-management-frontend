@@ -10,6 +10,8 @@ import { FormsComponentWrapper, FormsMainWrapper } from './product.style';
 import { FullColumn } from '../../../components/utility/rowColumn';
 import MyInnerForm from './createProduct-form'
 import { set } from 'immutable';
+import DateAndTimePickers from './dateAndTimePicker';
+
 function ProductCreate() {
 
 
@@ -37,32 +39,16 @@ function ProductCreate() {
         values['tags'] = tags;
         values['type'] = type;
 
-        const config = {
-            headers: {
-                "content-type": "application/json",
-                "Authorization": "Token " + localStorage.getItem('token'),
-            },
-        };
-        const body = JSON.stringify(values);
-        axios
-            .post(API_URL.concat("/product/create-product/"), body, config)
-            .then((response) => {
-                // if(response.status === 201)
-                // {
-                //   this.setState({class: "success" });
-                //   this.setState({message:"User registered SuccessFully" });
-                // }
-                // if(response.status===200)
-                // {
-                //   this.setState({message: response.data.message });
-                //   this.setState({class: "error" });
-                // }
-                // this.setState({open:true});
-                console.log(response);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+        // const config = {
+        //     headers: {
+        //         "content-type": "application/json",
+        //         "Authorization": "Token " + localStorage.getItem('token'),
+        //     },
+        // };
+        // const body = JSON.stringify(values);
+
+        console.log(values);
+        
 
     }
 

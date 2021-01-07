@@ -14,6 +14,7 @@ import Checkbox from '../../../components/uielements/checkbox';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import DateAndTimePickers from './dateAndTimePicker';
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -166,7 +167,7 @@ const MyInnerForm = ({
       </div>
         
         <div className="mainFormsInfoField">
-        <RenderDateTimeField
+        {/* <RenderDateTimeField
             id="startingTime"
             label="Starting Time"
             type="datetime-local"
@@ -175,7 +176,8 @@ const MyInnerForm = ({
             onBlur={handleBlur}
             error={errors.startingTime && touched.startingTime}
             errorText={errors.startingTime}
-        />
+        /> */}
+        <DateAndTimePickers/>
         </div>
         <div className="mainFormsInfoField">
         <RenderDateTimeField
