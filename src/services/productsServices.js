@@ -7,9 +7,10 @@ export async function getListOfProducts(pageNum){
     const config = {
         headers: {
           "content-type": "application/json",
+          "Authorization": "Token "+localStorage.token,
         }
     }
-    const resp = await axios.post(apiEndpoint,userObj,config)
+    const resp = await axios.get(apiEndpoint, config)
     .then((response) =>{
         return response;
     })
@@ -17,5 +18,6 @@ export async function getListOfProducts(pageNum){
         return error;
     });
 
-    return resp;
+    console.log(resp);
+    //return resp;
 }

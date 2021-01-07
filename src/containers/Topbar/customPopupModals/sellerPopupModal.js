@@ -11,23 +11,29 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
 import FormControl from "@material-ui/core/FormControl";
-import "./topbarSellerButton.css";
+import "./sellerPopupModal.css";
 // import worldMapData from 'city-state-country';
 import csc from "country-state-city";
-import { ICountry, IState, ICity } from "country-state-city";
 
 export default function SellerPopupModal() {
+    // const listOfCountries = csc.getAllCountries();
+    // const KoreaObj = csc.getCountryByCode('KR');
+
     const [open, setOpen] = React.useState(false);
 
     const [bank, setBank] = React.useState("");
+
+
     const [city, setCity] = React.useState("");
     const [addressState, setAddressState] = React.useState("");
-    const [country, setCountry] = React.useState("");
+    const [countryCode, setCountryCode] = React.useState("KR");
 
     const [listOfCities, setListOfCities] = React.useState([]);
-    const [listOfStates, setListOfStates] = React.useState([]);
 
-    const listOfCountries = csc.getAllCountries();
+    const listOfStates = csc.getStatesOfCountry("KR");
+    
+
+   
 
     const listOfBanks = [
         "Bank of Korea",
@@ -67,24 +73,22 @@ export default function SellerPopupModal() {
 
     const handleCountryChange = (event) => {
         //country code is being stored as a string.
-        setCountry(event.target.value);
+        setCountryCode(event.target.value);
 
-        const tempArr = csc.getStatesOfCountry(event.target.value);
-        setListOfStates(tempArr);
-        console.log(event.target.value)
+        
+        //console.log(event.target.value)
         //console.log(listOfStates);
     };
 
     const handleAddressStateChange = (event) => {
         setAddressState(event.target.value);
-        console.log(event.target.value)
-        const tempArr = csc.getCitiesOfState(country, event.target.value);
+        // console.log(event.target.value)
+        const tempArr = csc.getCitiesOfState(countryCode, event.target.value);
         setListOfCities(tempArr);
     };
 
     const handleCityChange = (event) => {
         setCity(event.target.value);
-        console.log(event.target.value);
         // const tempArr = csc.getCitiesOfState(country, event.target.value);
         // setListOfCities(tempArr);
     };
@@ -143,13 +147,6 @@ export default function SellerPopupModal() {
                         type="text"
                         fullWidth
                     />
-                    <TextField
-                        margin="dense"
-                        id="address"
-                        label="Home Address"
-                        type="text"
-                        fullWidth
-                    />
                     <br/>
                     <br/>
                     <InputLabel htmlFor="countryDropdownLabel">
@@ -158,17 +155,13 @@ export default function SellerPopupModal() {
                     <Select
                         fullWidth
                         input={<Input id="countryDropdownLabel" />}
-                        value={country}
+                        value={countryCode}
                         onChange={handleCountryChange}
+                        displayEmpty
+                        renderValue={()=>{return "South Korea"}}
                     >
-                        <option aria-label="None" value="" />
-                        {listOfCountries.map((countryObj) => {
-                            return (
-                                <option value={countryObj.isoCode}>
-                                    {countryObj.name}
-                                </option>
-                            );
-                        })}
+                        <MenuItem value="KR">South Korea</MenuItem>
+                        
                     </Select>
                     <br/>
                     <br/>
@@ -179,12 +172,11 @@ export default function SellerPopupModal() {
                         value={addressState}
                         onChange={handleAddressStateChange}
                     >
-                        <option aria-label="None" value="" />
                         {listOfStates.map((stateObj) => {
                             return (
-                                <option value={stateObj.isoCode}>
+                                <MenuItem value={stateObj.isoCode}>
                                     {stateObj.name}
-                                </option>
+                                </MenuItem>
                             );
                         })}
                     </Select>
@@ -197,15 +189,21 @@ export default function SellerPopupModal() {
                         value={city}
                         onChange={handleCityChange}
                     >
-                        <option aria-label="None" value="" />
                         {listOfCities.map((cityObj) => {
                             return (
-                                <option value={cityObj.name}>
+                                <MenuItem value={cityObj.name}>
                                     {cityObj.name}
-                                </option>
+                                </MenuItem>
                             );
                         })}
                     </Select>
+                    <TextField
+                        margin="dense"
+                        id="address"
+                        label="Home Address"
+                        type="text"
+                        fullWidth
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">

@@ -10,7 +10,8 @@ import TopbarSearch from './topbarSearch';
 import TopbarNotification from './sidebarNotification';
 import TopbarUser from './topbarUser';
 import Button from './../../components/uielements/button/index';
-import SellerPopupModal from './sellerPopupModal'
+import SellerPopupModal from './customPopupModals/sellerPopupModal';
+import BuyCoinPopupModal from './customPopupModals/buyCoinPopupModal';
 
 
 const { toggleCollapsed } = appActions;
@@ -56,7 +57,7 @@ class Topbar extends Component {
               </li> */}
 
               <li className="topbarNotification">
-                <div>
+                {/* <div>
                   <Icon
                     onClick={() => switchActivation('notification')}
                     style={{ matginTop: 5 }}
@@ -67,8 +68,9 @@ class Topbar extends Component {
                     InnerComponent={TopbarNotification}
                     currentActiveKey="notification"
                     {...propsTopbar}
-                  /> */}
-                </div>
+                  /> 
+                </div> */}
+                <BuyCoinPopupModal/>
               </li>
 
               <li>
