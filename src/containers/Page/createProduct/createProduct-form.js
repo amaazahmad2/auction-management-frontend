@@ -18,11 +18,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import DateAndTimePickers from './dateAndTimePicker';
 
-const onChange = (e) => {
-  if (e.key === 'Enter') {
-  console.log( e.target.value );
-  }
+
+const setValue = (e) => {
+  console.log( e);
+  
 }
+
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -263,6 +264,10 @@ const MyInnerForm = ({
         multiple
         id="tags-filled"
         options={[]}
+        value={values.tags}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
         defaultValue=""
         freeSolo
         renderTags={(value, getTagProps) =>
@@ -271,7 +276,7 @@ const MyInnerForm = ({
           ))
         }
         renderInput={(params) => (
-          <TextField {...params}  onKeyDown={(event) => onChange(event)} variant="filled" label="Tags" placeholder="tags" />
+          <TextField {...params}  variant="filled" label="Tags" placeholder="tags" />
         )}
       />
       </FormControl>
