@@ -31,13 +31,28 @@ function ProductCreate() {
 
     }
 
-    const onSubmit = (values) => {
+    const setImageisFeatured = (event) => {
+        setisFeatured(event.target.value)
+
+    }
+
+    handleAlertClose = () => {
+        this.setState({ alertOpen: false });
+    };
+
+    const onSubmit  = async (values) => {
         let imageArray = [];
 
         for (const [key, value] of Object.entries(images)) {
             imageArray[key] = new Object();
             imageArray[key]['image'] = value;
-            imageArray[key]['is_featured'] = false;
+            if ( key === isFeatured ) {
+                imageArray[key]['is_featured'] = true;
+            }
+            else
+            {
+                imageArray[key]['is_featured'] = false;
+            }
 
         }
         values['images'] = imageArray;
@@ -46,11 +61,14 @@ function ProductCreate() {
         
         
 
-        const createProductServiceResponse =  createProductService(
+        const createProductServiceResponse = await createProductService(
             values
         );
 
-        console.log(JSON.stringify(values));
+        
+        
+
+        console.log(values);
         
 
     }
@@ -71,7 +89,7 @@ function ProductCreate() {
                         tags={tags}
                         type={type}
                         isFeatured = {isFeatured}
-                        setisFeatured ={setisFeatured}
+                        setisFeatured ={setImageisFeatured}
                         setType={setProductType}
                         onSubmit={onSubmit}
                         images = {images}

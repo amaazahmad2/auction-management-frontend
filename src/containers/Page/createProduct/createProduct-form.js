@@ -92,22 +92,16 @@ const RenderRadioGroup = ({ onChange, ...props }) => {
   );
 };
 
-// function renderFeaturedOptions (images) {
 
-//    for (const [key, value] of Object.entries(images))     
-//       <listItems key={key} ></listItems>
-  
-// // const listItems = images.map((key)=> 
-// // );
-// // return listItems;
-// }
+function makeImagesArray(images) {
+  let imageArray = [];
 
-// const listItems =  ({key}) =>{
-//   return (
-//     <MenuItem value={key}>{"image" + key } </MenuItem>
+  for (const [key, value] of Object.entries(images)) {
+      imageArray[key] = key;
+  }
+  return imageArray;
+}
 
-//   );
-// }
 
 const MyInnerForm = ({
   values,
@@ -152,18 +146,18 @@ const MyInnerForm = ({
       
       <FormControl>
         <InputLabel id="demo-simple-select-label">IS Featured</InputLabel>
-        
-        {
-        images && (
-          <Select
+        <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
           value={isFeatured}
           onChange={setisFeatured}
-        >   
-          {/* {renderFeaturedOptions(images)} */}
-          </Select>
-        )}
+        >  
+        {
+          makeImagesArray(images).map((key)=>
+          <MenuItem value={key}>{"image - " + key } </MenuItem>
+          )
+        }
+        </Select>
       </FormControl>
       </div>
       
@@ -261,7 +255,6 @@ const MyInnerForm = ({
       <Autocomplete
         multiple
         id="tags-filled"
-        value={value.tag}
         options={[]}
         defaultValue=""
         freeSolo
