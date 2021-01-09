@@ -16,6 +16,8 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import Fab from "@material-ui/core/Fab";
 import { Row, Col } from "reactstrap";
+import { CircularProgress } from "@material-ui/core";
+import { CardText } from "reactstrap";
 
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
@@ -72,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getFirstLabelText(card) {
+  console.log("getFirstlabelText called");
   return card.type == "auction" ? " For Auction" : " Limited";
 }
 
@@ -107,7 +110,6 @@ function returnColoredLabel(color, card) {
         width: "fit-content",
         padding: "6px",
         maxHeight: "20px",
-        maxWidth: "100px",
       }}
     >
       {
@@ -123,7 +125,9 @@ function returnColoredLabel(color, card) {
 export default function Album({ props }) {
   const classes = useStyles();
 
-  const cards = props;
+  let cards = props;
+  console.log(props);
+
   const secret = "____";
   const currentDate = new Date();
   const year =
@@ -131,7 +135,17 @@ export default function Album({ props }) {
       ? currentDate.getFullYear() + 1
       : currentDate.getFullYear();
 
-  return (
+  return cards.length == 0 ? (
+    <Box
+      display="flex"
+      justifyContent="center"
+      m={1}
+      p={1}
+      bgcolor="background.paper"
+    >
+      <CircularProgress />
+    </Box>
+  ) : (
     <React.Fragment>
       <main>
         <Container className={classes.cardGrid} maxWidth="md">
@@ -142,7 +156,11 @@ export default function Album({ props }) {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image={card.image}
+                    image={
+                      card.image != null || card.image
+                        ? card.image
+                        : "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg"
+                    }
                     z-index="1"
                   >
                     <Grid
@@ -159,7 +177,7 @@ export default function Album({ props }) {
                           color: "white",
                           backgroundColor: "darkblue",
                           borderRadius: "7px",
-                          width: "fit-content",
+                          width: "max-content",
                           padding: "5px",
                         }}
                       >
