@@ -22,8 +22,8 @@ export async function getListOfProducts(pageNum){
     //return resp;
 }
 
-export async function createProductService(){
-    const apiEndpoint = API_URL + "/users/become-seller"
+export async function createProductService(body){
+    const apiEndpoint = API_URL + "/product/create-product/"
     const config = {
         headers: {
           "content-type": "application/json",
@@ -31,22 +31,22 @@ export async function createProductService(){
         }
     }
 
-    // const resp = await axios.post(apiEndpoint, body, config)
-    //         .then((response) => {
-    //             // if(response.status === 201)
-    //             // {
-    //             //   this.setState({class: "success" });
-    //             //   this.setState({message:"User registered SuccessFully" });
-    //             // }
-    //             // if(response.status===200)
-    //             // {
-    //             //   this.setState({message: response.data.message });
-    //             //   this.setState({class: "error" });
-    //             // }
-    //             // this.setState({open:true});
-    //             console.log(response);
-    //         })
-    //         .catch((error) => {
-    //             console.log(error);
-    //         });
+    const resp = await axios.post(apiEndpoint, body, config)
+            .then((response) => {
+                // if(response.status === 201)
+                // {
+                //   this.setState({class: "success" });
+                //   this.setState({message:"User registered SuccessFully" });
+                // }
+                // if(response.status===200)
+                // {
+                //   this.setState({message: response.data.message });
+                //   this.setState({class: "error" });
+                // }
+                // this.setState({open:true});
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 }

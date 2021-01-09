@@ -11,13 +11,16 @@ import { FullColumn } from '../../../components/utility/rowColumn';
 import MyInnerForm from './createProduct-form'
 import { set } from 'immutable';
 import DateAndTimePickers from './dateAndTimePicker';
-
+import { createProductService } from "../../../services/productsServices";
 function ProductCreate() {
 
 
-    const [images, setImages] = useState({});
+    const [images, setImages] = useState([]);
     const [type, setType] = useState({});
-    const [tags, setTags] = useState([]);
+    const [isFeatured,setisFeatured] = useState({});
+    const [tags, setTags] = useState(["latest",
+    "popular",
+    "newww"]);
     
     const setTagsSelect = (event) => {
         setTags(event.target.value)
@@ -34,20 +37,20 @@ function ProductCreate() {
         for (const [key, value] of Object.entries(images)) {
             imageArray[key] = new Object();
             imageArray[key]['image'] = value;
+            imageArray[key]['is_featured'] = false;
+
         }
         values['images'] = imageArray;
         values['tags'] = tags;
         values['type'] = type;
+        
+        
 
-        // const config = {
-        //     headers: {
-        //         "content-type": "application/json",
-        //         "Authorization": "Token " + localStorage.getItem('token'),
-        //     },
-        // };
-        // const body = JSON.stringify(values);
+        const createProductServiceResponse =  createProductService(
+            values
+        );
 
-        console.log(values);
+        console.log(JSON.stringify(values));
         
 
     }
@@ -64,22 +67,14 @@ function ProductCreate() {
                     {/* <Counter /> */}
                     <ImageCrop images={images} setImages={setImages} />
                     <MyInnerForm
-                        // setTitle={setTitle}
-                        // setClose_time={setClose_time}
-                        // setType={setType}
-                        // setPrice={setPrice}
-                        // setStock={setStock}
-                        // setOpen_time={setOpen_time}
-                        // setLink_video={setLink_video}
-                        // setStatus={setStatus}
                         setTags={setTagsSelect}
                         tags={tags}
                         type={type}
+                        isFeatured = {isFeatured}
+                        setisFeatured ={setisFeatured}
                         setType={setProductType}
-                        // setDetail={setDetail}
-                        // values={{title,stock}}
                         onSubmit={onSubmit}
-
+                        images = {images}
                     />
                 </FullColumn>
             </FormsComponentWrapper>
