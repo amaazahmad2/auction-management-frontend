@@ -52,7 +52,7 @@ export default function BuyCoinPopupModal() {
         }
         const response = await buyCoinsService(numberOfCoins);
 
-        if(response.status=200)
+        if(response.status===200)
         {
             if(numberOfCoins===1)
                 setAlertMessage(numberOfCoins + " coin purchased successfully!");
