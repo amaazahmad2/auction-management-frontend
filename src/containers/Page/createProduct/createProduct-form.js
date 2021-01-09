@@ -18,6 +18,12 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import DateAndTimePickers from './dateAndTimePicker';
 
+const onChange = (e) => {
+  if (e.key === 'Enter') {
+  console.log( e.target.value );
+  }
+}
+
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
     <div>
@@ -101,6 +107,7 @@ function makeImagesArray(images) {
   }
   return imageArray;
 }
+
 
 
 const MyInnerForm = ({
@@ -264,7 +271,7 @@ const MyInnerForm = ({
           ))
         }
         renderInput={(params) => (
-          <TextField {...params} variant="filled" label="Tags" placeholder="tags" />
+          <TextField {...params}  onKeyDown={(event) => onChange(event)} variant="filled" label="Tags" placeholder="tags" />
         )}
       />
       </FormControl>
