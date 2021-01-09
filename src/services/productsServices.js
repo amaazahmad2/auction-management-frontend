@@ -33,20 +33,11 @@ export async function createProductService(body){
 
     const resp = await axios.post(apiEndpoint, body, config)
             .then((response) => {
-                // if(response.status === 201)
-                // {
-                //   this.setState({class: "success" });
-                //   this.setState({message:"User registered SuccessFully" });
-                // }
-                // if(response.status===200)
-                // {
-                //   this.setState({message: response.data.message });
-                //   this.setState({class: "error" });
-                // }
-                // this.setState({open:true});
-                console.log(response);
+                console.log( response);
+                return response;
             })
             .catch((error) => {
-                console.log(error);
+                return error;
             });
+        return resp;
 }
