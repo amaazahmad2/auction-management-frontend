@@ -1,4 +1,6 @@
 import React from 'react';
+import Chip from '@material-ui/core/Chip';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { withFormik } from 'formik';
 import {
   FormControl,
@@ -89,6 +91,18 @@ const RenderRadioGroup = ({ onChange, ...props }) => {
     />
   );
 };
+
+
+function makeImagesArray(images) {
+  let imageArray = [];
+
+  for (const [key, value] of Object.entries(images)) {
+      imageArray[key] = key;
+  }
+  return imageArray;
+}
+
+
 const MyInnerForm = ({
   values,
   touched,
@@ -102,6 +116,9 @@ const MyInnerForm = ({
   onSubmit,
   tags,
   setTags,
+  isFeatured,
+  setisFeatured,
+  images,
   type,
   setType,
 }) => {
@@ -124,32 +141,51 @@ const MyInnerForm = ({
             errorText={errors.title}
           />
         </div>
-        
-      {/* <div className="mateFormsCheckList">
-        <h4 className="radiButtonHeader">Is Featured Product</h4>
+
+        <div className="mainFormsInfoField">
+      
+      <FormControl>
+        <InputLabel id="demo-simple-select-label">IS Featured</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={isFeatured}
+          onChange={setisFeatured}
+        >  
+        {
+          makeImagesArray(images).map((key)=>
+          <MenuItem value={key}>{"image - " + key } </MenuItem>
+          )
+        }
+        </Select>
+      </FormControl>
+      </div>
+      
+      <div className="mateFormsCheckList">
+        <h4 className="radiButtonHeader">Status</h4>
         <RenderRadioGroup
-          label="Is Featured Product"
-          id="featureProduct"
-          value={values.featureProduct}
+          label="Status"
+          id="status"
+          value={values.status}
           onChange={setFieldValue}
           color="primary"
         >
           <div className="mateFormsRadioList">
             <FormControlLabel
-              value="yes"
+              value="active"
               control={<Radio />}
-              label="Yes"
+              label="active"
               color="primary"
             />
             <FormControlLabel
-              value="no"
+              value="non active"
               control={<Radio />}
-              label="Yes"
+              label="non active"
               color="primary"
             />
           </div>
         </RenderRadioGroup>
-      </div> */}
+      </div>
       <div className="mainFormsInfoField">
 
       <FormControl>
@@ -167,17 +203,17 @@ const MyInnerForm = ({
       </div>
         
         <div className="mainFormsInfoField">
-        {/* <RenderDateTimeField
-            id="startingTime"
+        <RenderDateTimeField
+            id="open_time"
             label="Starting Time"
             type="datetime-local"
             value={values.open_Time}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={errors.startingTime && touched.startingTime}
-            errorText={errors.startingTime}
-        /> */}
-        <DateAndTimePickers/>
+            error={errors.open_Time && touched.open_Time}
+            errorText={errors.open_Time}
+        />
+        {/* <DateAndTimePickers/> */}
         </div>
         <div className="mainFormsInfoField">
         <RenderDateTimeField
@@ -205,36 +241,32 @@ const MyInnerForm = ({
         <div className="mainFormsInfoField">
           <RenderTextField
             label="Enter video link"
-            id="video_link"
+            id="link_video"
             value={values.link_video}
             onChange={handleChange}
             onBlur={handleBlur}
-            error={errors.video_link && touched.video_link}
-            errorText={errors.video_link}
+            error={errors.link_video && touched.link_video}
+            errorText={errors.link_video}
           />
         </div>
         <div className="mainFormsInfoField">
 
       <FormControl>
-        <InputLabel id="tag-label">Tags</InputLabel>
-        <Select
-          multiple
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          // id="tags"
-          value={tags}
-          onChange={setTags}
-          // renderValue={(selected) => selected.join(', ')}
-          input={<Input />}
-
-        >   
-          <MenuItem value={'t1'}>t1</MenuItem>
-          <MenuItem value={'t2'}>t2</MenuItem>
-          <MenuItem value={'t3'}>t3</MenuItem>
-          <MenuItem value={'t4'}>t4</MenuItem>
-          <MenuItem value={'t5'}>t5</MenuItem>
-
-        </Select>
+      <Autocomplete
+        multiple
+        id="tags-filled"
+        options={[]}
+        defaultValue=""
+        freeSolo
+        renderTags={(value, getTagProps) =>
+          value.map((option, index) => (
+            <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+          ))
+        }
+        renderInput={(params) => (
+          <TextField {...params} variant="filled" label="Tags" placeholder="tags" />
+        )}
+      />
       </FormControl>
       </div>
         
@@ -312,7 +344,9 @@ export default withFormik({
     stock: null,
     close_time:'',
     open_time:'',
+    tag:[],
     detail: '',
+    status:'',
     link_video:'',
   }),
   validationSchema,

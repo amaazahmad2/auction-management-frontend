@@ -10,10 +10,12 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import Input from "@material-ui/core/Input";
-import FormControl from "@material-ui/core/FormControl";
 import "./sellerPopupModal.css";
-// import worldMapData from 'city-state-country';
 import csc from "country-state-city";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import {becomeSellerService} from './../../../services/sellerServices';
+import {store} from '../../../redux/store'
 
 export default function SellerPopupModal() {
     // const listOfCountries = csc.getAllCountries();
@@ -21,17 +23,25 @@ export default function SellerPopupModal() {
 
     const [open, setOpen] = React.useState(false);
 
-    const [bank, setBank] = React.useState("");
-
 
     const [city, setCity] = React.useState("");
     const [addressState, setAddressState] = React.useState("");
     const [countryCode, setCountryCode] = React.useState("KR");
-
     const [listOfCities, setListOfCities] = React.useState([]);
-
     const listOfStates = csc.getStatesOfCountry("KR");
-    
+
+
+    const [alertOpen, setAlertOpen]=React.useState(false);
+    const [alertMessage, setAlertMessage]=React.useState("");
+    const [alertSeverity, setAlertSeverity] = React.useState("");
+
+
+    const [bank, setBank] = React.useState("");
+    const [phoneNumber, setPhoneNumber] = React.useState("");
+    const [bankAccountNumber, setBankAccountNumber] = React.useState("");
+    const [homeAddress, setHomeAddress] = React.useState("");
+    const [bankAccountTitle, setBankAccountTitle] = React.useState("");
+
 
    
 
@@ -72,36 +82,83 @@ export default function SellerPopupModal() {
     };
 
     const handleCountryChange = (event) => {
-        //country code is being stored as a string.
         setCountryCode(event.target.value);
-
-        
-        //console.log(event.target.value)
-        //console.log(listOfStates);
     };
 
     const handleAddressStateChange = (event) => {
         setAddressState(event.target.value);
-        // console.log(event.target.value)
         const tempArr = csc.getCitiesOfState(countryCode, event.target.value);
         setListOfCities(tempArr);
     };
 
     const handleCityChange = (event) => {
         setCity(event.target.value);
-        // const tempArr = csc.getCitiesOfState(country, event.target.value);
-        // setListOfCities(tempArr);
     };
+
+    const handleAlertClose = (event) => {
+        setAlertOpen(false);
+    }
+
+    const handlePhoneNumberChange = (event) =>{
+        setPhoneNumber(event.target.value);
+    }
+
+    const handleBankAccountNumberChange = (event) =>{
+        setBankAccountNumber(event.target.value);
+    }
+
+    const handleBankAccountTitleChange = (event) =>{
+        setBankAccountTitle(event.target.value);
+    }
+
+    const handleHomeAddressChange = (event) =>{
+        setHomeAddress(event.target.value);
+    }
+
+
+
+    const handleSubmit = async (event) => {
+        
+        const sellerObj={
+            phone_number: phoneNumber,
+            home_address: homeAddress,
+            city: city,
+            bank_name: bank,
+            account_title: bankAccountTitle,
+            account_number: bankAccountNumber
+        }
+        console.log("SELLER OBJ IN MODAL: ", sellerObj);
+        const response = await becomeSellerService(sellerObj);
+        console.log("RESPONSE : ", response);
+
+        if(response.status===200)
+        {   
+            setAlertMessage("A email has been sent to your email address. Kindly verify!");
+            setAlertOpen(true);
+            setAlertSeverity("success");
+            return;
+        }
+        else
+        {
+            setAlertMessage("An unknown error occurred");
+            setAlertOpen(true);
+            setAlertSeverity("error");
+            return;
+
+        }
+    }
 
     return (
         <div>
-            <Button
-                variant="contained"
-                className="topbarSellerButton"
-                onClick={handleClickOpen}
-            >
-                Become a Seller
-            </Button>
+            {store.getState().user.is_seller && 
+                <Button
+                    variant="contained"
+                    className="topbarSellerButton"
+                    onClick={handleClickOpen}
+                >
+                    Become a Seller
+                </Button>
+            }
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -123,6 +180,7 @@ export default function SellerPopupModal() {
                     <Select
                         fullWidth
                         native
+                        required
                         input={<Input id="bankNameLabel" />}
                         value={bank}
                         onChange={handleBankChange}
@@ -132,20 +190,33 @@ export default function SellerPopupModal() {
                             return <option value={bankName}>{bankName}</option>;
                         })}
                     </Select>
+                    <TextField
+                        required
+                        margin="dense"
+                        id="accountTitle"
+                        label="Bank Account Title"
+                        type="text"
+                        fullWidth
+                        onChange={handleBankAccountTitleChange}
+                    />
 
                     <TextField
+                        required
                         margin="dense"
                         id="accountNumber"
                         label="Bank Account Number"
                         type="text"
                         fullWidth
+                        onChange={handleBankAccountNumberChange}
                     />
                     <TextField
+                        required
                         margin="dense"
                         id="phoneNumber"
                         label="Phone Number"
                         type="text"
                         fullWidth
+                        onChange={handlePhoneNumberChange}
                     />
                     <br/>
                     <br/>
@@ -153,6 +224,7 @@ export default function SellerPopupModal() {
                         Country
                     </InputLabel>
                     <Select
+                        required
                         fullWidth
                         input={<Input id="countryDropdownLabel" />}
                         value={countryCode}
@@ -167,6 +239,7 @@ export default function SellerPopupModal() {
                     <br/>
                     <InputLabel htmlFor="stateDropdownLabel">State</InputLabel>
                     <Select
+                        required
                         fullWidth
                         input={<Input id="stateDropdownLabel" />}
                         value={addressState}
@@ -184,6 +257,7 @@ export default function SellerPopupModal() {
                     <br/>
                     <InputLabel htmlFor="cityDropdownLabel">City</InputLabel>
                     <Select
+                        required
                         fullWidth
                         input={<Input id="cityDropdownLabel" />}
                         value={city}
@@ -198,21 +272,37 @@ export default function SellerPopupModal() {
                         })}
                     </Select>
                     <TextField
+                        required
                         margin="dense"
                         id="address"
                         label="Home Address"
                         type="text"
                         fullWidth
+                        onChange={handleHomeAddressChange}
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleSubmit} color="primary">
                         Submit
                     </Button>
                 </DialogActions>
+                <Snackbar
+                    open={alertOpen}
+                    autoHideDuration={6000}
+                    onClose={handleAlertClose}
+                >
+                    <Alert
+                        elevation={6}
+                        variant="filled"
+                        onClose={handleAlertClose}
+                        severity={alertSeverity}
+                    >
+                        {alertMessage}
+                    </Alert>
+                </Snackbar>
             </Dialog>
         </div>
     );

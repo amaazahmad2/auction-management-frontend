@@ -11,13 +11,24 @@ import { FullColumn } from '../../../components/utility/rowColumn';
 import MyInnerForm from './createProduct-form'
 import { set } from 'immutable';
 import DateAndTimePickers from './dateAndTimePicker';
+import { createProductService } from "../../../services/productsServices";
+import MuiAlert from '@material-ui/lab/Alert';
+import Snackbar from '@material-ui/core/Snackbar';
 
 function ProductCreate() {
 
-
-    const [images, setImages] = useState({});
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />;
+      }
+    const [images, setImages] = useState([]);
     const [type, setType] = useState({});
-    const [tags, setTags] = useState([]);
+    const [message, setmessage] = useState({});
+    const [snakBarClass, setsnakBarClass] = useState({});
+    const [open, setOpen] = useState(false);
+    const [isFeatured,setisFeatured] = useState({});
+    const [tags, setTags] = useState(["latest",
+    "popular",
+    "newww"]);
     
     const setTagsSelect = (event) => {
         setTags(event.target.value)
@@ -28,26 +39,58 @@ function ProductCreate() {
 
     }
 
-    const onSubmit = (values) => {
+    const setImageisFeatured = (event) => {
+        setisFeatured(event.target.value)
+
+    }
+    const handleClick = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
+
+    const onSubmit  = async (values) => {
         let imageArray = [];
 
         for (const [key, value] of Object.entries(images)) {
             imageArray[key] = new Object();
             imageArray[key]['image'] = value;
+            if ( key === isFeatured ) {
+                imageArray[key]['is_featured'] = true;
+            }
+            else
+            {
+                imageArray[key]['is_featured'] = false;
+            }
+
         }
         values['images'] = imageArray;
         values['tags'] = tags;
         values['type'] = type;
+        
+        
 
-        // const config = {
-        //     headers: {
-        //         "content-type": "application/json",
-        //         "Authorization": "Token " + localStorage.getItem('token'),
-        //     },
-        // };
-        // const body = JSON.stringify(values);
+        const createProductServiceResponse = await createProductService(
+            values
+        );
 
-        console.log(values);
+        if (createProductServiceResponse.status === 200) {
+            setmessage(createProductServiceResponse.data.Message);
+            setsnakBarClass("success");
+            handleClick();
+        }
+        else{
+            setsnakBarClass("error")
+            setmessage(createProductServiceResponse.data.Message)
+            handleClick();
+        }
+
         
 
     }
@@ -64,23 +107,20 @@ function ProductCreate() {
                     {/* <Counter /> */}
                     <ImageCrop images={images} setImages={setImages} />
                     <MyInnerForm
-                        // setTitle={setTitle}
-                        // setClose_time={setClose_time}
-                        // setType={setType}
-                        // setPrice={setPrice}
-                        // setStock={setStock}
-                        // setOpen_time={setOpen_time}
-                        // setLink_video={setLink_video}
-                        // setStatus={setStatus}
                         setTags={setTagsSelect}
                         tags={tags}
                         type={type}
+                        isFeatured = {isFeatured}
+                        setisFeatured ={setImageisFeatured}
                         setType={setProductType}
-                        // setDetail={setDetail}
-                        // values={{title,stock}}
                         onSubmit={onSubmit}
-
+                        images = {images}
                     />
+                    <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity={snakBarClass}>
+                    {message}
+                    </Alert>
+                </Snackbar>
                 </FullColumn>
             </FormsComponentWrapper>
         </FormsMainWrapper>
@@ -93,6 +133,7 @@ export default () => (
         <FullColumn>
             <Papersheet title="Create Product">
                 <ProductCreate />
+                
             </Papersheet>
         </FullColumn>
     </LayoutWrapper>
