@@ -24,7 +24,7 @@
     "country-state-city": "^2.0.0",
     "date-fns": "^2.4.1",
     "file-loader": "4.2.0",
-    "firebase": "^7.1.0",
+    "firebase": "^7.24.0",
     "formik": "^2.2.6",
     "frappe-charts": "1.2.4",
     "fuse.js": "^3.4.5",
