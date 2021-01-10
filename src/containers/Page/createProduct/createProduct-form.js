@@ -19,11 +19,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import DateAndTimePickers from './dateAndTimePicker';
 
 
-const setValue = (e) => {
-  console.log( e);
-  
-}
-
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -84,9 +79,6 @@ const handleChangeMulti=(event)=>{
   //this.setState({values.tags:[1,2,3]});
 }
 
-// const isFeatured = ({ error, errorText, ...props}) =>{
-
-// }
 
 
 const RenderRadioGroup = ({ onChange, ...props }) => {
@@ -264,9 +256,9 @@ const MyInnerForm = ({
         multiple
         id="tags-filled"
         options={[]}
-        value={values.tags}
+        // value={values.tags}
         onChange={(event, newValue) => {
-          setValue(newValue);
+          setTags(newValue);
         }}
         defaultValue=""
         freeSolo
@@ -356,7 +348,6 @@ export default withFormik({
     stock: null,
     close_time:'',
     open_time:'',
-    tag:[],
     detail: '',
     status:'',
     link_video:'',
