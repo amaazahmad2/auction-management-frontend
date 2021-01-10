@@ -59,44 +59,6 @@ let dummy = [
   },
 ];
 
-async function getListWrapper(pageNum) {
-  let nlist = await getListOfProducts(pageNum);
-  console.log(nlist);
-  nlist = nlist.data.data.product;
-
-  let customList = [];
-
-  nlist.forEach((product) => {
-    var customObj = {
-      name: product.title,
-      type: product.type,
-      quantityInStock: product.stock,
-      price: product.price,
-      image: product.images.forEach((img) => {
-        if (img.is_featured === true) {
-          return img;
-        }
-      }),
-      openTime: product.open_time,
-      closeTime: product.close_time,
-      latestBid: product.get_highest_bid,
-    };
-    customList.push(customObj);
-  });
-  console.log("customlist: \n", customList);
-  console.log(customList);
-  return customList;
-}
-
-async function getTotalNumberOfPages() {
-  var i = 1;
-  var count = 0;
-  do {
-    var x = await getListWrapper(i++);
-    count++;
-  } while (x.length != 0);
-  return count - 1;
-}
 class ListOfProducts extends React.Component {
   constructor(props, context) {
     super();
@@ -108,19 +70,57 @@ class ListOfProducts extends React.Component {
 
   async componentDidMount() {
     this.setState({
-      list: await getListWrapper(1),
-      totalPages: await getTotalNumberOfPages(),
+      list: await this.getListWrapper(1),
+      totalPages: await this.getTotalNumberOfPages(),
     });
   }
 
+  async getListWrapper(pageNum) {
+    let nlist = await getListOfProducts(pageNum);
+    console.log(nlist);
+    nlist = nlist.data.data.product;
+
+    let customList = [];
+
+    nlist.forEach((product) => {
+      var customObj = {
+        name: product.title,
+        type: product.type,
+        quantityInStock: product.stock,
+        price: product.price,
+        image: product.images.forEach((img) => {
+          if (img.is_featured === true) {
+            return img;
+          }
+        }),
+        openTime: product.open_time,
+        closeTime: product.close_time,
+        latestBid: product.get_highest_bid,
+      };
+      customList.push(customObj);
+    });
+    console.log("customlist: \n", customList);
+    console.log(customList);
+    return customList;
+  }
+
+  async getTotalNumberOfPages() {
+    var i = 1;
+    var count = 0;
+    do {
+      var x = await this.getListWrapper(i++);
+      count++;
+    } while (x.length != 0);
+    console.log("Get pages called");
+    return count - 1;
+  }
+
   render() {
-    console.log("call from render");
-    console.log(this.state.list);
     return (
       <LayoutWrapper>
         <FullColumn>
           <Papersheet title="List of Products">
-            <div className="row" ref={this.myRef}>
+            <div className="row">
               <Album props={this.state.list} />
               <Pagination
                 count={this.state.totalPages}
@@ -131,7 +131,7 @@ class ListOfProducts extends React.Component {
                     list: [],
                   });
                   this.setState({
-                    list: await getListWrapper(value),
+                    list: await this.getListWrapper(value),
                   });
                 }}
               />
