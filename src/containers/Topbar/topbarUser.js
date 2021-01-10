@@ -30,6 +30,12 @@ class TopbarUser extends Component {
       anchorEl: findDOMNode(this.button),
     });
   };
+
+  handleLogout=()=>{
+    localStorage.removeItem("token");
+    this.props.logout();
+  }
+
   render() {
     const content = (
       <TopbarDropdown>
@@ -57,7 +63,7 @@ class TopbarUser extends Component {
             <Icon>feedback</Icon>
             <IntlMessages id="topbar.help" />
           </a>
-          <Link to="/" onClick={this.props.logout} className="dropdownLink">
+          <Link to="/" onClick={this.handleLogout} className="dropdownLink">
             <Icon>input</Icon>
             <IntlMessages id="topbar.logout" />
           </Link>
