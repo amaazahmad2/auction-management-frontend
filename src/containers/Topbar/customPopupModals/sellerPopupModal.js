@@ -15,7 +15,7 @@ import csc from "country-state-city";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import {becomeSellerService} from './../../../services/sellerServices';
-import {store} from '../../../redux/store'
+
 
 export default function SellerPopupModal() {
     // const listOfCountries = csc.getAllCountries();
@@ -150,7 +150,6 @@ export default function SellerPopupModal() {
 
     return (
         <div>
-            {store.getState().user.is_seller && 
                 <Button
                     variant="contained"
                     className="topbarSellerButton"
@@ -158,7 +157,7 @@ export default function SellerPopupModal() {
                 >
                     Become a Seller
                 </Button>
-            }
+    
             <Dialog
                 open={open}
                 onClose={handleClose}
