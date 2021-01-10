@@ -28,6 +28,7 @@ export default function user(state = initialState, action) {
             name: action.payload.name,
             birthday: action.payload.birthday,
             gender: action.payload.gender,
+            is_seller:action.payload.is_seller
         };
     } else if (action.type === LOGIN_FAIL) {
     } else if (action.type === LOGOUT_SUCCESS) {
@@ -41,6 +42,7 @@ export default function user(state = initialState, action) {
             name: null,
             birthday: null,
             gender: null,
+            is_seller:null
         };
     }
     return state;

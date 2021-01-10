@@ -21,7 +21,7 @@ export function loginUserAction(userObj){
             name: userObj.name,
             birthday: userObj.birthday,
             gender: userObj.gender,
-            is_seller:true
+            is_seller:false
         }
     }
 }

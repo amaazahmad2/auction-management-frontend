@@ -82,10 +82,10 @@ class SignIn extends Component {
 
     handleGoogleLogin = async (response) => {
         if (!response.error) {
-            console.log(response);
+            //console.log(response);
 
             const loginServiceResponse = await googleLoginService(response.profileObj.givenName, response.profileObj.familyName, response.profileObj.email, response.googleId);
-            console.log("STATUS: ",loginServiceResponse.status);
+            //console.log("STATUS: ",loginServiceResponse.status);
 
             if(loginServiceResponse.status === 200){    
                 this.setState({

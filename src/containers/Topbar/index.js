@@ -12,6 +12,7 @@ import TopbarUser from "./topbarUser";
 import Button from "./../../components/uielements/button/index";
 import SellerPopupModal from "./customPopupModals/sellerPopupModal";
 import BuyCoinPopupModal from "./customPopupModals/buyCoinPopupModal";
+import CartBadge from './customPopupModals/cartBadge';
 import { store } from "../../redux/store";
 
 const { toggleCollapsed } = appActions;
@@ -72,11 +73,15 @@ class Topbar extends Component {
                                 <BuyCoinPopupModal />
                             </li>
 
-                            {store.getState().user.is_seller && (
+                            {!store.getState().user.is_seller && (
                                 <li>
                                     <SellerPopupModal></SellerPopupModal>
                                 </li>
                             )}
+
+                            <li>
+                              <CartBadge/>
+                            </li>
 
                             <li className="topbarUser">
                                 <TopbarUser {...propsTopbar} />
