@@ -18,6 +18,8 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import DateAndTimePickers from './dateAndTimePicker';
 
+
+
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
     <div>
@@ -77,9 +79,6 @@ const handleChangeMulti=(event)=>{
   //this.setState({values.tags:[1,2,3]});
 }
 
-// const isFeatured = ({ error, errorText, ...props}) =>{
-
-// }
 
 
 const RenderRadioGroup = ({ onChange, ...props }) => {
@@ -101,6 +100,7 @@ function makeImagesArray(images) {
   }
   return imageArray;
 }
+
 
 
 const MyInnerForm = ({
@@ -256,6 +256,10 @@ const MyInnerForm = ({
         multiple
         id="tags-filled"
         options={[]}
+        // value={values.tags}
+        onChange={(event, newValue) => {
+          setTags(newValue);
+        }}
         defaultValue=""
         freeSolo
         renderTags={(value, getTagProps) =>
@@ -264,7 +268,7 @@ const MyInnerForm = ({
           ))
         }
         renderInput={(params) => (
-          <TextField {...params} variant="filled" label="Tags" placeholder="tags" />
+          <TextField {...params}  variant="filled" label="Tags" placeholder="tags" />
         )}
       />
       </FormControl>
@@ -344,7 +348,6 @@ export default withFormik({
     stock: null,
     close_time:'',
     open_time:'',
-    tag:[],
     detail: '',
     status:'',
     link_video:'',

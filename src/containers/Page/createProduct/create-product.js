@@ -26,12 +26,11 @@ function ProductCreate() {
     const [snakBarClass, setsnakBarClass] = useState({});
     const [open, setOpen] = useState(false);
     const [isFeatured,setisFeatured] = useState({});
-    const [tags, setTags] = useState(["latest",
-    "popular",
-    "newww"]);
+    const [tags, setTags] = useState([]);
     
-    const setTagsSelect = (event) => {
-        setTags(event.target.value)
+    const setTagsSelect = (e) => {
+        setTags(e)
+        // console.log(tags);
     }
 
     const setProductType = (event) => {
@@ -74,7 +73,6 @@ function ProductCreate() {
         values['tags'] = tags;
         values['type'] = type;
         
-        
 
         const createProductServiceResponse = await createProductService(
             values
@@ -87,7 +85,7 @@ function ProductCreate() {
         }
         else{
             setsnakBarClass("error")
-            setmessage(createProductServiceResponse.data.Message)
+            setmessage("Unable to create product")
             handleClick();
         }
 
