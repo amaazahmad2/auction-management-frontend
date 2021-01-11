@@ -8,8 +8,9 @@ import Album from "./productData.js";
 import { getListOfProducts } from "../../../services/productsServices";
 import { SentimentSatisfied } from "@material-ui/icons";
 import { Pagination } from "@material-ui/lab";
-import { useEffect } from "react";
 
+import FirebaseHelper from "../../../helpers/firebase/index";
+import firebase from "firebase";
 let dummy = [
   {
     name: "Quarks",
@@ -66,54 +67,88 @@ class ListOfProducts extends React.Component {
       list: [],
       totalPages: 0,
     };
+    // firebase.initializeApp({ firebaseConfig });
   }
 
   async componentDidMount() {
-    this.setState({
-      list: await this.getListWrapper(1),
-      totalPages: await this.getTotalNumberOfPages(),
+    var tempList = [];
+    const listRef = firebase.database().ref("data");
+    listRef.on("value", (snapshot) => {
+      const prods = snapshot.val();
+      console.log(prods);
+      prods.product.map((product) => {
+        var customObj = {
+          name: product.title,
+          type: product.type,
+          quantityInStock: product.stock,
+          price: product.price,
+          image: product.images
+            ? product.images.forEach((img) => {
+                if (img.is_featured === true) {
+                  return img;
+                }
+              })
+            : null,
+          openTime: product.open_time,
+          closeTime: product.close_time,
+          latestBid: product.get_highest_bid,
+        };
+        tempList.push(customObj);
+
+        console.log("templist: \n", tempList);
+      });
+      this.setState({
+        list: tempList,
+      });
     });
   }
 
-  async getListWrapper(pageNum) {
-    let nlist = await getListOfProducts(pageNum);
-    console.log(nlist);
-    nlist = nlist.data.data.product;
+  // async componentDidMount() {
+  //   this.setState({
+  //     list: await this.getListWrapper(1),
+  //     totalPages: await this.getTotalNumberOfPages(),
+  //   });
+  // }
 
-    let customList = [];
+  // async getListWrapper(pageNum) {
+  //   let nlist = await getListOfProducts(pageNum);
+  //   console.log(nlist);
+  //   nlist = nlist.data.data.product;
 
-    nlist.forEach((product) => {
-      var customObj = {
-        name: product.title,
-        type: product.type,
-        quantityInStock: product.stock,
-        price: product.price,
-        image: product.images.forEach((img) => {
-          if (img.is_featured === true) {
-            return img;
-          }
-        }),
-        openTime: product.open_time,
-        closeTime: product.close_time,
-        latestBid: product.get_highest_bid,
-      };
-      customList.push(customObj);
-    });
-    console.log("customlist: \n", customList);
-    console.log(customList);
-    return customList;
-  }
+  //   let customList = [];
 
-  async getTotalNumberOfPages() {
-    var i = 1;
-    var count = 0;
-    do {
-      var x = await this.getListWrapper(i++);
-      count++;
-    } while (x.length != 0);
-    console.log("Get pages called");
-    return count - 1;
-  }
+  //   nlist.forEach((product) => {
+  //     var customObj = {
+  //       name: product.title,
+  //       type: product.type,
+  //       quantityInStock: product.stock,
+  //       price: product.price,
+  //       image: product.images.forEach((img) => {
+  //         if (img.is_featured === true) {
+  //           return img;
+  //         }
+  //       }),
+  //       openTime: product.open_time,
+  //       closeTime: product.close_time,
+  //       latestBid: product.get_highest_bid,
+  //     };
+  //     customList.push(customObj);
+  //   });
+  //   console.log("customlist: \n", customList);
+  //   console.log(customList);
+  //   return customList;
+  // }
+
+  // async getTotalNumberOfPages() {
+  //   var i = 1;
+  //   var count = 0;
+  //   do {
+  //     var x = (i++);
+  //     count++;
+  //   } while (x.length != 0);
+  //   console.log("Get pages called");
+  //   return count - 1;
+  // }
 
   render() {
     return (
@@ -130,9 +165,9 @@ class ListOfProducts extends React.Component {
                   this.setState({
                     list: [],
                   });
-                  this.setState({
-                    list: await this.getListWrapper(value),
-                  });
+                  // this.setState({
+                  //   list: await this.getListWrapper(value),
+                  // });
                 }}
               />
             </div>
