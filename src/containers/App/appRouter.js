@@ -18,6 +18,10 @@ const routes = [
   {
     path:'list-of-products',
     component: lazy(()=> import('../Page/listOfProducts/listOfProducts'))
+  },
+  {
+    path:'product-detail',
+    component:lazy(()=> import('../Page/productDetail/productDetail'))
   }
 
 
