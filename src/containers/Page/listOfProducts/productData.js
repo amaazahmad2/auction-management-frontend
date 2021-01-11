@@ -28,18 +28,18 @@ import {
 // import Button from '@material-ui/core/Button';
 import Countdown from "./countdown";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {"Copyright © "}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Your Website
+//       </Link>{" "}
+//       {new Date().getFullYear()}
+//       {"."}
+//     </Typography>
+//   );
+// }
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -122,15 +122,13 @@ function returnColoredLabel(color, card) {
   );
 }
 
-function handleAddToCart(card) {
-  console.log(card);
-}
+
 
 export default function Album({ props }) {
   const classes = useStyles();
 
   let cards = props;
-  console.log(props);
+  //console.log(props);
 
   const secret = "____";
   const currentDate = new Date();
@@ -138,7 +136,11 @@ export default function Album({ props }) {
     currentDate.getMonth() === 11 && currentDate.getDate() > 23
       ? currentDate.getFullYear() + 1
       : currentDate.getFullYear();
-  const handleAddToCart = () => {};
+
+
+  const handleAddToCart = (card) => {
+    console.log("CARDS CLICKED: ",card);
+  };
 
   return cards.length == 0 ? (
     <Box
@@ -219,10 +221,7 @@ export default function Album({ props }) {
                 </Card>
                 <Button
                   color="primary"
-                  onClick={handleAddToCart}
-                  // onClick={(name) => {
-                  //   console.log(card.name);
-                  // }}
+                  onClick={() => handleAddToCart(card)}
                 >
                   Add to Cart
                 </Button>

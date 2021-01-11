@@ -105,8 +105,8 @@ class ListOfProducts extends React.Component {
           this.productsPerPage * (1 + (this.state.currentPage - 1))
         ),
       });
-      console.log("list: ", this.state.list);
-      console.log("page list: ", this.state.pageList);
+      //console.log("list: ", this.state.list);
+      //console.log("page list: ", this.state.pageList);
     });
   }
 
