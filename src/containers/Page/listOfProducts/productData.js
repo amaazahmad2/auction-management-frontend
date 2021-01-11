@@ -122,6 +122,10 @@ function returnColoredLabel(color, card) {
   );
 }
 
+function handleAddToCart(card) {
+  console.log(card);
+}
+
 export default function Album({ props }) {
   const classes = useStyles();
 
@@ -134,6 +138,7 @@ export default function Album({ props }) {
     currentDate.getMonth() === 11 && currentDate.getDate() > 23
       ? currentDate.getFullYear() + 1
       : currentDate.getFullYear();
+  const handleAddToCart = () => {};
 
   return cards.length == 0 ? (
     <Box
@@ -212,6 +217,15 @@ export default function Album({ props }) {
                     <Countdown date={`${year}-12-24T00:00:00`} />
                   </CardContent>
                 </Card>
+                <Button
+                  color="primary"
+                  onClick={handleAddToCart}
+                  // onClick={(name) => {
+                  //   console.log(card.name);
+                  // }}
+                >
+                  Add to Cart
+                </Button>
               </Grid>
             ))}
           </Grid>
