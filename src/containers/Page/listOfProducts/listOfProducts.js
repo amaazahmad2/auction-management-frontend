@@ -66,17 +66,17 @@ class ListOfProducts extends React.Component {
     this.state = {
       list: [],
       pageList: [],
+      currentPage: 1,
     };
     this.productsPerPage = props.productsPerpage ? this.productsPerPage : 10; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
-  }
-
-  async componentDidMount() {
     var tempList = [];
     const listRef = firebase.database().ref("data");
     listRef.on("value", (snapshot) => {
       const prods = snapshot.val();
-      console.log(prods);
+      console.log("snapshot: ", prods);
+
+      tempList = [];
       prods.product.map((product) => {
         var customObj = {
           name: product.title,
@@ -100,62 +100,15 @@ class ListOfProducts extends React.Component {
         list: tempList,
       });
       this.setState({
-        pageList: this.state.list.slice(0, this.productsPerPage),
+        pageList: this.state.list.slice(
+          (this.state.currentPage - 1) * this.productsPerPage,
+          this.productsPerPage * (1 + (this.state.currentPage - 1))
+        ),
       });
       console.log("list: ", this.state.list);
       console.log("page list: ", this.state.pageList);
     });
   }
-
-  //commented code to get data from old API
-
-  /*  // async componentDidMount() {
-  //   this.setState({
-  //     list: await this.getListWrapper(1),
-  //     totalPages: await this.getTotalNumberOfPages(),
-  //   });
-  // }
-
-  // async getListWrapper(pageNum) {
-  //   let nlist = await getListOfProducts(pageNum);
-  //   console.log(nlist);
-  //   nlist = nlist.data.data.product;
-
-  //   let customList = [];
-
-  //   nlist.forEach((product) => {
-  //     var customObj = {
-  //       name: product.title,
-  //       type: product.type,
-  //       quantityInStock: product.stock,
-  //       price: product.price,
-  //       image: product.images.forEach((img) => {
-  //         if (img.is_featured === true) {
-  //           return img;
-  //         }
-  //       }),
-  //       openTime: product.open_time,
-  //       closeTime: product.close_time,
-  //       latestBid: product.get_highest_bid,
-  //     };
-  //     customList.push(customObj);
-  //   });
-  //   console.log("customlist: \n", customList);
-  //   console.log(customList);
-  //   return customList;
-  // }
-
-  // async getTotalNumberOfPages() {
-  //   var i = 1;
-  //   var count = 0;
-  //   do {
-  //     var x = (i++);
-  //     count++;
-  //   } while (x.length != 0);
-  //   console.log("Get pages called");
-  //   return count - 1;
-  // }
-  */
 
   render() {
     return (
@@ -178,6 +131,9 @@ class ListOfProducts extends React.Component {
                       (value - 1) * this.productsPerPage,
                       this.productsPerPage * (1 + (value - 1))
                     ),
+                  });
+                  this.setState({
+                    currentPage: value,
                   });
                 }}
               />

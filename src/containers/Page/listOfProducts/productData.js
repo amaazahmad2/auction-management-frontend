@@ -198,7 +198,7 @@ export default function Album({ props }) {
                     <span>
                       {" "}
                       {card.type == "auction"
-                        ? "\n" + card.currentBid + " coins"
+                        ? "\n" + card.latestBid + " coins"
                         : "\n" + card.price + " coins"}{" "}
                     </span>
 
