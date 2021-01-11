@@ -65,8 +65,9 @@ class ListOfProducts extends React.Component {
     super();
     this.state = {
       list: [],
-      totalPages: 0,
+      pageList: [],
     };
+    this.productsPerPage = props.productsPerpage ? this.productsPerPage : 10; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
   }
 
@@ -94,16 +95,21 @@ class ListOfProducts extends React.Component {
           latestBid: product.get_highest_bid,
         };
         tempList.push(customObj);
-
-        console.log("templist: \n", tempList);
       });
       this.setState({
         list: tempList,
       });
+      this.setState({
+        pageList: this.state.list.slice(0, this.productsPerPage),
+      });
+      console.log("list: ", this.state.list);
+      console.log("page list: ", this.state.pageList);
     });
   }
 
-  // async componentDidMount() {
+  //commented code to get data from old API
+
+  /*  // async componentDidMount() {
   //   this.setState({
   //     list: await this.getListWrapper(1),
   //     totalPages: await this.getTotalNumberOfPages(),
@@ -149,6 +155,7 @@ class ListOfProducts extends React.Component {
   //   console.log("Get pages called");
   //   return count - 1;
   // }
+  */
 
   render() {
     return (
@@ -156,18 +163,22 @@ class ListOfProducts extends React.Component {
         <FullColumn>
           <Papersheet title="List of Products">
             <div className="row">
-              <Album props={this.state.list} />
+              <Album props={this.state.pageList} />
               <Pagination
-                count={this.state.totalPages}
+                count={Math.ceil(this.state.list.length / this.productsPerPage)}
                 variant="outlined"
                 color="primary"
                 onChange={async (event, value) => {
                   this.setState({
-                    list: [],
+                    pageList: [],
                   });
-                  // this.setState({
-                  //   list: await this.getListWrapper(value),
-                  // });
+
+                  this.setState({
+                    pageList: this.state.list.slice(
+                      (value - 1) * this.productsPerPage,
+                      this.productsPerPage * (1 + (value - 1))
+                    ),
+                  });
                 }}
               />
             </div>
