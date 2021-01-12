@@ -11,6 +11,8 @@ import Countdown from "../listOfProducts/countdown";
 import { CircularProgressbar } from "react-circular-progressbar";
 import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
+import { addToCartAction } from '../../../redux/actions/cartAction';
+import {store} from '../../../redux/store';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -43,6 +45,16 @@ const useStyles = makeStyles((theme) => ({
 
 function handleAddToCart(post) {
   console.log("add to cart", post);
+
+  const cardObj = {
+              uuid: "sample uuid",
+              name: post.title,
+              quantity: 10,
+              price:post.price, 
+  }
+  
+  store.dispatch(addToCartAction(cardObj));
+  
 }
 function handlePlaceBid(post) {
   console.log("place bid", post);

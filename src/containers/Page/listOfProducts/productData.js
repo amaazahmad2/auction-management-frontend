@@ -18,6 +18,7 @@ import Fab from "@material-ui/core/Fab";
 import { Row, Col } from "reactstrap";
 import { CircularProgress } from "@material-ui/core";
 import { CardText } from "reactstrap";
+import {store} from './../../../redux/store';
 
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
@@ -27,6 +28,8 @@ import {
 } from "../../../components/algolia/algoliaComponent.style";
 // import Button from '@material-ui/core/Button';
 import Countdown from "./countdown";
+import { addToCartAction } from '../../../redux/actions/cartAction';
+import { stringify } from "uuid";
 
 // function Copyright() {
 //   return (
@@ -138,9 +141,19 @@ export default function Album({ props }) {
       : currentDate.getFullYear();
 
 
-  const handleAddToCart = (card) => {
-    console.log("CARDS CLICKED: ",card);
-  };
+  // const handleAddToCart = (card) => {
+
+  //   const cardObj = {
+  //           uuid: "sample uuid",
+  //           name: card.name,
+  //           quantity: 10,
+  //           price:card.price, 
+  //   }
+
+  //   store.dispatch(addToCartAction(cardObj));
+
+  //   //console.log("COUNT ",store.getState().cart.length);
+  // };
 
   return cards.length == 0 ? (
     <Box
@@ -221,7 +234,7 @@ export default function Album({ props }) {
                 </Card>
                 <Button
                   color="primary"
-                  onClick={() => handleAddToCart(card)}
+                  // onClick={() => handleAddToCart(card)}
                 >
                   Add to Cart
                 </Button>
