@@ -60,10 +60,6 @@ const setBgImg = (p) => {
   }
 }; //"https://cqgplus.files.wordpress.com/2016/08/gargantua1.png";
 var bg = "";
-var globalPost = null;
-export function changeBgImg(i) {
-  globalPost.images.images = i;
-}
 
 export default function Main({ props }) {
   const classes = useStyles();
@@ -77,7 +73,6 @@ export default function Main({ props }) {
 
   if (post) {
     bg = setBgImg(post);
-    globalPost = post;
   }
   return (
     <div>
@@ -133,13 +128,13 @@ const getRemainingProductDetails = (post) => {
     stock: post.type === "auction" ? "" : post.stock > 0 ? post.stock : "",
     tagsLabel: "Tags: ",
     tags: post.tags.toString(),
-    seller: post.seller,
+    // seller: post.seller,
   };
   return (
     <Box container>
       {returnGrid(post, productData.priceLabel, productData.price)}
       {returnGrid(post, productData.stockLabel, productData.stock)}
-      {returnGrid(post, "Seller: ", productData.seller)}
+      {/* {returnGrid(post, "Seller: ", productData.seller)} */}
     </Box>
   );
 };
@@ -193,21 +188,4 @@ function getButton(post, label) {
   } else {
     return null;
   }
-}
-
-{
-  /*[11:58 pm, 09/01/2021] Amaaz Ahmed: Product Detail: 
-
-Product Images done
-Product Title done
-Product Type done
-Product Status done
-Description done
-Price - in case of limited done
-Starting Bid and highest  bid - in case of auction  done
-Add to cart button - limited done
-Bid button - auction  done
-Buy coins link 
-[11:59 pm, 09/01/2021] Amaaz Ahmed: Closing time - in both cases 
-Quantity - limited */
 }

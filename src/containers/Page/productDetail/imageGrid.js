@@ -6,7 +6,6 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { LinearProgress } from "@material-ui/core";
-import { changeBgImg } from "./showDetails";
 
 import InfoIcon from "@material-ui/icons/Info";
 //import tileData from './tileData';
@@ -112,9 +111,6 @@ export default function ImageGrid(images) {
                 <GridListTileBar
                   actionIcon={
                     <IconButton
-                      onClick={() => {
-                        changeBgImg(tile.image);
-                      }}
                       style={{ color: "white" }}
                       //color="secondary"
                       className={classes.icon}
