@@ -5,14 +5,11 @@ import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 import './cartBadge.css';
 import {store} from './../../../redux/store'
+import {useSelector} from 'react-redux';
 
 export default function CartBadge() {
 
-    const [itemCount, setItemCount]=React.useState(0);
-
-    React.useEffect(()=>{
-        setItemCount(store.getState().cart.length);
-    },[store.getState().cart.length])
+    const itemCount = useSelector(state=>state.cart.length)
 
     return (
         <div>
