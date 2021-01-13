@@ -33,11 +33,10 @@ export default class ProductDetail extends Component {
         //         "stock": 14,
         //         "get_highest_bid": 0
       },
-
     };
 
     this.state.product = null;
-    const listRef = firebase.database().ref("products/-MQsKe5-2kd3s7KXZUer");
+    const listRef = firebase.database().ref("products/-MQsKXaUKB0hiM55jbfC");
     listRef.on("value", (snapshot) => {
       this.setState({ product: snapshot.val() });
     });
