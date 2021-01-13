@@ -68,7 +68,7 @@ class ListOfProducts extends React.Component {
       pageList: [],
       currentPage: 1,
     };
-    this.productsPerPage = props.productsPerpage ? this.productsPerPage : 3; //set custom default value=10 if not given in props
+    this.productsPerPage = props.productsPerpage ? this.productsPerPage : 6; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
     var tempList = [];
     const listRef = firebase.database().ref("products");

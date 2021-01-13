@@ -255,11 +255,13 @@ export default function Album({ props }) {
                         (console.log(
                           card.open_time + "now: " + Date.now().toString()
                         ),
-                        card.type === "auction"
-                          ? new Date(card.open_time) > Date.now()
+                        new Date(card.open_time) > Date.now()
+                          ? card.type === "auction"
                             ? "Bidding starts in: "
-                            : "Time left to place bid: "
-                          : "")
+                            : "Product goes on sale in: "
+                          : card.type === "auction"
+                          ? "Bidding ends in: "
+                          : "Product sale ends in: ")
                       }
                     </span>
                     <Countdown

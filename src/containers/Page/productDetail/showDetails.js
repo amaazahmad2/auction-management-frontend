@@ -122,11 +122,13 @@ export default function ShowDetails({ props }) {
               </Typography>
               <Typography>
                 {post
-                  ? post.type === "auction"
-                    ? new Date(post.open_time) > Date.now()
+                  ? new Date(post.open_time) > Date.now()
+                    ? post.type === "auction"
                       ? "Bidding starts in: "
-                      : "Time left to place bid: "
-                    : ""
+                      : "Product goes on sale in: "
+                    : post.type === "auction"
+                    ? "Bidding ends in: "
+                    : "Product sale ends in: "
                   : ""}
               </Typography>
               {post ? (
