@@ -109,14 +109,17 @@ export default function BuyCoinPopupModal() {
                             label="Amount"
                             id="standard-start-adornment"
                             InputProps={{
+                                
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         ₩
                                     </InputAdornment>
                                 ),
+                                
                             }}
                             onChange={handleAmountChange}
                             value={amountInWon}
+                            type="number"
                         />
 
                         <div
