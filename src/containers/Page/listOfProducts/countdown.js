@@ -67,7 +67,7 @@ class Countdown extends Component {
       diff -= timeLeft.min * 60;
     }
     timeLeft.sec = diff;
-
+    console.log(timeLeft);
     return timeLeft;
   }
 
@@ -88,6 +88,15 @@ class Countdown extends Component {
 
     return (
       <div className="Countdown">
+        {countDown.years > 0 ? (
+          <span className="Countdown-col">
+            <span className="Countdown-col-element">
+              <strong>{this.addLeadingZeros(countDown.years)}</strong>
+              <span>{countDown.years === 1 ? " Year " : " Years "}</span>
+            </span>
+          </span>
+        ) : null}
+
         <span className="Countdown-col">
           <span className="Countdown-col-element">
             <strong>{this.addLeadingZeros(countDown.days)}</strong>
