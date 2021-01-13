@@ -68,37 +68,51 @@ class ListOfProducts extends React.Component {
       pageList: [],
       currentPage: 1,
     };
-    this.productsPerPage = props.productsPerpage ? this.productsPerPage : 10; //set custom default value=10 if not given in props
+    this.productsPerPage = props.productsPerpage ? this.productsPerPage : 3; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
     var tempList = [];
-    const listRef = firebase.database().ref("data");
+    const listRef = firebase.database().ref("products");
     listRef.on("value", (snapshot) => {
       const prods = snapshot.val();
-      console.log("snapshot: ", prods);
-
       tempList = [];
-      prods.product.map((product) => {
-        var customObj = {
-          name: product.title,
-          type: product.type,
-          quantityInStock: product.stock,
-          price: product.price,
-          image: product.images
-            ? product.images.forEach((img) => {
-                if (img.is_featured === true) {
-                  return img;
-                }
-              })
-            : null,
-          openTime: product.open_time,
-          closeTime: product.close_time,
-          latestBid: product.get_highest_bid,
-        };
-        tempList.push(customObj);
-      });
+      console.log("snapshot: ", prods);
+      for (let key in prods) {
+        let obj = prods[key];
+        obj.key = key;
+        tempList.push(obj);
+      }
       this.setState({
         list: tempList,
       });
+
+      // prods.map((product) => {
+      //   this.setState({
+      //     list: this.list.push(product),
+      //   });
+      // });
+      // tempList = [];
+      // prods.product.map((product) => {
+      //   var customObj = {
+      //     name: product.title,
+      //     type: product.type,
+      //     quantityInStock: product.stock,
+      //     price: product.price,
+      //     image: product.images
+      //       ? product.images.forEach((img) => {
+      //           if (img.is_featured === true) {
+      //             return img;
+      //           }
+      //         })
+      //       : null,
+      //     openTime: product.open_time,
+      //     closeTime: product.close_time,
+      //     latestBid: product.get_highest_bid,
+      //   };
+      //   tempList.push(customObj);
+      // });
+      // this.setState({
+      //   list: tempList,
+      // });
       this.setState({
         pageList: this.state.list.slice(
           (this.state.currentPage - 1) * this.productsPerPage,

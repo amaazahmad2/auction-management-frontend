@@ -18,7 +18,7 @@ import Fab from "@material-ui/core/Fab";
 import { Row, Col } from "reactstrap";
 import { CircularProgress } from "@material-ui/core";
 import { CardText } from "reactstrap";
-import {store} from './../../../redux/store';
+import { store } from "./../../../redux/store";
 
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
@@ -28,7 +28,7 @@ import {
 } from "../../../components/algolia/algoliaComponent.style";
 // import Button from '@material-ui/core/Button';
 import Countdown from "./countdown";
-import { addToCartAction } from '../../../redux/actions/cartAction';
+import { addToCartAction } from "../../../redux/actions/cartAction";
 import { stringify } from "uuid";
 
 // function Copyright() {
@@ -43,6 +43,21 @@ import { stringify } from "uuid";
 //     </Typography>
 //   );
 // }
+
+// close_time: "2023-01-08T22:41:00.000"
+// detail: "this is testing"
+// get_highest_bid: 100
+// images: (2) [{…}, {…}]
+// key: "-MQsKXaUKB0hiM55jbfC"
+// link_video: "http://google.com"
+// open_time: "2022-01-08T22:40:00.000"
+// price: 100
+// product_uuid: "dcb4fe26-9063-45b7-85bc-11f4ade81680"
+// status: "active"
+// stock: 14
+// tags: (3) ["latest", "popular", "newww"]
+// title: "tesing9000"
+// type: "limited"
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -84,22 +99,31 @@ function getFirstLabelText(card) {
 function getSecondLabelText(card) {
   if (card.type == "auction") {
     //needs to be implemented through an API call?
-    if (/*timeRemaining==0 */ card.timeLeft == 0) {
-      return "Sold!";
-    } else {
+    if (/*timeRemaining==0 */ new Date(card.open_time) > Date.now()) {
+      console.log("date greater");
+      return "Bidding not started";
+    } else if (
+      new Date(card.open_time) <= Date.now() &&
+      new Date(card.close_time) > Date.now()
+    ) {
       return "Ready to Bid!";
+    } else if (new Date(card.close_time) < Date.now()) {
+      return "Time's Up!";
     }
   } else {
-    if (card.quantityInStock == 0) {
+    if (card.stock == 0) {
       return "Item out of stock ";
     } else {
-      return "Items in Stock: " + card.quantityInStock;
+      return "Items in Stock: " + card.stock;
     }
   }
 }
 
 function returnColoredLabel(color, card) {
-  if (card.timeLeft == 0) {
+  if (card.type == "auction" && new Date(card.close_time < Date.now())) {
+    color = "red";
+  }
+  if (card.type === "limited" && card.stock <= 0) {
     color = "red";
   }
   return (
@@ -118,36 +142,29 @@ function returnColoredLabel(color, card) {
       {
         /* {" "}
       {card.type == "auction" ? "Current Bid: $" : "Items in Stock: "}
-      {card.type == "auction" ? card.currentBid : card.quantityInStock} */
+      {card.type == "auction" ? card.currentBid : card.stock} */
         getSecondLabelText(card)
       }
     </Box>
   );
 }
 
-
-
 export default function Album({ props }) {
   const classes = useStyles();
 
   let cards = props;
-  //console.log(props);
-
-  const secret = "____";
   const currentDate = new Date();
   const year =
     currentDate.getMonth() === 11 && currentDate.getDate() > 23
       ? currentDate.getFullYear() + 1
       : currentDate.getFullYear();
-
-
   // const handleAddToCart = (card) => {
 
   //   const cardObj = {
   //           uuid: "sample uuid",
   //           name: card.name,
   //           quantity: 10,
-  //           price:card.price, 
+  //           price:card.price,
   //   }
 
   //   store.dispatch(addToCartAction(cardObj));
@@ -184,8 +201,12 @@ export default function Album({ props }) {
                   <CardMedia
                     className={classes.cardMedia}
                     image={
-                      card.image != null || card.image
-                        ? card.image
+                      card.images != null || card.images
+                        ? card.images.map((i) => {
+                            if (i.is_featured) {
+                              return i;
+                            }
+                          })
                         : "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg"
                     }
                     z-index="1"
@@ -211,7 +232,7 @@ export default function Album({ props }) {
                         {" "}
                         {getFirstLabelText(card)}
                       </Box>
-                      {card.quantityInStock > 0
+                      {card.stock > 0
                         ? /*|| time is NOT up*/
                           returnColoredLabel("green", card)
                         : returnColoredLabel("red", card)}
@@ -220,16 +241,34 @@ export default function Album({ props }) {
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {" "}
-                      <span>{card.name}</span>
+                      <span>{card.title}</span>
                     </Typography>
                     <span>
                       {" "}
                       {card.type == "auction"
-                        ? "\n" + card.latestBid + " coins"
-                        : "\n" + card.price + " coins"}{" "}
+                        ? "\nHighest Bid: " + card.get_highest_bid + " coins\n"
+                        : "\nPrice: " + card.price + " coins\n"}{" "}
                     </span>
-
-                    <Countdown date={`${year}-12-24T00:00:00`} />
+                    <br />
+                    <span>
+                      {
+                        (console.log(
+                          card.open_time + "now: " + Date.now().toString()
+                        ),
+                        card.type === "auction"
+                          ? new Date(card.open_time) > Date.now()
+                            ? "Bidding starts in: "
+                            : "Time left to place bid: "
+                          : "")
+                      }
+                    </span>
+                    <Countdown
+                      date={
+                        new Date(card.open_time) > Date.now()
+                          ? card.open_time
+                          : card.close_time
+                      }
+                    />
                   </CardContent>
                 </Card>
                 <Button
