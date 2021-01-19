@@ -67,7 +67,7 @@ class Countdown extends Component {
       diff -= timeLeft.min * 60;
     }
     timeLeft.sec = diff;
-    console.log(timeLeft);
+
     return timeLeft;
   }
 
