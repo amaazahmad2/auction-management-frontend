@@ -65,7 +65,7 @@ function handleQuantityChange(post) {
   let qty = parseInt(document.getElementById("quantity").value);
   if (isNaN(qty)) {
     document.getElementById("quantity").value = 0;
-  } else if (qty <= 1) document.getElementById("quantity").value = 0;
+  } else if (qty < 1) document.getElementById("quantity").value = 0;
   else if (qty >= post.stock) {
     document.getElementById("quantity").value = post.stock;
   }
