@@ -243,26 +243,35 @@ export default function Album({ props }) {
                       {" "}
                       <span>{card.title}</span>
                     </Typography>
+
+                    {card.type === "auction" ? (
+                      <span> {"Starting Bid: " + card.price + " coins"}</span>
+                    ) : (
+                      ""
+                    )}
+
+                    {card.type === "auction" ? (
+                      <div>
+                        <span>
+                          {"\nHighest Bid: " +
+                            card.get_highest_bid +
+                            " coins\n"}{" "}
+                        </span>
+                      </div>
+                    ) : (
+                      <span>
+                        {"\nPrice: " + card.price + " coins\n  "}
+                        <br />
+                      </span>
+                    )}
                     <span>
-                      {" "}
-                      {card.type == "auction"
-                        ? "\nHighest Bid: " + card.get_highest_bid + " coins\n"
-                        : "\nPrice: " + card.price + " coins\n"}{" "}
-                    </span>
-                    <br />
-                    <span>
-                      {
-                        (console.log(
-                          card.open_time + "now: " + Date.now().toString()
-                        ),
-                        new Date(card.open_time) > Date.now()
-                          ? card.type === "auction"
-                            ? "Bidding starts in: "
-                            : "Product goes on sale in: "
-                          : card.type === "auction"
-                          ? "Bidding ends in: "
-                          : "Product sale ends in: ")
-                      }
+                      {new Date(card.open_time) > Date.now()
+                        ? card.type === "auction"
+                          ? "Bidding starts in: "
+                          : "Product goes on sale in: "
+                        : card.type === "auction"
+                        ? "Bidding ends in: "
+                        : "Product sale ends in: "}
                     </span>
                     <Countdown
                       date={
@@ -273,12 +282,12 @@ export default function Album({ props }) {
                     />
                   </CardContent>
                 </Card>
-                <Button
+                {/* <Button
                   color="primary"
                   // onClick={() => handleAddToCart(card)}
                 >
                   Add to Cart
-                </Button>
+                </Button> */}
               </Grid>
             ))}
           </Grid>
