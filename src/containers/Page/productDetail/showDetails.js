@@ -14,6 +14,7 @@ import Box from "@material-ui/core/Box";
 import { addToCartAction } from "../../../redux/actions/cartAction";
 import { store } from "../../../redux/store";
 import TextField from "@material-ui/core/TextField";
+import CreateBidPopup from './createBidPopup';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -233,15 +234,16 @@ function getButton(post, label) {
     );
   } else if (label === "Latest Bid: ") {
     return (
-      <Button
-        onClick={() => {
-          handlePlaceBid(post);
-        }}
-        variant={"contained"}
-        color={"primary"}
-      >
-        {"Place Bid"}
-      </Button>
+      // <Button
+      //   onClick={() => {
+      //     handlePlaceBid(post);
+      //   }}
+      //   variant={"contained"}
+      //   color={"primary"}
+      // >
+      //   {"Place Bid"}
+      // </Button>
+      <CreateBidPopup post={post}/>
     );
   } else {
     return null;

@@ -14,26 +14,122 @@ import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 
-export default function CreateBidPopup(){
+export default function CreateBidPopup(props) {
+    const [open, setOpen] = React.useState(false);
+    const [alertOpen, setAlertOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("");
+    const [alertSeverity, setAlertSeverity] = React.useState("");
 
-    function handlePlaceBid(post){
+    const handleClickOpen = () => {
+        setOpen(true);
+        //console.log(props.post);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    function handlePlaceBid(post) {
+        //console.log("PLACE BID CLICKED");
+        let coins = parseFloat(document.getElementById("coins").value);
+        console.log(coins);
+
+        if(coins <= post.get_highest_bid){
+            setAlertMessage("Enter number of coins more than the highest bid!");
+            setAlertOpen(true);
+            setAlertSeverity("error");
+            return;
+        }else{
+            setAlertMessage("Bid Placed!");
+            setAlertOpen(true);
+            setAlertSeverity("success");
+
+            setOpen(false);
+            return;
+        }
+    }
+
+    function handleQuantityChange(post) {
+        let coins = parseFloat(document.getElementById("coins").value);
+        if (isNaN(coins)) {
+          document.getElementById("coins").value = 0;
+        } else if (coins < post.get_highest_bid) document.getElementById("coins").value = post.get_highest_bid;
         
     }
 
-    return(
+    const handleAlertClose = (event) => {
+        setAlertOpen(false);
+    };
+
+    return (
         <div>
             <Button
-                onClick={() => {
-                    //handlePlaceBid(post);
-                }}
+                onClick={handleClickOpen}
                 variant={"contained"}
                 color={"primary"}
             >
                 {"Place Bid"}
             </Button>
-            <Dialog>
-
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="form-dialog-title"
+            >
+                <DialogTitle id="form-dialog-title">{props.post.title}</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Starting Bid: {props.post.price}
+                    </DialogContentText>
+                    <DialogContentText>
+                        Highest Bid: {props.post.get_highest_bid}
+                    </DialogContentText>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "end",
+                        }}
+                    >
+                        <TextField
+                            style={{ width: "6rem" }}
+                            size="small"
+                            label="Bid"
+                            id="coins"
+                            onChange={() => {
+                                handleQuantityChange(props.post);
+                              }}
+                            type="number"
+                            defaultValue={props.post.get_highest_bid}
+                        />
+                    </div>
+                    <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={()=>{handlePlaceBid(props.post)}} color="primary">
+                        Place Bid
+                    </Button>
+                </DialogActions>
+                
+                </DialogContent>
+                
             </Dialog>
+            <div>
+                    <Snackbar
+                        open={alertOpen}
+                        autoHideDuration={6000}
+                        onClose={handleAlertClose}
+                    >
+                        <Alert
+                            elevation={6}
+                            variant="filled"
+                            onClose={handleAlertClose}
+                            severity={alertSeverity}
+                        >
+                            {alertMessage}
+                        </Alert>
+                    </Snackbar>
+                </div>
         </div>
-    )
+    );
 }
