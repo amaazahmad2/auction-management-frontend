@@ -306,44 +306,6 @@ class SignIn extends Component {
                                     // cookiePolicy={'single_host_origin'}
                                 ></GoogleLogin>
                             </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                {Auth0.isValid ? (
-                                    <Button
-                                        type="button"
-                                        className="btnAuthZero"
-                                        onClick={() => {
-                                            Auth0.login(this.handleLogin);
-                                        }}
-                                    >
-                                        <div className="mateLoginOtherIcon">
-                                            <img
-                                                src={authBtnSvg}
-                                                alt="Authentication Btn"
-                                            />
-                                        </div>
-                                        <IntlMessages id="page.signInAuth0" />
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        type="button"
-                                        className="primary btnAuthZero"
-                                        onClick={this.handleLogin}
-                                    >
-                                        <div className="mateLoginOtherIcon">
-                                            <img
-                                                src={authBtnSvg}
-                                                alt="Authentication Btn"
-                                            />
-                                        </div>
-                                        <IntlMessages id="page.signInAuth0" />
-                                    </Button>
-                                )}
-                            </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                {Firebase.isValid && (
-                                    <FirebaseLogin login={this.handleLogin} />
-                                )}
-                            </div>
                         </div>
                     </Scrollbars>
                 </div>

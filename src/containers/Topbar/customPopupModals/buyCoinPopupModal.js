@@ -17,8 +17,8 @@ import Alert from "@material-ui/lab/Alert";
 
 export default function BuyCoinPopupModal() {
     const [open, setOpen] = React.useState(false);
-    const [alertOpen, setAlertOpen]=React.useState(false);
-    const [alertMessage, setAlertMessage]=React.useState("");
+    const [alertOpen, setAlertOpen] = React.useState(false);
+    const [alertMessage, setAlertMessage] = React.useState("");
     const [alertSeverity, setAlertSeverity] = React.useState("");
     const [currentRate, setCurrentRate] = React.useState(100);
     const [amountInWon, setAmountInWon] = React.useState(0);
@@ -43,8 +43,7 @@ export default function BuyCoinPopupModal() {
     };
 
     const handlePurchase = async (event) => {
-        if(numberOfCoins<1)
-        {
+        if (numberOfCoins < 1) {
             setAlertMessage("Please enter a valid amount or number of coins");
             setAlertOpen(true);
             setAlertSeverity("warning");
@@ -52,18 +51,19 @@ export default function BuyCoinPopupModal() {
         }
         const response = await buyCoinsService(numberOfCoins);
 
-        if(response.status===200)
-        {
-            if(numberOfCoins===1)
-                setAlertMessage(numberOfCoins + " coin purchased successfully!");
-            else    
-                setAlertMessage(numberOfCoins + " coins purchased successfully!");
+        if (response.status === 200) {
+            if (numberOfCoins === 1)
+                setAlertMessage(
+                    numberOfCoins + " coin purchased successfully!"
+                );
+            else
+                setAlertMessage(
+                    numberOfCoins + " coins purchased successfully!"
+                );
             setAlertOpen(true);
             setAlertSeverity("success");
             return;
-        }
-        else
-        {
+        } else {
             setAlertMessage("Error in Purchasing Coins");
             setAlertOpen(true);
             setAlertSeverity("error");
@@ -73,7 +73,7 @@ export default function BuyCoinPopupModal() {
 
     const handleAlertClose = (event) => {
         setAlertOpen(false);
-    }
+    };
 
     return (
         <div>
@@ -109,13 +109,11 @@ export default function BuyCoinPopupModal() {
                             label="Amount"
                             id="standard-start-adornment"
                             InputProps={{
-                                
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         ₩
                                     </InputAdornment>
                                 ),
-                                
                             }}
                             onChange={handleAmountChange}
                             value={amountInWon}
@@ -149,23 +147,22 @@ export default function BuyCoinPopupModal() {
                     </Button>
                 </DialogActions>
                 <div>
-                <Snackbar
-                    open={alertOpen}
-                    autoHideDuration={6000}
-                    onClose={handleAlertClose}
-                >
-                    <Alert
-                        elevation={6}
-                        variant="filled"
+                    <Snackbar
+                        open={alertOpen}
+                        autoHideDuration={6000}
                         onClose={handleAlertClose}
-                        severity={alertSeverity}
                     >
-                        {alertMessage}
-                    </Alert>
-                </Snackbar>
-            </div>
+                        <Alert
+                            elevation={6}
+                            variant="filled"
+                            onClose={handleAlertClose}
+                            severity={alertSeverity}
+                        >
+                            {alertMessage}
+                        </Alert>
+                    </Snackbar>
+                </div>
             </Dialog>
-            
         </div>
     );
 }
