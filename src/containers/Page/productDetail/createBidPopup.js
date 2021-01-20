@@ -51,7 +51,7 @@ export default function CreateBidPopup(props) {
         }
         else{
             //console.log("POST: ",post);
-            let response = await placeBidService("c82c998c-70f3-4117-99e2-dd3592404a21", coinsInNewBid);
+            let response = await placeBidService(post.product_uuid, coinsInNewBid);
             console.log("RESPONSE: ",response);
 
             if(response.data.status === "failure"){
