@@ -36,10 +36,12 @@ export default class ProductDetail extends Component {
     };
 
     this.state.product = null;
-    const listRef = firebase.database().ref("products/-MQsKe5-2kd3s7KXZUer");
+    const listRef = firebase.database().ref("products/"+props.match.params.firebaseKey);
     listRef.on("value", (snapshot) => {
       this.setState({ product: snapshot.val() });
     });
+
+    //console.log("PROPS OF PROD DETAIL: ",props);
   }
 
   render() {

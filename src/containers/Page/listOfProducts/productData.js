@@ -149,20 +149,15 @@ function returnColoredLabel(color, card) {
   );
 }
 
-export default function Album({ props }) {
+export default function Album(props ) {
   const classes = useStyles();
 
-  let cards = props;
+  let cards = props.cardProps;
   const currentDate = new Date();
   const year =
     currentDate.getMonth() === 11 && currentDate.getDate() > 23
       ? currentDate.getFullYear() + 1
       : currentDate.getFullYear();
-  
-
-  function handleTitleClick(card){
-    console.log("CARD: ",card);
-  }
 
   return cards.length == 0 ? (
     <Box
@@ -233,7 +228,7 @@ export default function Album({ props }) {
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {" "}
-                      <span onClick={()=>{handleTitleClick(card)}}>{card.title}</span>
+                      <span onClick={()=>{props.handleProductClick(card.key, card.product_uuid)}}>{card.title}</span>
                     </Typography>
 
                     {card.type === "auction" ? (
