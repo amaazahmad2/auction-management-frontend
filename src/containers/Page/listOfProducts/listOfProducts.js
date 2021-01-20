@@ -11,6 +11,7 @@ import { Pagination } from "@material-ui/lab";
 
 import FirebaseHelper from "../../../helpers/firebase/index";
 import firebase from "firebase";
+import { useHistory } from "react-router";
 let dummy = [
   {
     name: "Quarks",
@@ -67,6 +68,7 @@ class ListOfProducts extends React.Component {
       list: [],
       pageList: [],
       currentPage: 1,
+      productFirebaseKey: "",
     };
     this.productsPerPage = props.productsPerpage ? this.productsPerPage : 6; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
@@ -85,34 +87,6 @@ class ListOfProducts extends React.Component {
         list: tempList,
       });
 
-      // prods.map((product) => {
-      //   this.setState({
-      //     list: this.list.push(product),
-      //   });
-      // });
-      // tempList = [];
-      // prods.product.map((product) => {
-      //   var customObj = {
-      //     name: product.title,
-      //     type: product.type,
-      //     quantityInStock: product.stock,
-      //     price: product.price,
-      //     image: product.images
-      //       ? product.images.forEach((img) => {
-      //           if (img.is_featured === true) {
-      //             return img;
-      //           }
-      //         })
-      //       : null,
-      //     openTime: product.open_time,
-      //     closeTime: product.close_time,
-      //     latestBid: product.get_highest_bid,
-      //   };
-      //   tempList.push(customObj);
-      // });
-      // this.setState({
-      //   list: tempList,
-      // });
       this.setState({
         pageList: this.state.list.slice(
           (this.state.currentPage - 1) * this.productsPerPage,
@@ -124,13 +98,24 @@ class ListOfProducts extends React.Component {
     });
   }
 
+  handleProductClick(key, uuid) {
+    //console.log("KEY IN LOP: ",key);
+    //console.log("UUID IN LOP: ",uuid);
+    //console.log("PROPS IN LOP: ",this.props);
+    let history = this.props.history;
+    history.push("product-detail/" + key);
+  }
+
   render() {
     return (
       <LayoutWrapper>
         <FullColumn>
           <Papersheet title="List of Products">
             <div className="row">
-              <Album props={this.state.pageList} />
+              <Album
+                cardProps={this.state.pageList}
+                handleProductClick={this.handleProductClick.bind(this)}
+              />
               <Pagination
                 count={Math.ceil(this.state.list.length / this.productsPerPage)}
                 variant="outlined"

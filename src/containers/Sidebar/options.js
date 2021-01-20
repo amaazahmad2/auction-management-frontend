@@ -21,6 +21,10 @@ const options = [
     label: "Product Detail",
     key: "product-detail",
   },
+  {
+    label:"Cart Detail",
+    key:"cart-detail"
+  }
 ];
 const getBreadcrumbOption = () => {
   const preKeys = getDefaultPath();

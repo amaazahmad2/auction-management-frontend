@@ -13,6 +13,8 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import {store} from './../../../redux/store';
+import {placeBidService} from './../../../services/bidServices'
 
 export default function CreateBidPopup(props) {
     const [open, setOpen] = React.useState(false);
@@ -29,23 +31,51 @@ export default function CreateBidPopup(props) {
         setOpen(false);
     };
 
-    function handlePlaceBid(post) {
+    async function handlePlaceBid(post) {
         //console.log("PLACE BID CLICKED");
-        let coins = parseFloat(document.getElementById("coins").value);
-        console.log(coins);
+        let coinsInNewBid = parseFloat(document.getElementById("coins").value);
+        //console.log("coins: ",coins);
+        //console.log("coins in profile: ",store.getState().user.coins);
 
-        if(coins <= post.get_highest_bid){
-            setAlertMessage("Enter number of coins more than the highest bid!");
+        if(coinsInNewBid <= post.get_highest_bid){
+            setAlertMessage("Your bid is lower than the highest bid!");
             setAlertOpen(true);
             setAlertSeverity("error");
             return;
-        }else{
-            setAlertMessage("Bid Placed!");
+        } 
+        else if(coinsInNewBid > post.coins){
+            setAlertMessage("You do not have enough coins");
             setAlertOpen(true);
-            setAlertSeverity("success");
-
-            setOpen(false);
+            setAlertSeverity("error");
             return;
+        }
+        else{
+            //console.log("POST: ",post);
+            let response = await placeBidService(post.product_uuid, coinsInNewBid);
+            console.log("RESPONSE: ",response);
+
+            if(response.data.status === "failure"){
+                setAlertMessage("Your bid is lower than the highest bid!");
+                setAlertOpen(true);
+                setAlertSeverity("error");
+                return;
+            }
+            else if(response.data.status === "Success"){
+                setAlertMessage("Bid Placed!");
+                setAlertOpen(true);
+                setAlertSeverity("success");
+    
+                setOpen(false);
+                return;
+            }
+            else{
+                setAlertMessage("Unknown error occurred");
+                setAlertOpen(true);
+                setAlertSeverity("error");
+                return;
+            }
+
+            
         }
     }
 
@@ -53,7 +83,8 @@ export default function CreateBidPopup(props) {
         let coins = parseFloat(document.getElementById("coins").value);
         if (isNaN(coins)) {
           document.getElementById("coins").value = 0;
-        } else if (coins < post.get_highest_bid) document.getElementById("coins").value = post.get_highest_bid;
+         }
+         // else if (coins < post.get_highest_bid) document.getElementById("coins").value = post.get_highest_bid;
         
     }
 

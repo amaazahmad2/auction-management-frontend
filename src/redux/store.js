@@ -6,6 +6,9 @@ import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import rootSaga from './sagas';
 import { composeWithDevTools, devToolsEnhancer } from 'redux-devtools-extension';
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+ 
 
 const history = createBrowserHistory();
 const sagaMiddleware = createSagaMiddleware();
@@ -20,12 +23,24 @@ const middlewares = [thunk, sagaMiddleware, routeMiddleware];
 //     : compose;
 const composeEnhancers = composeWithDevTools({trace:true});
 
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
+const rootReducer = combineReducers({
+  ...reducers,
+  router: connectRouter(history),
+})
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 const store = createStore(
-  combineReducers({
-    ...reducers,
-    router: connectRouter(history),
-  }),
+  persistedReducer,
   composeEnhancers(applyMiddleware(...middlewares))
 );
+
+const persistor = persistStore(store);
+
 sagaMiddleware.run(rootSaga);
-export { store, history };
+export { store, history, persistor};
