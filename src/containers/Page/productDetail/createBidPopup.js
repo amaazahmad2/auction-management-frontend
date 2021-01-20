@@ -13,6 +13,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import {store} from './../../../redux/store';
 
 export default function CreateBidPopup(props) {
     const [open, setOpen] = React.useState(false);
@@ -32,14 +33,16 @@ export default function CreateBidPopup(props) {
     function handlePlaceBid(post) {
         //console.log("PLACE BID CLICKED");
         let coins = parseFloat(document.getElementById("coins").value);
-        console.log(coins);
+        console.log("coins: ",coins);
+        console.log("coins in profile: ",store.getState().user.coins);
 
         if(coins <= post.get_highest_bid){
             setAlertMessage("Enter number of coins more than the highest bid!");
             setAlertOpen(true);
             setAlertSeverity("error");
             return;
-        }else{
+        } 
+        else{
             setAlertMessage("Bid Placed!");
             setAlertOpen(true);
             setAlertSeverity("success");

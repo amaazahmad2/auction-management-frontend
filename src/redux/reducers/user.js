@@ -28,7 +28,8 @@ export default function user(state = initialState, action) {
             name: action.payload.name,
             birthday: action.payload.birthday,
             gender: action.payload.gender,
-            is_seller:action.payload.is_seller
+            is_seller:action.payload.is_seller,
+            coins: action.payload.coins
         };
     } else if (action.type === LOGIN_FAIL) {
     } else if (action.type === LOGOUT_SUCCESS) {
