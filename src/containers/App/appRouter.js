@@ -22,6 +22,10 @@ const routes = [
   {
     path:'product-detail/:firebaseKey',
     component:lazy(()=> import('../Page/productDetail/productDetail'))
+  },
+  {
+    path:'cart-detail',
+    component:lazy(()=> import('../Page/cartDetails/cartDetails'))
   }
 
 
