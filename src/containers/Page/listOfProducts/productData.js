@@ -158,19 +158,11 @@ export default function Album({ props }) {
     currentDate.getMonth() === 11 && currentDate.getDate() > 23
       ? currentDate.getFullYear() + 1
       : currentDate.getFullYear();
-  // const handleAddToCart = (card) => {
+  
 
-  //   const cardObj = {
-  //           uuid: "sample uuid",
-  //           name: card.name,
-  //           quantity: 10,
-  //           price:card.price,
-  //   }
-
-  //   store.dispatch(addToCartAction(cardObj));
-
-  //   //console.log("COUNT ",store.getState().cart.length);
-  // };
+  function handleTitleClick(card){
+    console.log("CARD: ",card);
+  }
 
   return cards.length == 0 ? (
     <Box
@@ -241,7 +233,7 @@ export default function Album({ props }) {
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {" "}
-                      <span>{card.title}</span>
+                      <span onClick={()=>{handleTitleClick(card)}}>{card.title}</span>
                     </Typography>
 
                     {card.type === "auction" ? (
