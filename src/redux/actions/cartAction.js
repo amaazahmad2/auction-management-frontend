@@ -7,8 +7,9 @@ export function addToCartAction(productObj){
         payload:{
             uuid: productObj.uuid,
             product_name: productObj.name,
-            quantity_ordered: productObj.quantity,
+            quantity_ordered: productObj.quantityOrdered,
             price: productObj.price, 
+            quantity_in_stock:productObj.quantityInStock
         }
     }
 }

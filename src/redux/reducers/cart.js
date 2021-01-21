@@ -35,6 +35,7 @@ export default function cart(state = initialState, action) {
                 product_name: action.payload.product_name,
                 quantity_ordered: action.payload.quantity_ordered,
                 price: action.payload.price,
+                quantity_in_stock : action.payload.quantity_in_stock
             },
         ];
     } else if (action.type === REMOVE_FROM_CART_SUCCESS) {

@@ -47,11 +47,13 @@ const useStyles = makeStyles((theme) => ({
 
 function handleAddToCart(post) {
 
+  //console.log("POSTyyy: ",post)
   const cardObj = {
     uuid: post.product_uuid,
     name: post.title,
-    quantity: parseInt(document.getElementById("quantity").value),
+    quantityOrdered: parseInt(document.getElementById("quantity").value),
     price: post.price,
+    quantityInStock:post.stock
   };
 
   store.dispatch(addToCartAction(cardObj));
