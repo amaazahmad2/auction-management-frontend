@@ -11,37 +11,19 @@ export default class ProductDetail extends Component {
     super();
     this.state = {
       product: {
-        // "seller": "674f03dd-89ee-4997-ac1a-1d4033ba36e3",
-        //         "tags": [
-        //             "latest",
-        //             "popular"
-        //         ],
-        //         "title": "laptop",
-        //         "detail": "laptop ppp",
-        //         "price": 10.0,
-        //         "close_time": "2018-03-29T13:34:00Z",
-        //         "open_time": "2018-05-29T13:34:00Z",
-        //         "link_video": "http://google.com",
-        //         "images": [
-        //             {
-        //                 "is_featured": false,
-        //                 "image": "/media/product_images/image.jpeg"
-        //             }
-        //         ],
-        //         "status": "active",
-        //         "type": "limited",
-        //         "stock": 14,
-        //         "get_highest_bid": 0
       },
     };
 
     this.state.product = null;
-    const listRef = firebase.database().ref("products/"+props.match.params.firebaseKey);
+  }
+
+
+  componentDidMount(){
+    console.log("productDetail componentDidMount called");
+    const listRef = firebase.database().ref("products/"+this.props.match.params.firebaseKey);
     listRef.on("value", (snapshot) => {
       this.setState({ product: snapshot.val() });
     });
-
-    //console.log("PROPS OF PROD DETAIL: ",props);
   }
 
   render() {

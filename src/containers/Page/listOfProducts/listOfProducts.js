@@ -72,36 +72,32 @@ class ListOfProducts extends React.Component {
     };
     this.productsPerPage = props.productsPerpage ? this.productsPerPage : 6; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
+    
+
+  }
+
+  componentDidMount(){
     var tempList = [];
     const listRef = firebase.database().ref("products");
     listRef.on("value", (snapshot) => {
       const prods = snapshot.val();
       tempList = [];
-      console.log("snapshot: ", prods);
       for (let key in prods) {
         let obj = prods[key];
         obj.key = key;
         tempList.push(obj);
       }
-      this.setState({
-        list: tempList,
-      });
 
       this.setState({
-        pageList: this.state.list.slice(
+        pageList: tempList.slice(
           (this.state.currentPage - 1) * this.productsPerPage,
           this.productsPerPage * (1 + (this.state.currentPage - 1))
         ),
       });
-      //console.log("list: ", this.state.list);
-      //console.log("page list: ", this.state.pageList);
     });
   }
 
   handleProductClick(key, uuid) {
-    //console.log("KEY IN LOP: ",key);
-    //console.log("UUID IN LOP: ",uuid);
-    //console.log("PROPS IN LOP: ",this.props);
     let history = this.props.history;
     history.push("product-detail/" + key);
   }

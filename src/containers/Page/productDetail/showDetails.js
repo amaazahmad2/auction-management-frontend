@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function handleAddToCart(post) {
-  console.log("add to cart", post);
 
   const cardObj = {
     uuid: post.product_uuid,
@@ -57,12 +56,9 @@ function handleAddToCart(post) {
 
   store.dispatch(addToCartAction(cardObj));
 }
-function handlePlaceBid(post) {
-  console.log("place bid", post);
-}
+
 
 function handleQuantityChange(post) {
-  //console.log(post);
   let qty = parseInt(document.getElementById("quantity").value);
   if (isNaN(qty)) {
     document.getElementById("quantity").value = 0;
@@ -88,7 +84,6 @@ var bg = "";
 export default function ShowDetails({ props }) {
   const classes = useStyles();
   const post = props;
-  console.log("Post: ", post);
   const currentDate = new Date();
   const year =
     currentDate.getMonth() === 11 && currentDate.getDate() > 23
@@ -234,15 +229,6 @@ function getButton(post, label) {
     );
   } else if (label === "Latest Bid: ") {
     return (
-      // <Button
-      //   onClick={() => {
-      //     handlePlaceBid(post);
-      //   }}
-      //   variant={"contained"}
-      //   color={"primary"}
-      // >
-      //   {"Place Bid"}
-      // </Button>
       <CreateBidPopup post={post}/>
     );
   } else {

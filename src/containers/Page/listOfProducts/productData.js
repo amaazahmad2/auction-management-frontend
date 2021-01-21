@@ -92,7 +92,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getFirstLabelText(card) {
-  console.log("getFirstlabelText called");
   return card.type == "auction" ? " For Auction" : " Limited";
 }
 
@@ -100,7 +99,6 @@ function getSecondLabelText(card) {
   if (card.type == "auction") {
     //needs to be implemented through an API call?
     if (/*timeRemaining==0 */ new Date(card.open_time) > Date.now()) {
-      console.log("date greater");
       return "Bidding not started";
     } else if (
       new Date(card.open_time) <= Date.now() &&
