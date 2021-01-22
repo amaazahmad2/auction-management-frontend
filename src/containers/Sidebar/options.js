@@ -24,6 +24,10 @@ const options = [
   {
     label:"Cart Detail",
     key:"cart-detail"
+  },
+  {
+    label:"Checkout Page",
+    key:'checkout'
   }
 ];
 const getBreadcrumbOption = () => {
