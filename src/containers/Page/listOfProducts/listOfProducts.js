@@ -62,39 +62,52 @@ let dummy = [
 ];
 
 class ListOfProducts extends React.Component {
-  constructor(props, context) {
+  constructor({ myProdsList }, productsPerPage, context) {
     super();
+    this.myProducts = false;
+
+    if (myProdsList || myProdsList != null) {
+      this.myProducts = true;
+      this.myProductsArray = myProdsList;
+    }
+
     this.state = {
       list: [],
       pageList: [],
       currentPage: 1,
       productFirebaseKey: "",
     };
-    this.productsPerPage = props.productsPerpage ? this.productsPerPage : 6; //set custom default value=10 if not given in props
+    this.productsPerPage = productsPerPage
+      ? productsPerPage.productsPerPage
+      : 6; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
-    
-
   }
 
-  componentDidMount(){
-    var tempList = [];
-    const listRef = firebase.database().ref("products");
-    listRef.on("value", (snapshot) => {
-      const prods = snapshot.val();
-      tempList = [];
-      for (let key in prods) {
-        let obj = prods[key];
-        obj.key = key;
-        tempList.push(obj);
-      }
+  componentDidMount() {
+    if (this.myProducts == false) {
+      var tempList = [];
+      const listRef = firebase.database().ref("products");
+      listRef.on("value", (snapshot) => {
+        const prods = snapshot.val();
+        tempList = [];
+        for (let key in prods) {
+          let obj = prods[key];
+          obj.key = key;
+          tempList.push(obj);
+        }
 
-      this.setState({
-        pageList: tempList.slice(
-          (this.state.currentPage - 1) * this.productsPerPage,
-          this.productsPerPage * (1 + (this.state.currentPage - 1))
-        ),
+        this.setState({
+          pageList: tempList.slice(
+            (this.state.currentPage - 1) * this.productsPerPage,
+            this.productsPerPage * (1 + (this.state.currentPage - 1))
+          ),
+        });
       });
-    });
+    } else {
+      this.setState({
+        pageList: this.myProductsArray,
+      });
+    }
   }
 
   handleProductClick(key, uuid) {
@@ -106,32 +119,40 @@ class ListOfProducts extends React.Component {
     return (
       <LayoutWrapper>
         <FullColumn>
-          <Papersheet title="List of Products">
+          <Papersheet
+            title={
+              this.myProducts === true ? "My Products" : "List of Products"
+            }
+          >
             <div className="row">
               <Album
                 cardProps={this.state.pageList}
                 handleProductClick={this.handleProductClick.bind(this)}
               />
-              <Pagination
-                count={Math.ceil(this.state.list.length / this.productsPerPage)}
-                variant="outlined"
-                color="primary"
-                onChange={async (event, value) => {
-                  this.setState({
-                    pageList: [],
-                  });
+              {this.myProducts ? null : (
+                <Pagination
+                  count={Math.ceil(
+                    this.state.list.length / this.productsPerPage
+                  )}
+                  variant="outlined"
+                  color="primary"
+                  onChange={async (event, value) => {
+                    this.setState({
+                      pageList: [],
+                    });
 
-                  this.setState({
-                    pageList: this.state.list.slice(
-                      (value - 1) * this.productsPerPage,
-                      this.productsPerPage * (1 + (value - 1))
-                    ),
-                  });
-                  this.setState({
-                    currentPage: value,
-                  });
-                }}
-              />
+                    this.setState({
+                      pageList: this.state.list.slice(
+                        (value - 1) * this.productsPerPage,
+                        this.productsPerPage * (1 + (value - 1))
+                      ),
+                    });
+                    this.setState({
+                      currentPage: value,
+                    });
+                  }}
+                />
+              )}
             </div>
           </Papersheet>
         </FullColumn>
