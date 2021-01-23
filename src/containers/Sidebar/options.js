@@ -28,6 +28,10 @@ const options = [
   {
     label:"Checkout Page",
     key:'checkout'
+  },
+  {
+    label:"My Products",
+    key:"my-products"
   }
 ];
 const getBreadcrumbOption = () => {

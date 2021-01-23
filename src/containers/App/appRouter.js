@@ -30,6 +30,10 @@ const routes = [
   {
     path:'checkout',
     component:lazy(()=>import('../Page/checkout/checkout'))
+  },
+  {
+    path:"my-products",
+    //component:lazy(()=>import('../Page/myProducts/myProducts'))
   }
 
 

@@ -118,7 +118,14 @@ export default function SellerPopupModal() {
 
 
     const handleSubmit = async (event) => {
-        
+        if(!phoneNumber || !homeAddress || !city || !bank || !bankAccountNumber || !bankAccountTitle){
+            setAlertMessage("Incomplete information provided");
+            setAlertOpen(true);
+            setAlertSeverity("error");
+            return;
+        }
+
+
         const sellerObj={
             phone_number: phoneNumber,
             home_address: homeAddress,
@@ -284,7 +291,7 @@ export default function SellerPopupModal() {
                     <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleSubmit} color="primary">
+                    <Button type="submit" onClick={handleSubmit} color="primary">
                         Submit
                     </Button>
                 </DialogActions>
