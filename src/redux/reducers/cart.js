@@ -40,6 +40,6 @@ export default function cart(state = initialState, action) {
         ];
     } else if (action.type === REMOVE_FROM_CART_SUCCESS) {
     } else {
-        return [...state];
+        return state;
     }
 }

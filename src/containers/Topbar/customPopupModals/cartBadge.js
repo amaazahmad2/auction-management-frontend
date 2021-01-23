@@ -6,15 +6,21 @@ import { Effect } from "react-notification-badge";
 import './cartBadge.css';
 import {store} from './../../../redux/store'
 import {useSelector} from 'react-redux';
+import { useHistory } from "react-router";
 
 export default function CartBadge() {
 
     const itemCount = useSelector(state=>state.cart.length)
 
+    let history = useHistory();
+    function handleCartClick(){
+        history.push('cart-detail')
+    }
+
     return (
         <div>
             <NotificationBadge className="cartBadge" count={itemCount} effect={Effect.SCALE} />
-            <Icon>
+            <Icon onClick={handleCartClick}>
                 <img
                     style={{height:'inherit', width:'inherit'}}
                     src={cartIcon}

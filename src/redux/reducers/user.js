@@ -43,7 +43,8 @@ export default function user(state = initialState, action) {
             name: null,
             birthday: null,
             gender: null,
-            is_seller:null
+            is_seller:null,
+            coins:null
         };
     }
     return state;

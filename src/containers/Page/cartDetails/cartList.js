@@ -73,23 +73,23 @@ const useStyles = makeStyles((theme) => ({
 export default function Orders() {
   const classes = useStyles();
   const cart = store.getState().cart;
-  console.log("cart: ", cart);
-  if (cart.length === 0) {
-    cart.push({
-      price: 100,
-      product_name: "tesing9000",
-      quantity_ordered: 1,
-      quantity_in_stock: 69,
-      uuid: "626ed2a9-009f-495d-a6be-f1c98a24a8f4",
-    });
-    cart.push({
-      price: 120,
-      product_name: "tesing9100",
-      quantity_ordered: 6,
-      quantity_in_stock: 420,
-      uuid: "69696ed2a9-009f-495d-a6be-f1c98a24a8f4",
-    });
-  }
+  //console.log("cart: ", cart);
+  // if (cart.length === 0) {
+  //   cart.push({
+  //     price: 100,
+  //     product_name: "tesing9000",
+  //     quantity_ordered: 1,
+  //     quantity_in_stock: 69,
+  //     uuid: "626ed2a9-009f-495d-a6be-f1c98a24a8f4",
+  //   });
+  //   cart.push({
+  //     price: 120,
+  //     product_name: "tesing9100",
+  //     quantity_ordered: 6,
+  //     quantity_in_stock: 420,
+  //     uuid: "69696ed2a9-009f-495d-a6be-f1c98a24a8f4",
+  //   });
+  // }
 
   function handleQuantityChange(row) {
     let qty = parseInt(document.getElementById("quantity" + row.uuid).value);
@@ -103,7 +103,7 @@ export default function Orders() {
         row.quantity_in_stock;
     }
     row.quantity_ordered = qty;
-    console.log("quantity ordered: ", row.quantity_ordered);
+    //console.log("quantity ordered: ", row.quantity_ordered);
     document.getElementById("totalAmount" + row.uuid).value = qty * row.price;
     //save the quanitty ordwered in the cart
   }

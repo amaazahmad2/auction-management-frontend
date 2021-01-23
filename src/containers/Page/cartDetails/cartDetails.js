@@ -31,7 +31,7 @@ class CartDetails extends React.Component {
     listRef.on("value", (snapshot) => {
       const prods = snapshot.val();
       tempList = [];
-      console.log("snapshot: ", prods);
+      //console.log("snapshot: ", prods);
       for (let key in prods) {
         let obj = prods[key];
         obj.key = key;
@@ -40,7 +40,7 @@ class CartDetails extends React.Component {
       this.setState({
         list: tempList,
       });
-      console.log("List:", this.state.list);
+      //console.log("List:", this.state.list);
     });
   }
 
