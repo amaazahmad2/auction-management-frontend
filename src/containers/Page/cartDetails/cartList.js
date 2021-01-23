@@ -11,6 +11,9 @@ import { CardText } from "reactstrap";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
+import Button from "@material-ui/core/Button";
+import { Box } from "@material-ui/core";
+
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
   return { id, date, name, shipTo, paymentMethod, amount };
@@ -157,6 +160,11 @@ export default function Orders() {
           ))}
         </TableBody>
       </Table>
+      <Box display="flex" flexDirection="row-reverse" marginTop="10px">
+        <Button variant="contained" color="primary">
+          Checkout Cart
+        </Button>
+      </Box>
     </React.Fragment>
   );
 }
