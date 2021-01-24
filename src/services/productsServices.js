@@ -18,7 +18,6 @@ export async function getListOfProducts(pageNum) {
       return error;
     });
 
-  //console.log(resp);
   return resp;
 }
 

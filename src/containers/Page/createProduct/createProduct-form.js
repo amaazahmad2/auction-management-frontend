@@ -7,7 +7,6 @@ import {
   FormHelperText,
   FormControlLabel,
 } from "../../../components/uielements/form";
-import Input from "@material-ui/core/Input";
 import validationSchema from "./validate";
 import Button from "../../../components/uielements/button";
 import TextField from "../../../components/uielements/textfield";
@@ -16,8 +15,6 @@ import Checkbox from "../../../components/uielements/checkbox";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import DateAndTimePickers from "./dateAndTimePicker";
-import { Alert } from "@material-ui/lab";
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -64,20 +61,6 @@ const RenderToggle = ({ id, error, errorText, label, value, onChange }) => (
     </FormControl>
   </div>
 );
-
-const handleChangeMulti = (event) => {
-  // const { options } = event.target;
-  // const value = [];
-  // for (let i = 0, l = options.length; i < l; i += 1) {
-  //   if (options[i].selected) {
-  //     value.push(options[i].value);
-  //   }
-  // // this.setState(tags:value);
-  // console.log(value);
-
-  console.log(event.target.value);
-  //this.setState({values.tags:[1,2,3]});
-};
 
 const RenderRadioGroup = ({ onChange, ...props }) => {
   return (
@@ -232,7 +215,6 @@ const MyInnerForm = ({
               error={errors.open_Time && touched.open_Time}
               errorText={errors.open_Time}
             />
-            {/* <DateAndTimePickers/> */}
           </div>
           <div className="mainFormsInfoField">
             <RenderDateTimeField

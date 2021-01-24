@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Highlight, Snippet } from 'react-instantsearch/dom';
 import Fab from '@material-ui/core/Fab';
-
-// import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
   GridListViewWrapper,
-  Button,
-  CartIcon,
   Rate,
 } from '../../../components/algolia/algoliaComponent.style';
-// import Button from '@material-ui/core/Button';
 import Countdown from '../products/countdown'
-// const { addToCart, changeViewTopbarCart } = ecommerceActions;
 
 class Hit extends Component {
   constructor(props) {

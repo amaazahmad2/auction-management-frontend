@@ -1,5 +1,5 @@
-import { Button } from '@material-ui/core';
-import React, { useState } from 'react';
+
+import React from 'react';
 import MultiImageInput from 'react-multiple-image-input';
 import LayoutWrapper from '../../../components/utility/layoutWrapper';
 
@@ -9,7 +9,6 @@ function ImageCrop({images, setImages}) {
     aspect: 4 / 3,
     width: '100'
   };
-//   const [images, setImages] = useState({});
 
   return (
     <LayoutWrapper>

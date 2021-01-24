@@ -11,15 +11,12 @@ import TextField from "../../../components/uielements/textfield";
 import IntlMessages from "../../../components/utility/intlMessages";
 import Scrollbars from "../../../components/utility/customScrollBar";
 import SignInStyleWrapper from "./signin.style";
-import Auth0 from "../../../helpers/auth0";
-import Firebase from "../../../helpers/firebase";
-import FirebaseLogin from "../../../components/firebase";
 import {
     loginUserService,
     googleLoginService,
     facebookLoginService
 } from "../../../services/loginServices";
-import { store, history } from "./../../../redux/store.js";
+import { store } from "./../../../redux/store.js";
 import { loginUserAction } from "../../../redux/actions/userAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
@@ -29,6 +26,7 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 const { login } = authAction;
 const googleClientID =
     "61733361845-j03c3vnkmcutgehstvfhkpa842tamaej.apps.googleusercontent.com";
+const facebookAppID="448728193170790";
 class SignIn extends Component {
     state = {
         // redirectToReferrer: false,
@@ -58,7 +56,6 @@ class SignIn extends Component {
                 alertOpen: true,
             });
             localStorage.setItem("token", loginServiceResponse.data.data.token);
-            // console.log( loginServiceResponse);
             store.dispatch(loginUserAction(loginServiceResponse.data.data));
             this.props.history.push("/dashboard");
         } else if (loginServiceResponse.status === 401) {
@@ -82,10 +79,9 @@ class SignIn extends Component {
 
     handleGoogleLogin = async (response) => {
         if (!response.error) {
-            //console.log(response);
+            
 
             const loginServiceResponse = await googleLoginService(response.profileObj.givenName, response.profileObj.familyName, response.profileObj.email, response.googleId);
-            //console.log("STATUS: ",loginServiceResponse.status);
 
             if(loginServiceResponse.status === 200){    
                 this.setState({
@@ -120,11 +116,10 @@ class SignIn extends Component {
 
     handleFacebookLogin = async (response) => {
         if (!response.error) {
-            console.log("FACEBOOK API RESPINSE: ",response);
 
             //make the API call
             const loginServiceResponse = await facebookLoginService(response.first_name, response.last_name, response.email, response.id);
-            console.log("APNI API FACEBOOK RESPONSE: ",loginServiceResponse);
+            
 
             if(loginServiceResponse.status === 200){    
                 this.setState({
@@ -257,7 +252,7 @@ class SignIn extends Component {
                         <div className="mateLoginOtherBtn">
                             <div className="mateLoginOtherBtnWrap">
                                 <FacebookLogin
-                                    appId="448728193170790"
+                                    appId={facebookAppID}
                                     //autoLoad
                                     fields="first_name,last_name,email"
                                     // scope="public_profile,user_friends,user_actions.books"

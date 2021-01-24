@@ -1,10 +1,6 @@
 import { getDefaultPath } from "../../helpers/urlSync";
 
 const options = [
-  // {
-  //   label: 'sidebar.dashboard',
-  //   key: 'dashboard',
-  // },
   {
     label: "sidebar.blankPage",
     key: "blank-page",

@@ -1,13 +1,6 @@
-import {axios} from "axios";
-import { getError, removeError } from "./errorAction";
-import{API_URL} from "../../services/config"
 
+import { LOGIN_SUCCESS,LOGOUT_SUCCESS } from './types/auth';
 
-
-import { LOGIN_SUCCESS, LOGIN_FAIL, GET_ERROR, LOGOUT_SUCCESS } from './types/auth';
-
-
-const apiEndpoint = API_URL + "/users/login/";
 
 export function loginUserAction(userObj){
     return{

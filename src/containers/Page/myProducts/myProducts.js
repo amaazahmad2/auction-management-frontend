@@ -1,12 +1,8 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import Papersheet from "../../../components/utility/papersheet";
-import Card from "@material-ui/core/Card";
 import LayoutWrapper from "../../../components/utility/layoutWrapper";
-import { Column, FullColumn } from "../../../components/utility/rowColumn";
-import { useHistory } from "react-router";
+import { FullColumn } from "../../../components/utility/rowColumn";
 import DisplayProducts from "../listOfProducts/displayProducts";
-//import Album from "../listOfProducts/productData";
 import { getProductsBySeller } from "../../../services/productsServices";
 import { Pagination } from "@material-ui/lab";
 import { CircularProgress } from "@material-ui/core";
@@ -77,14 +73,12 @@ class MyProducts extends React.Component {
                   list: [],
                 });
                 await this.setList(value);
-                console.log("newList: ", this.state.list);
               }}
             />
           </Papersheet>
         </FullColumn>
       </LayoutWrapper>
     );
-    // return <ListOfProducts myProdsList={dummy}></ListOfProducts>;
   }
 }
 

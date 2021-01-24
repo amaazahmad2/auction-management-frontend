@@ -1,4 +1,3 @@
-import { GET_ERROR, REMOVE_ERROR } from "../actions/types/error";
 
 const initialState = {
   msg: {},

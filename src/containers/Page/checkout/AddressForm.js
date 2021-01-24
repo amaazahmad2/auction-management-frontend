@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import { addressDetails, paymentDetails } from "./checkout";
+import { addressDetails} from "./checkout";
 
 export default function AddressForm() {
   return (
@@ -20,8 +20,6 @@ export default function AddressForm() {
             name="firstName"
             label="First name"
             fullWidth
-            // autoComplete="given-name"
-            // value={addressDetails.firstName}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

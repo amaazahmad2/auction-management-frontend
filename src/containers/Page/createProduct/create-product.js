@@ -1,16 +1,10 @@
-import { Button } from '@material-ui/core';
-import axios from "axios";
-import { API_URL } from "../../../services/config"
 import Papersheet from "../../../components/utility/papersheet";
 import React, { useState } from 'react';
-import MultiImageInput from 'react-multiple-image-input';
 import LayoutWrapper from '../../../components/utility/layoutWrapper';
 import ImageCrop from './image-croper'
 import { FormsComponentWrapper, FormsMainWrapper } from './product.style';
 import { FullColumn } from '../../../components/utility/rowColumn';
-import MyInnerForm from './createProduct-form'
-import { set } from 'immutable';
-import DateAndTimePickers from './dateAndTimePicker';
+import MyInnerForm from './createProduct-form';
 import { createProductService } from "../../../services/productsServices";
 import MuiAlert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -30,7 +24,6 @@ function ProductCreate() {
     
     const setTagsSelect = (e) => {
         setTags(e)
-        // console.log(tags);
     }
 
     const setProductType = (event) => {

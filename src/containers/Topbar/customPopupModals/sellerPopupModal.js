@@ -18,9 +18,7 @@ import {becomeSellerService} from './../../../services/sellerServices';
 
 
 export default function SellerPopupModal() {
-    // const listOfCountries = csc.getAllCountries();
-    // const KoreaObj = csc.getCountryByCode('KR');
-
+    
     const [open, setOpen] = React.useState(false);
 
 
@@ -77,7 +75,6 @@ export default function SellerPopupModal() {
     };
 
     const handleBankChange = (event) => {
-        console.log(event.target.value);
         setBank(event.target.value);
     };
 
@@ -134,9 +131,7 @@ export default function SellerPopupModal() {
             account_title: bankAccountTitle,
             account_number: bankAccountNumber
         }
-        console.log("SELLER OBJ IN MODAL: ", sellerObj);
         const response = await becomeSellerService(sellerObj);
-        console.log("RESPONSE : ", response);
 
         if(response.status===200)
         {   

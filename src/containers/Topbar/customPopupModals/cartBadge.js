@@ -4,11 +4,8 @@ import cartIcon from "./../../../images/cart_icon.png";
 import NotificationBadge from "react-notification-badge";
 import { Effect } from "react-notification-badge";
 import './cartBadge.css';
-import {store} from './../../../redux/store'
 import {useSelector} from 'react-redux';
 import { useHistory } from "react-router";
-import { push } from 'connected-react-router';
-import { Redirect } from 'react-router-dom';
 
 export default function CartBadge() {
 
@@ -17,9 +14,7 @@ export default function CartBadge() {
     let history = useHistory();
     function handleCartClick(){
         history.replace('/dashboard/cart-detail')
-        // return(
-        //     <Redirect push to="/cart-details" />
-        // )
+        
     }
 
     return (

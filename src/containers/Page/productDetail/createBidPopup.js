@@ -5,15 +5,9 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import currencyIcon from "./../../../images/won-currency-symbol.png";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
-import {store} from './../../../redux/store';
 import {placeBidService} from './../../../services/bidServices'
 
 export default function CreateBidPopup(props) {
@@ -24,7 +18,6 @@ export default function CreateBidPopup(props) {
 
     const handleClickOpen = () => {
         setOpen(true);
-        //console.log(props.post);
     };
 
     const handleClose = () => {
@@ -32,10 +25,7 @@ export default function CreateBidPopup(props) {
     };
 
     async function handlePlaceBid(post) {
-        //console.log("PLACE BID CLICKED");
         let coinsInNewBid = parseFloat(document.getElementById("coins").value);
-        //console.log("coins: ",coins);
-        //console.log("coins in profile: ",store.getState().user.coins);
 
         if(coinsInNewBid <= post.get_highest_bid){
             setAlertMessage("Your bid is lower than the highest bid!");
@@ -50,9 +40,7 @@ export default function CreateBidPopup(props) {
             return;
         }
         else{
-            //console.log("POST: ",post);
             let response = await placeBidService(post.product_uuid, coinsInNewBid);
-            console.log("RESPONSE: ",response);
 
             if(response.data.status === "failure"){
                 setAlertMessage("Your bid is lower than the highest bid!");

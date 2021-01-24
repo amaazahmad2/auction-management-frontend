@@ -4,8 +4,7 @@ import{API_URL} from "../../config"
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-} from "../actions/types/auth";
-console.log(API_URL.concat("/users/signup/"));
+} from "./types/auth";
 export const signUp = ({
     name,
     email,
@@ -25,7 +24,6 @@ export const signUp = ({
     axios
       .post(API_URL.concat("/users/signup/"), body, config)
       .then((response) =>{
-          console.log(response);
           if(response.status === 201)
                 dispatch({ type: REGISTER_SUCCESS, payload: response.data });
           if(response.status===200)
@@ -34,7 +32,6 @@ export const signUp = ({
           }
       })
       .catch((error) => {
-          console.log(error);
         dispatch(getError(error.response.data, error.response.status));
         dispatch({ type: REGISTER_FAIL });
       });

@@ -4,11 +4,9 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
 import { LinearProgress } from "@material-ui/core";
 
 import InfoIcon from "@material-ui/icons/Info";
-//import tileData from './tileData';
 
 var tileData = [
   {
@@ -70,23 +68,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 export default function ImageGrid(images) {
   const classes = useStyles();
   console.log("images: ", images);

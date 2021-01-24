@@ -3,20 +3,11 @@ import {
     CLEAR_CART,
     REMOVE_FROM_CART_SUCCESS,
 } from "./../actions/types/cart";
-import { store } from "./../store";
-
-// const initialState={
-//     uuid: null,
-//             product_name: null,
-//             quantity_ordered:null,
-//             price: null
-// }
 
 const initialState = [];
 
 export default function cart(state = initialState, action) {
     if (action.type === ADD_TO_CART_SUCCESS) {
-        //console.log(state.cart)
         if (state.length != 0) {
             const newState = [...state];
 
@@ -40,14 +31,7 @@ export default function cart(state = initialState, action) {
             },
         ];
     } else if (action.type === REMOVE_FROM_CART_SUCCESS) {
-        //console.log("REMOVE FROM CART ACTION");
         let newState;
-        // for (let i = 0; i < state.length; i++) {
-        //     if (action.payload.product_removed_uuid !== state[i].uuid) {
-        //         newState[i]=state[i];
-        //         return newState;
-        //     }
-        // }
         newState = state.filter((product) => {
             if (product.uuid != action.payload.product_removed_uuid)
                 return product;
@@ -55,7 +39,6 @@ export default function cart(state = initialState, action) {
         return newState;
     }
     else if(action.type === CLEAR_CART){
-        //console.log("CLEAR CART REDUCER");
         let newState=[]
         return newState;
     } 

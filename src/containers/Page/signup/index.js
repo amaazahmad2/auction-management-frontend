@@ -1,45 +1,18 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import { connect } from "react-redux";
 import signinImg from "../../../images/signin.svg";
-// import fbBtnSvg from "../../../images/facebook-app-symbol.svg";
-// import gpBtnSvg from "../../../images/google-plus.svg";
-// import authBtnSvg from "../../../images/auth0.svg";
 import TextField from "../../../components/uielements/textfield";
 import Scrollbars from "../../../components/utility/customScrollBar";
 import Button from "../../../components/uielements/button";
 import authAction from "../../../redux/auth/actions";
-// import IntlMessages from "../../../components/utility/intlMessages";
 import SignUpStyleWrapper from "./signup.style";
-// import Auth0 from "../../../helpers/auth0/index";
-// import Firebase from "../../../helpers/firebase";
-// import FirebaseLogin from "../../../components/firebase";
-// import { Checkbox } from "./signup.style";
 import { API_URL } from "./../../../services/config";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 
-// import PropTypes from "prop-types";
-// import { signUp } from "../../../redux/actions/singnUpAction";
-
-const { login } = authAction;
-
 class SignUp extends Component {
-    // componentWillReceiveProps(nextProps) {
-    //   if (
-    //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
-    //     nextProps.isLoggedIn === true
-    //   ) {
-    //     this.setState({ redirectToReferrer: true });
-    //   }
-    // }
-    // handleLogin = (e) => {
-    //   const { login } = this.props;
-    //   login();
-    //   this.props.history.push('/dashboard');
-    // };
-
+   
     handleSignUp = () => {
         const user = {
             name: this.state.name,
@@ -57,7 +30,6 @@ class SignUp extends Component {
             },
         };
         const body = JSON.stringify(user);
-        console.log(API_URL.concat("/users/signup/"));
         axios
             .post(API_URL.concat("/users/signup/"), body, config)
             .then((response) => {
@@ -72,7 +44,7 @@ class SignUp extends Component {
                 this.setState({ open: true });
             })
             .catch((error) => {
-                console.log(error);
+                alert("Error signing up!")
             });
     };
 
@@ -147,13 +119,7 @@ class SignUp extends Component {
                         </Snackbar>
                     </div>
                     <Scrollbars style={{ height: "100%" }}>
-                        {/* <div className="mateSignInPageGreet">
-              <h1>Its Free, Join Us</h1>
-              <p>
-                Welcome to Mate Admin, Please SignUp with your personal account
-                information.
-              </p>
-            </div> */}
+                        
 
                         <div className="mateSignInPageForm">
                             <div className="mateInputWrapper">
@@ -198,15 +164,7 @@ class SignUp extends Component {
                                 />
                             </div>
                             <div className="mateInputWrapper">
-                                {/* <TextField
-                  label="Gender"
-                  placeholder="Gender"
-                  name='gender'
-                  onChange={event => this.onChange(event)}
-                  margin="normal"
-                  type = 'select'
-                  required
-                /> */}
+                                
                                 <div margin="normal" label="Gender" style={{marginTop:"2rem", color:"rgb(118, 118, 118)"}} required>Gender: <br/>
                                     <input
                                       label="Gender"
@@ -262,12 +220,7 @@ class SignUp extends Component {
                             </div>
                         </div>
                         <div className="mateAgreement">
-                            {/* <div className="mateLoginSubmitCheck">
-                <Checkbox color="primary" className="mateTermsCheck" />
-                <span className="mateTermsText">
-                  <IntlMessages id="page.signUpTermsConditions" />
-                </span>
-              </div> */}
+                            
                             <div className="mateLoginSubmit">
                                 <Button
                                     type="button"
@@ -277,82 +230,7 @@ class SignUp extends Component {
                                 </Button>
                             </div>
                         </div>
-                        {/* <div className="mateLoginSubmitText">
-                            <span>or Sign Up with </span>
-                        </div>
-                        <div className="mateLoginOtherBtn">
-                            <div className="mateLoginOtherBtnWrap">
-                                <Button
-                                    // onClick={this.handleLogin}
-                                    type="button"
-                                    className="btnFacebook"
-                                >
-                                    <div className="mateLoginOtherIcon">
-                                        <img
-                                            src={fbBtnSvg}
-                                            alt="facebook Btn"
-                                        />
-                                    </div>
-                                    <IntlMessages id="page.signUpFacebook" />
-                                </Button>
-                            </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                <Button
-                                    onClick={this.handleLogin}
-                                    type="button"
-                                    className="btnGooglePlus"
-                                >
-                                    <div className="mateLoginOtherIcon">
-                                        <img
-                                            src={gpBtnSvg}
-                                            alt="Google Plus Btn"
-                                        />
-                                    </div>
-                                    <IntlMessages id="page.signUpGooglePlus" />
-                                </Button>
-                            </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                {Auth0.isValid ? (
-                                    <Button
-                                        type="button"
-                                        className="btnAuthZero"
-                                        onClick={() => {
-                                            Auth0.login(this.handleLogin);
-                                        }}
-                                    >
-                                        <div className="mateLoginOtherIcon">
-                                            <img
-                                                src={authBtnSvg}
-                                                alt="Authentication Btn"
-                                            />
-                                        </div>
-                                        <IntlMessages id="page.signUpAuth0" />
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        type="button"
-                                        className="btnAuthZero"
-                                        onClick={this.handleLogin}
-                                    >
-                                        <div className="mateLoginOtherIcon">
-                                            <img
-                                                src={authBtnSvg}
-                                                alt="Authentication Btn"
-                                            />
-                                        </div>
-                                        <IntlMessages id="page.signUpAuth0" />
-                                    </Button>
-                                )}
-                            </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                {Firebase.isValid && (
-                                    <FirebaseLogin
-                                        signup={true}
-                                        login={this.handleLogin}
-                                    />
-                                )}
-                            </div>
-                        </div> */}
+                        
                     </Scrollbars>
                 </div>
             </SignUpStyleWrapper>
@@ -360,9 +238,5 @@ class SignUp extends Component {
     }
 }
 
-// const mapStateToProps = (state) => ({
-//   // isAuthenticated: state.auth.isAuthenticated,
-//   // error: state.error,
-// });
 
 export default SignUp;

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Link from "@material-ui/core/Link";
 import ImageGrid from "./imageGrid";
-import { CircularProgress, LinearProgress } from "@material-ui/core";
+import { CircularProgress} from "@material-ui/core";
 import Countdown from "../listOfProducts/countdown";
 import { CircularProgressbar } from "react-circular-progressbar";
 import Button from "@material-ui/core/Button";
@@ -22,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.grey[800],
     color: theme.palette.common.white,
     marginBottom: theme.spacing(4),
-    // backgroundImage: "url(https://source.unsplash.com/random)",
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
@@ -46,8 +43,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function handleAddToCart(post) {
-
-  //console.log("POSTyyy: ",post)
   const cardObj = {
     uuid: post.product_uuid,
     name: post.title,
@@ -80,7 +75,7 @@ const setBgImg = (p) => {
 
     return "";
   }
-}; //"https://cqgplus.files.wordpress.com/2016/08/gargantua1.png";
+}; 
 var bg = "";
 
 export default function ShowDetails({ props }) {
@@ -170,13 +165,11 @@ const getRemainingProductDetails = (post) => {
     stock: post.type === "auction" ? "" : post.stock > 0 ? post.stock : "",
     tagsLabel: "Tags: ",
     tags: post.tags.toString(),
-    // seller: post.seller,
   };
   return (
     <Box container>
       {returnGrid(post, productData.priceLabel, productData.price)}
       {returnGrid(post, productData.stockLabel, productData.stock)}
-      {/* {returnGrid(post, "Seller: ", productData.seller)} */}
     </Box>
   );
 };

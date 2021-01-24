@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -7,7 +6,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { store } from "../../../redux/store";
-import { CardText } from "reactstrap";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
@@ -17,58 +15,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { addToCartAction, removeFromCartAction, updateCartAction } from "../../../redux/actions/cartAction";
 import { useHistory } from 'react-router';
 
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-    return { id, date, name, shipTo, paymentMethod, amount };
-}
 
-/*<TextField
-          style={{ marginBottom: "15px" }}
-          size="small"
-          label="Quantity"
-          defaultValue={1}
-          id="quantity"
-          onChange={() => {
-            handleQuantityChange(row.quantity_in_stock);
-          }}
-          type="number"
-        />
-        
-        
-        function handleQuantityChange(quantity_in_stock) {
-  let qty = parseInt(document.getElementById("quantity").value);
-  if (isNaN(qty)) {
-    document.getElementById("quantity").value = 0;
-  } else if (qty < 1) document.getElementById("quantity").value = 0;
-  else if (qty >= quantity_in_stock) {
-    document.getElementById("quantity").value = quantity_in_stock;
-  }
-}
-        */
 
-// const rows = [
-//   createData(
-//     0,
-//     "Elvis Presley ojfldsk jfldks jfiidjfsk jfoijf oidjfioidsj flkdaj foijsda fjdisj foiasjfoidsj fkls jf fjewe a  ",
-//     "Tupelo, MS",
-//     "VISA ⠀•••• 3719",
-//     312.44
-//   ),
-//   createData(1, "Paul McCartney", "London, UK", "VISA ⠀•••• 2574", 866.99),
-//   createData(2, "Tom Scholz", "Boston, MA", "MC ⠀•••• 1253", 100.81),
-//   createData(3, "Michael Jackson", "Gary, IN", "AMEX ⠀•••• 2000", 654.39),
-//   createData(
-//     4,
-//     "Bruce Springsteen",
-//     "Long Branch, NJ",
-//     "VISA ⠀•••• 5919",
-//     212.79
-//   ),
-// ];
 
-function preventDefault(event) {
-    event.preventDefault();
-}
 
 const useStyles = makeStyles((theme) => ({
     seeMore: {
@@ -85,19 +34,8 @@ export default function Orders() {
     const [cart,setCart] = React.useState(cartFromRedux);
     let history = useHistory();
     
-    // React.useEffect(() => {
-    //   //window.addEventListener('mousemove', () => {});
-    
-    //   // returned function will be called on component unmount 
-    //   return () => {
-    //     if(quantityChanged===true){
-    //       store.dispatch(updateCartAction());
-    //     }
-    //   }
-    // }, [])
 
     function handleQuantityChange(row) {
-      console.log("ROW: ",row);
         let qty = parseInt(
             document.getElementById("quantity" + row.uuid).value
         );
@@ -111,7 +49,6 @@ export default function Orders() {
                 row.quantity_in_stock;
         }
         row.quantity_ordered = qty;
-        //console.log("quantity ordered: ", row.quantity_ordered);
         document.getElementById("totalAmount" + row.uuid).value =
             qty * row.price;
         //save the quanitty ordwered in the cart
@@ -126,7 +63,6 @@ export default function Orders() {
     }
 
     function handleCheckoutButtonClick(){
-      //console.log("HISTORY: ",history);
       history.push('checkout');
     }
 
