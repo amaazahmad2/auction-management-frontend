@@ -7,57 +7,40 @@ import { Column, FullColumn } from "../../../components/utility/rowColumn";
 import { useHistory } from "react-router";
 import DisplayProducts from "../listOfProducts/displayProducts";
 //import Album from "../listOfProducts/productData";
-
-let dummy = [
-  {
-    name: "Quarks",
-    type: "limited",
-    image:
-      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
-    price: 6,
-    rating: 3,
-    quantityInStock: 0,
-    //need to get from API call
-    timeLeft: 10,
-  },
-  {
-    name: "Legons",
-    type: "auction",
-    image:
-      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
-    price: 4,
-    rating: 3,
-    quantityInStock: 1,
-    currentBid: 1200,
-    //need to get from API call
-    timeLeft: 0,
-  },
-  {
-    name: "Neutrinos",
-    type: "auction",
-    image:
-      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
-    price: 20,
-    rating: 4,
-    quantityInStock: 1,
-    currentBid: 6900,
-    //need to get from API call
-    timeLeft: 10,
-  },
-  {
-    name: "Blackhole",
-    type: "limited",
-    image:
-      "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg",
-    price: 9,
-    rating: 5,
-    quantityInStock: 42,
-    //need to get from API call
-    timeLeft: 10,
-  },
-];
+import { getProductsBySeller } from "../../../services/productsServices";
+import { Pagination } from "@material-ui/lab";
+import { CircularProgress } from "@material-ui/core";
+import Box from "@material-ui/core/Box";
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 class MyProducts extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      list: [],
+      currentPage: 1,
+      responseStatus: false,
+      totalPages: 0,
+    };
+  }
+
+  async setList(pageNum) {
+    const response = await getProductsBySeller(pageNum);
+    if (response.data.status === "success") {
+      this.setState({
+        responseStatus: true,
+        list: response.data.data.products,
+        totalPages: response.data.data.pages,
+        currentPage: pageNum,
+      });
+    }
+  }
+
+  async componentDidMount() {
+    await this.setList(1);
+  }
+
   handleProductClick(key, uuid) {
     let history = this.props.history;
     history.push("product-detail/" + key);
@@ -67,13 +50,37 @@ class MyProducts extends React.Component {
       <LayoutWrapper>
         <FullColumn>
           <Papersheet title={"My Products"}>
-            <div className="row">
-              <DisplayProducts
-                cardProps={dummy}
-                handleProductClick={this.handleProductClick.bind(this)}
-              />
-            </div>
+            {this.state.list.length === 0 ? (
+              <Box display="flex" justifyContent="center">
+                <CircularProgress></CircularProgress>
+              </Box>
+            ) : this.state.responseStatus === true ? (
+              <div className="row">
+                <DisplayProducts
+                  cardProps={this.state.list}
+                  handleProductClick={this.handleProductClick.bind(this)}
+                />
+              </div>
+            ) : (
+              <Alert severity="error">
+                <AlertTitle>Error</AlertTitle>
+                Oops! Somebody messed up! —{" "}
+                <strong>We'll fire the dev whose fault this is ASAP</strong>
+              </Alert>
+            )}
           </Papersheet>
+          <Pagination
+            count={this.state.totalPages}
+            variant="outlined"
+            color="primary"
+            onChange={async (event, value) => {
+              this.setState({
+                list: [],
+              });
+              await this.setList(value);
+              console.log("newList: ", this.state.list);
+            }}
+          />
         </FullColumn>
       </LayoutWrapper>
     );

@@ -62,8 +62,8 @@ let dummy = [
 ];
 
 class ListOfProducts extends React.Component {
-  constructor({ productsPerPage }, context) {
-    super();
+  constructor(props, context) {
+    super(props);
 
     this.state = {
       list: [],
@@ -71,7 +71,7 @@ class ListOfProducts extends React.Component {
       currentPage: 1,
       productFirebaseKey: "",
     };
-    this.productsPerPage = productsPerPage ? productsPerPage : 6; //set custom default value=10 if not given in props
+    this.productsPerPage = props.productsPerPage ? props.productsPerPage : 6; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
   }
 
@@ -86,9 +86,6 @@ class ListOfProducts extends React.Component {
         obj.key = key;
         tempList.push(obj);
       }
-
-      console.log("productsPerPage: ", this.productsPerPage);
-      console.log("List length: ", this.state.list.length);
 
       this.setState({
         pageList: tempList.slice(
