@@ -13,6 +13,9 @@ import {
 } from './topbarDropdown.style';
 import authAction from '../../redux/auth/actions';
 import Image from '../../images/user.jpg';
+import {store} from '../../redux/store'
+import {clearCartAction} from '../../redux/actions/cartAction';
+import { logoutUserAction } from '../../redux/actions/userAction';
 
 const { logout } = authAction;
 
@@ -32,6 +35,8 @@ class TopbarUser extends Component {
   };
 
   handleLogout=()=>{
+    store.dispatch(clearCartAction());
+    store.dispatch(logoutUserAction());
     localStorage.removeItem("token");
     this.props.logout();
   }

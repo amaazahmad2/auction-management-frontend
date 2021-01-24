@@ -20,7 +20,7 @@ import {
     facebookLoginService
 } from "../../../services/loginServices";
 import { store, history } from "./../../../redux/store.js";
-import { loginUserAction } from "../../../redux/actions/loginAction";
+import { loginUserAction } from "../../../redux/actions/userAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { GoogleLogin } from "react-google-login";

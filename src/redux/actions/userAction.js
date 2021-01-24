@@ -4,7 +4,7 @@ import{API_URL} from "../../services/config"
 
 
 
-import { LOGIN_SUCCESS, LOGIN_FAIL, GET_ERROR } from './../actions/types/auth';
+import { LOGIN_SUCCESS, LOGIN_FAIL, GET_ERROR, LOGOUT_SUCCESS } from './types/auth';
 
 
 const apiEndpoint = API_URL + "/users/login/";
@@ -24,5 +24,12 @@ export function loginUserAction(userObj){
             is_seller:userObj.is_seller,
             coins: userObj.coins,
         }
+    }
+}
+
+export function logoutUserAction(){
+    return{
+        type:LOGOUT_SUCCESS,
+        payload:{}
     }
 }

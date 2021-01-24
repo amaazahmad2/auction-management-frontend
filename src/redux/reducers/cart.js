@@ -1,5 +1,6 @@
 import {
     ADD_TO_CART_SUCCESS,
+    CLEAR_CART,
     REMOVE_FROM_CART_SUCCESS,
 } from "./../actions/types/cart";
 import { store } from "./../store";
@@ -39,7 +40,7 @@ export default function cart(state = initialState, action) {
             },
         ];
     } else if (action.type === REMOVE_FROM_CART_SUCCESS) {
-        console.log("REMOVE FROM CART ACTION");
+        //console.log("REMOVE FROM CART ACTION");
         let newState;
         // for (let i = 0; i < state.length; i++) {
         //     if (action.payload.product_removed_uuid !== state[i].uuid) {
@@ -52,7 +53,13 @@ export default function cart(state = initialState, action) {
                 return product;
         });
         return newState;
-    } else {
+    }
+    else if(action.type === CLEAR_CART){
+        //console.log("CLEAR CART REDUCER");
+        let newState=[]
+        return newState;
+    } 
+    else {
         return state;
     }
 }
