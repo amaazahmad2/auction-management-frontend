@@ -1,4 +1,5 @@
-import { all, takeEvery, put } from 'redux-saga/effects';
+import { all, put } from 'redux-saga/effects';
+//import {takeEvery} from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import { clearToken, getToken } from '../../helpers/utility';
 import actions from './actions';

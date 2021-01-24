@@ -91,7 +91,7 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    if (activeStep == 0) {
+    if (activeStep === 0) {
       addressDetails.firstName = document.getElementById("firstName").value;
       addressDetails.lastName = document.getElementById("lastName").value;
       addressDetails.address1 = document.getElementById("address1").value;

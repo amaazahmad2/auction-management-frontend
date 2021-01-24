@@ -1,11 +1,13 @@
-import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import { createStore, combineReducers, applyMiddleware} from 'redux';
+//import { compose } from 'redux';
 import { createBrowserHistory } from 'history';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import reducers from './reducers';
 import rootSaga from './sagas';
-import { composeWithDevTools, devToolsEnhancer } from 'redux-devtools-extension';
+import { composeWithDevTools} from 'redux-devtools-extension';
+//import { devToolsEnhancer } from 'redux-devtools-extension';
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
  

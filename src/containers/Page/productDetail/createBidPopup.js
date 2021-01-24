@@ -72,8 +72,6 @@ export default function CreateBidPopup(props) {
         if (isNaN(coins)) {
           document.getElementById("coins").value = 0;
          }
-         // else if (coins < post.get_highest_bid) document.getElementById("coins").value = post.get_highest_bid;
-        
     }
 
     const handleAlertClose = (event) => {

@@ -51,7 +51,7 @@ function ProductCreate() {
         let imageArray = [];
 
         for (const [key, value] of Object.entries(images)) {
-            imageArray[key] = new Object();
+            imageArray[key] = {};
             imageArray[key]['image'] = value;
             if ( key === isFeatured ) {
                 imageArray[key]['is_featured'] = true;

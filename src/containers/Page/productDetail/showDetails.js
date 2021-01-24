@@ -70,22 +70,24 @@ const setBgImg = (p) => {
     if (p.images) {
       return p.images.map((i) => {
         if (i && i.is_featured) return i.image;
+        return null;
       })[0];
     }
 
     return "";
   }
+  return "";
 }; 
 var bg = "";
 
 export default function ShowDetails({ props }) {
   const classes = useStyles();
   const post = props;
-  const currentDate = new Date();
-  const year =
-    currentDate.getMonth() === 11 && currentDate.getDate() > 23
-      ? currentDate.getFullYear() + 1
-      : currentDate.getFullYear();
+  // const currentDate = new Date();
+  // const year =
+  //   currentDate.getMonth() === 11 && currentDate.getDate() > 23
+  //     ? currentDate.getFullYear() + 1
+  //     : currentDate.getFullYear();
 
   if (post) {
     bg = setBgImg(post);

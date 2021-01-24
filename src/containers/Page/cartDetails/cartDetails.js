@@ -5,9 +5,6 @@ import { FullColumn } from "../../../components/utility/rowColumn";
 import Orders from "./cartList";
 
 class CartDetails extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (

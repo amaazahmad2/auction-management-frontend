@@ -8,8 +8,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import currencyIcon from "./../../../images/won-currency-symbol.png";
 import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -20,7 +18,7 @@ export default function BuyCoinPopupModal() {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
     const [alertSeverity, setAlertSeverity] = React.useState("");
-    const [currentRate, setCurrentRate] = React.useState(100);
+    const currentRate=100;
     const [amountInWon, setAmountInWon] = React.useState(0);
     const [numberOfCoins, setNumberOfCoins] = React.useState(0);
 

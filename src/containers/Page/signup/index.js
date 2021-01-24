@@ -5,7 +5,6 @@ import signinImg from "../../../images/signin.svg";
 import TextField from "../../../components/uielements/textfield";
 import Scrollbars from "../../../components/utility/customScrollBar";
 import Button from "../../../components/uielements/button";
-import authAction from "../../../redux/auth/actions";
 import SignUpStyleWrapper from "./signup.style";
 import { API_URL } from "./../../../services/config";
 import Snackbar from "@material-ui/core/Snackbar";

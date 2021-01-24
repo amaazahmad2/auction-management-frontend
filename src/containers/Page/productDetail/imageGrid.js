@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ImageGrid(images) {
   const classes = useStyles();
-  console.log("images: ", images);
+  
   tileData = images;
 
   return images ? (
@@ -108,6 +108,7 @@ export default function ImageGrid(images) {
               </GridListTile>
             );
           }
+          return null;
         })}
       </GridList>
     </div>

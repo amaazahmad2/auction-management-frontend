@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import signinImg from "../../../images/signup.svg";
 import fbBtnSvg from "../../../images/facebook-app-symbol.svg";
 import gpBtnSvg from "../../../images/google-plus.svg";
-import authBtnSvg from "../../../images/auth0.svg";
 import Button from "../../../components/uielements/button";
 import authAction from "../../../redux/auth/actions";
 import TextField from "../../../components/uielements/textfield";
@@ -29,21 +28,12 @@ const googleClientID =
 const facebookAppID="448728193170790";
 class SignIn extends Component {
     state = {
-        // redirectToReferrer: false,
         username: "hamza",
         password: "123",
         alertOpen: false,
         alertMessage: "",
         alertSeverity: "info",
     };
-    // componentWillReceiveProps(nextProps) {
-    //   if (
-    //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
-    //     nextProps.isLoggedIn === true
-    //   ) {
-    //     this.setState({ redirectToReferrer: true });
-    //   }
-    // }
     handleLogin = async () => {
         const loginServiceResponse = await loginUserService(
             this.state.username,

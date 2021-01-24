@@ -11,7 +11,6 @@ import validationSchema from "./validate";
 import Button from "../../../components/uielements/button";
 import TextField from "../../../components/uielements/textfield";
 import Radio, { RadioGroup } from "../../../components/uielements/radio";
-import Checkbox from "../../../components/uielements/checkbox";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -44,24 +43,6 @@ const RenderDateTimeField = ({ error, errorText, ...props }) => {
   );
 };
 
-const RenderToggle = ({ id, error, errorText, label, value, onChange }) => (
-  <div>
-    <FormControl>
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={value}
-            color="primary"
-            onChange={() => onChange(id, !value)}
-          />
-        }
-        label={label}
-      />
-      {error ? <FormHelperText>{errorText}</FormHelperText> : ""}
-    </FormControl>
-  </div>
-);
-
 const RenderRadioGroup = ({ onChange, ...props }) => {
   return (
     <RadioGroup
@@ -75,7 +56,7 @@ const RenderRadioGroup = ({ onChange, ...props }) => {
 function makeImagesArray(images) {
   let imageArray = [];
 
-  for (const [key, value] of Object.entries(images)) {
+  for (const [key] of Object.entries(images)) {
     imageArray[key] = key;
   }
   return imageArray;
@@ -315,17 +296,7 @@ const MyInnerForm = ({
         </div>
 
         <div className="mateFormsFooter">
-          {/* <div className="mateFormsChecBoxList">
-          <RenderToggle
-            label="I agree all statements in terms of service"
-            id="agredTerms"
-            value={values.agredTerms}
-            onChange={setFieldValue}
-            onBlur={handleBlur}
-            error={!errors.agredTerms && touched.agredTerms}
-            errorText={'Please agree'}
-          /> */}
-          {/* </div> */}
+          
           <div className="mateFormsSubmit">
             <Button
               className={values.agredTerms ? "mateFormsSubmitBtn" : ""}
@@ -355,7 +326,6 @@ export default withFormik({
     type: "",
     price: null,
     stock: null,
-    close_time: "",
     open_time: "",
     detail: "",
     status: "",

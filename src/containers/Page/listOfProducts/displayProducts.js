@@ -44,11 +44,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function getFirstLabelText(card) {
-  return card.type == "auction" ? " For Auction" : " Limited";
+  return card.type === "auction" ? " For Auction" : " Limited";
 }
 
 function getSecondLabelText(card) {
-  if (card.type == "auction") {
+  if (card.type === "auction") {
     //needs to be implemented through an API call?
     if (/*timeRemaining==0 */ new Date(card.open_time) > Date.now()) {
       return "Bidding not started";
@@ -61,7 +61,7 @@ function getSecondLabelText(card) {
       return "Time's Up!";
     }
   } else {
-    if (card.stock == 0) {
+    if (card.stock === 0) {
       return "Item out of stock ";
     } else {
       return "Items in Stock: " + card.stock;
@@ -70,7 +70,7 @@ function getSecondLabelText(card) {
 }
 
 function returnColoredLabel(color, card) {
-  if (card.type == "auction" && new Date(card.close_time < Date.now())) {
+  if (card.type === "auction" && new Date(card.close_time < Date.now())) {
     color = "red";
   }
   if (card.type === "limited" && card.stock <= 0) {
@@ -100,13 +100,13 @@ export default function DisplayProducts(props) {
   const classes = useStyles();
 
   let cards = props.cardProps;
-  const currentDate = new Date();
-  const year =
-    currentDate.getMonth() === 11 && currentDate.getDate() > 23
-      ? currentDate.getFullYear() + 1
-      : currentDate.getFullYear();
+  // const currentDate = new Date();
+  // const year =
+  //   currentDate.getMonth() === 11 && currentDate.getDate() > 23
+  //     ? currentDate.getFullYear() + 1
+  //     : currentDate.getFullYear();
 
-  return cards.length == 0 ? (
+  return cards.length === 0 ? (
     <Box
       display="flex"
       justifyContent="center"
@@ -140,6 +140,7 @@ export default function DisplayProducts(props) {
                             if (i.is_featured) {
                               return i;
                             }
+                            return null;
                           })
                         : "https://img.freepik.com/free-vector/shining-circle-purple-lighting-isolated-dark-background_1441-2396.jpg?size=626&ext=jpg"
                     }

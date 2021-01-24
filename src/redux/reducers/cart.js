@@ -8,7 +8,7 @@ const initialState = [];
 
 export default function cart(state = initialState, action) {
     if (action.type === ADD_TO_CART_SUCCESS) {
-        if (state.length != 0) {
+        if (state.length !== 0) {
             const newState = [...state];
 
             for (let i = 0; i < state.length; i++) {
@@ -33,8 +33,9 @@ export default function cart(state = initialState, action) {
     } else if (action.type === REMOVE_FROM_CART_SUCCESS) {
         let newState;
         newState = state.filter((product) => {
-            if (product.uuid != action.payload.product_removed_uuid)
+            if (product.uuid !== action.payload.product_removed_uuid)
                 return product;
+            return null;    
         });
         return newState;
     }

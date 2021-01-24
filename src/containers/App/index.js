@@ -10,7 +10,6 @@ import AppLocale from '../../languageProvider';
 import authAction from '../../redux/auth/actions';
 import appActions from '../../redux/app/actions';
 import themeActions from '../../redux/themeSwitcher/actions';
-import ThemeSwitcher from '../ThemeSwitcher';
 import ThemeSwitcherButton from '../ThemeSwitcherButton';
 // import SecondarySidebar from '../SecondarySidebar';
 // import PageBreadcrumb from '../PageBreadcrumb';
@@ -37,7 +36,7 @@ class App extends Component {
       view,
     } = this.props;
     const { url } = match;
-    const propsTopbar = { locale, url };
+    //const propsTopbar = { locale, url };
     const options = { url, classes, theme, locale };
     const currentAppLocale = AppLocale[locale];
     return (

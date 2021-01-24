@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { addToCartAction, removeFromCartAction, updateCartAction } from "../../../redux/actions/cartAction";
+import { addToCartAction, removeFromCartAction} from "../../../redux/actions/cartAction";
 import { useHistory } from 'react-router';
 
 
@@ -70,7 +70,6 @@ export default function Orders() {
         <React.Fragment>
             <Table
                 stickyHeader
-                aria-label="sticky table"
                 size="small"
                 className={classes.table}
                 aria-label="spanning table"
