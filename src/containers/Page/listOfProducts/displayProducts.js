@@ -147,7 +147,7 @@ function returnColoredLabel(color, card) {
   );
 }
 
-export default function Album(props ) {
+export default function DisplayProducts(props) {
   const classes = useStyles();
 
   let cards = props.cardProps;
@@ -226,7 +226,13 @@ export default function Album(props ) {
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
                       {" "}
-                      <span onClick={()=>{props.handleProductClick(card.key, card.product_uuid)}}>{card.title}</span>
+                      <span
+                        onClick={() => {
+                          props.handleProductClick(card.key, card.product_uuid);
+                        }}
+                      >
+                        {card.title}
+                      </span>
                     </Typography>
 
                     {card.type === "auction" ? (
