@@ -51,9 +51,9 @@ function handleAddToCart(post) {
   const cardObj = {
     uuid: post.product_uuid,
     name: post.title,
-    quantityOrdered: parseInt(document.getElementById("quantity").value),
+    quantity_ordered: parseInt(document.getElementById("quantity").value),
     price: post.price,
-    quantityInStock:post.stock
+    quantity_in_stock:post.stock
   };
 
   store.dispatch(addToCartAction(cardObj));

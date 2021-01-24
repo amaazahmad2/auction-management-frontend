@@ -14,7 +14,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { removeFromCartAction } from "../../../redux/actions/cartAction";
+import { addToCartAction, removeFromCartAction, updateCartAction } from "../../../redux/actions/cartAction";
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -80,29 +80,23 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders() {
     const classes = useStyles();
-    //const [cart,setCart] = React.useState([]);
     let cartFromRedux= store.getState().cart;
     const [cart,setCart] = React.useState(cartFromRedux);
-    //setCart(prods);
-    //console.log("cart: ", cart);
-    // if (cart.length === 0) {
-    //   cart.push({
-    //     price: 100,
-    //     product_name: "tesing9000",
-    //     quantity_ordered: 1,
-    //     quantity_in_stock: 69,
-    //     uuid: "626ed2a9-009f-495d-a6be-f1c98a24a8f4",
-    //   });
-    //   cart.push({
-    //     price: 120,
-    //     product_name: "tesing9100",
-    //     quantity_ordered: 6,
-    //     quantity_in_stock: 420,
-    //     uuid: "69696ed2a9-009f-495d-a6be-f1c98a24a8f4",
-    //   });
-    // }
+    const [quantityChanged, setQuantityChanged] = React.useState(false);
+    
+    // React.useEffect(() => {
+    //   //window.addEventListener('mousemove', () => {});
+    
+    //   // returned function will be called on component unmount 
+    //   return () => {
+    //     if(quantityChanged===true){
+    //       store.dispatch(updateCartAction());
+    //     }
+    //   }
+    // }, [])
 
     function handleQuantityChange(row) {
+      console.log("ROW: ",row);
         let qty = parseInt(
             document.getElementById("quantity" + row.uuid).value
         );
@@ -120,17 +114,15 @@ export default function Orders() {
         document.getElementById("totalAmount" + row.uuid).value =
             qty * row.price;
         //save the quanitty ordwered in the cart
+
+        setQuantityChanged(true);
+        store.dispatch(addToCartAction(row));
     }
 
     function handleRemoveItem(uuid){
-      //console.log("product removed: ",uuid);
       store.dispatch(removeFromCartAction(uuid));
       cartFromRedux= store.getState().cart;
       setCart(cartFromRedux);
-      // const cart = store.getState().cart;
-      // setProductsInCart(cart);
-      //prods= store.getState().cart;
-      //setCart(prods);
     }
 
     return (
