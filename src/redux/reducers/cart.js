@@ -16,7 +16,7 @@ const initialState = [];
 export default function cart(state = initialState, action) {
     if (action.type === ADD_TO_CART_SUCCESS) {
         //console.log(state.cart)
-        if (state.length!=0) {
+        if (state.length != 0) {
             const newState = [...state];
 
             for (let i = 0; i < state.length; i++) {
@@ -35,10 +35,23 @@ export default function cart(state = initialState, action) {
                 product_name: action.payload.product_name,
                 quantity_ordered: action.payload.quantity_ordered,
                 price: action.payload.price,
-                quantity_in_stock : action.payload.quantity_in_stock
+                quantity_in_stock: action.payload.quantity_in_stock,
             },
         ];
     } else if (action.type === REMOVE_FROM_CART_SUCCESS) {
+        console.log("REMOVE FROM CART ACTION");
+        let newState;
+        // for (let i = 0; i < state.length; i++) {
+        //     if (action.payload.product_removed_uuid !== state[i].uuid) {
+        //         newState[i]=state[i];
+        //         return newState;
+        //     }
+        // }
+        newState = state.filter((product) => {
+            if (product.uuid != action.payload.product_removed_uuid)
+                return product;
+        });
+        return newState;
     } else {
         return state;
     }

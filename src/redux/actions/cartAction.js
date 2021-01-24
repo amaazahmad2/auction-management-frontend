@@ -14,11 +14,11 @@ export function addToCartAction(productObj){
     }
 }
 
-export function removeFromCart(productObj){
+export function removeFromCartAction(productRemovedUUID){
     return{
         type: REMOVE_FROM_CART_SUCCESS,
         payload:{
-            //implement payload here
+            product_removed_uuid: productRemovedUUID
         }
     }
 }

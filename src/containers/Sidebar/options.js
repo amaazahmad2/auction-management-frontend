@@ -18,14 +18,6 @@ const options = [
     key: "list-of-products",
   },
   {
-    label: "Product Detail",
-    key: "product-detail",
-  },
-  {
-    label:"Cart Detail",
-    key:"cart-detail"
-  },
-  {
     label:"Checkout Page",
     key:'checkout'
   },
