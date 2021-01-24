@@ -1,7 +1,11 @@
 import React from "react";
-
+import Typography from "@material-ui/core/Typography";
+import Papersheet from "../../../components/utility/papersheet";
+import Card from "@material-ui/core/Card";
+import LayoutWrapper from "../../../components/utility/layoutWrapper";
+import { Column, FullColumn } from "../../../components/utility/rowColumn";
 import { useHistory } from "react-router";
-import ListOfProducts from "../listOfProducts/listOfProducts";
+import DisplayProducts from "../listOfProducts/displayProducts";
 //import Album from "../listOfProducts/productData";
 
 let dummy = [
@@ -54,8 +58,26 @@ let dummy = [
 ];
 
 class MyProducts extends React.Component {
+  handleProductClick(key, uuid) {
+    let history = this.props.history;
+    history.push("product-detail/" + key);
+  }
   render() {
-    return <ListOfProducts myProdsList={dummy}></ListOfProducts>;
+    return (
+      <LayoutWrapper>
+        <FullColumn>
+          <Papersheet title={"My Products"}>
+            <div className="row">
+              <DisplayProducts
+                cardProps={dummy}
+                handleProductClick={this.handleProductClick.bind(this)}
+              />
+            </div>
+          </Papersheet>
+        </FullColumn>
+      </LayoutWrapper>
+    );
+    // return <ListOfProducts myProdsList={dummy}></ListOfProducts>;
   }
 }
 
