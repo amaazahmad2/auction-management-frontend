@@ -18,7 +18,7 @@ import Fab from "@material-ui/core/Fab";
 import { Row, Col } from "reactstrap";
 import { CircularProgress } from "@material-ui/core";
 import { CardText } from "reactstrap";
-import { store } from "./../../../redux/store";
+import { store } from "../../../redux/store";
 
 // import ecommerceActions from '../../../redux/ecommerce/actions';
 import {
