@@ -63,7 +63,7 @@ export default function SellerPopupModal() {
         "Jeonbuk Bank",
         "Jeju Bank",
         "K Bank",
-        "KakaoBank",
+        "Kakao Bank",
     ];
 
     const handleClickOpen = () => {
@@ -188,7 +188,7 @@ export default function SellerPopupModal() {
                     >
                         <option aria-label="None" value="" />
                         {listOfBanks.map((bankName) => {
-                            return <option value={bankName}>{bankName}</option>;
+                            return <option key={bankName} value={bankName}>{bankName}</option>;
                         })}
                     </Select>
                     <TextField
@@ -248,7 +248,7 @@ export default function SellerPopupModal() {
                     >
                         {listOfStates.map((stateObj) => {
                             return (
-                                <MenuItem value={stateObj.isoCode}>
+                                <MenuItem key={stateObj.isoCode} value={stateObj.isoCode}>
                                     {stateObj.name}
                                 </MenuItem>
                             );
@@ -266,7 +266,7 @@ export default function SellerPopupModal() {
                     >
                         {listOfCities.map((cityObj) => {
                             return (
-                                <MenuItem value={cityObj.name}>
+                                <MenuItem key={cityObj.name} value={cityObj.name}>
                                     {cityObj.name}
                                 </MenuItem>
                             );

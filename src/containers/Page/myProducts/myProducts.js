@@ -61,7 +61,7 @@ class MyProducts extends React.Component {
               <Alert severity="error">
                 <AlertTitle>Error</AlertTitle>
                 Oops! Somebody messed up! —{" "}
-                <strong>We'll fire the dev whose fault this is ASAP</strong>
+                <strong>Please try again later!</strong>
               </Alert>
             )}
             <Pagination

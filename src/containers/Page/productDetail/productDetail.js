@@ -3,6 +3,7 @@ import LayoutWrapper from "../../../components/utility/layoutWrapper";
 import Papersheet from "../../../components/utility/papersheet";
 import { FullColumn } from "../../../components/utility/rowColumn";
 import firebase from "firebase";
+// eslint-disable-next-line
 import FirebaseHelper from "../../../helpers/firebase/index";
 import ShowDetails from "./showDetails.js";
 

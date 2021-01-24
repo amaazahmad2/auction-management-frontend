@@ -14,7 +14,7 @@ function ProductCreate() {
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
       }
-    const [images, setImages] = useState([]);
+    const [images, setImages] = useState({});
     const [type, setType] = useState({});
     const [message, setmessage] = useState({});
     const [snakBarClass, setsnakBarClass] = useState({});
