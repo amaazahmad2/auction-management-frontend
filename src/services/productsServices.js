@@ -42,3 +42,24 @@ export async function createProductService(body) {
     });
   return resp;
 }
+
+export async function getProductsBySeller(pageNum){
+  const apiEndpoint = API_URL + "/product/my-products?page=" + pageNum;
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Token " + localStorage.token,
+    },
+  };
+  const resp = await axios
+    .get(apiEndpoint, config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  //console.log(resp);
+  return resp;
+}
