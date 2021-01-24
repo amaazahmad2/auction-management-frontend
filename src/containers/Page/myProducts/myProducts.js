@@ -68,19 +68,19 @@ class MyProducts extends React.Component {
                 <strong>We'll fire the dev whose fault this is ASAP</strong>
               </Alert>
             )}
+            <Pagination
+              count={this.state.totalPages}
+              variant="outlined"
+              color="primary"
+              onChange={async (event, value) => {
+                this.setState({
+                  list: [],
+                });
+                await this.setList(value);
+                console.log("newList: ", this.state.list);
+              }}
+            />
           </Papersheet>
-          <Pagination
-            count={this.state.totalPages}
-            variant="outlined"
-            color="primary"
-            onChange={async (event, value) => {
-              this.setState({
-                list: [],
-              });
-              await this.setList(value);
-              console.log("newList: ", this.state.list);
-            }}
-          />
         </FullColumn>
       </LayoutWrapper>
     );
