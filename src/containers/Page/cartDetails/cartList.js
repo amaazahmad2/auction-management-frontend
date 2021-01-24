@@ -15,6 +15,7 @@ import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { addToCartAction, removeFromCartAction, updateCartAction } from "../../../redux/actions/cartAction";
+import { useHistory } from 'react-router';
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
@@ -82,7 +83,7 @@ export default function Orders() {
     const classes = useStyles();
     let cartFromRedux= store.getState().cart;
     const [cart,setCart] = React.useState(cartFromRedux);
-    const [quantityChanged, setQuantityChanged] = React.useState(false);
+    let history = useHistory();
     
     // React.useEffect(() => {
     //   //window.addEventListener('mousemove', () => {});
@@ -115,7 +116,6 @@ export default function Orders() {
             qty * row.price;
         //save the quanitty ordwered in the cart
 
-        setQuantityChanged(true);
         store.dispatch(addToCartAction(row));
     }
 
@@ -123,6 +123,11 @@ export default function Orders() {
       store.dispatch(removeFromCartAction(uuid));
       cartFromRedux= store.getState().cart;
       setCart(cartFromRedux);
+    }
+
+    function handleCheckoutButtonClick(){
+      //console.log("HISTORY: ",history);
+      history.push('checkout');
     }
 
     return (
@@ -185,7 +190,7 @@ export default function Orders() {
                 </TableBody>
             </Table>
             <Box display="flex" flexDirection="row-reverse" marginTop="10px">
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleCheckoutButtonClick}>
                     Checkout Cart
                 </Button>
             </Box>
