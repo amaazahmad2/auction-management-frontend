@@ -4,7 +4,7 @@ import Icon from "../../components/uielements/icon";
 import appActions from "../../redux/app/actions";
 import themeActions from "../../redux/themeSwitcher/actions";
 import { AppHolder, Toolbar, IconButtons, TopbarComponents } from "./style";
-import TopbarSearch from "./topbarSearch";
+// import TopbarSearch from "./topbarSearch";
 import TopbarUser from "./topbarUser";
 import SellerPopupModal from "./customPopupModals/sellerPopupModal";
 import BuyCoinPopupModal from "./customPopupModals/buyCoinPopupModal";
@@ -43,9 +43,6 @@ class Topbar extends Component {
 
                     <TopbarComponents>
                         <ul className="topbarItems">
-                            <li className="topbarSearch">
-                                <TopbarSearch {...propsTopbar} />
-                            </li>
 
                             <li className="topbarNotification">
                                 
