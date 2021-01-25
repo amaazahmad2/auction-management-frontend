@@ -2,20 +2,12 @@ import { getDefaultPath } from "../../helpers/urlSync";
 
 const options = [
   {
-    label: "sidebar.blankPage",
-    key: "blank-page",
-  },
-  {
     label: "Create Product",
     key: "seller/create-product",
   },
   {
     label: "List of Products",
     key: "list-of-products",
-  },
-  {
-    label:"Checkout Page",
-    key:'checkout'
   },
   {
     label:"My Products",
