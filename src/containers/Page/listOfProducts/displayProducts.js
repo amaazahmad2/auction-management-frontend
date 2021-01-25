@@ -179,7 +179,10 @@ export default function DisplayProducts(props) {
                       {" "}
                       <span
                         onClick={() => {
-                          props.handleProductClick(card.key, card.product_uuid);
+                            if(card.key)
+                                props.handleProductClick(card.key);
+                            else
+                                props.handleProductClick(card.uuid);    
                         }}
                       >
                         {card.title}

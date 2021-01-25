@@ -62,3 +62,24 @@ export async function getProductsBySeller(pageNum){
   //console.log(resp);
   return resp;
 }
+
+export async function getProductDetails(uuid){
+  const apiEndpoint = API_URL + "/product/retrieve-product/?product_uuid=" + uuid;
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Token " + localStorage.token,
+    },
+  };
+  const resp = await axios
+    .get(apiEndpoint, config)
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error;
+    });
+
+  //console.log(resp);
+  return resp;
+}

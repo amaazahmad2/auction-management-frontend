@@ -37,9 +37,9 @@ class MyProducts extends React.Component {
     await this.setList(1);
   }
 
-  handleProductClick(key, uuid) {
+  handleProductClick(key) {
     let history = this.props.history;
-    history.push("product-detail/" + key);
+    history.push("product-detail/" + key+"/true");
   }
   render() {
     return (

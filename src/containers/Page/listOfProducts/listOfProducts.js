@@ -46,7 +46,7 @@ class ListOfProducts extends React.Component {
     });
   }
 
-  handleProductClick(key, uuid) {
+  handleProductClick(key) {
     let history = this.props.history;
     history.push("product-detail/" + key);
   }

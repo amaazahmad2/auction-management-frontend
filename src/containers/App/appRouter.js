@@ -20,7 +20,7 @@ const routes = [
     component: lazy(() => import("../Page/listOfProducts/listOfProducts")),
   },
   {
-    path: "product-detail/:firebaseKey",
+    path: "product-detail/:key/:is_seller?",
     component: lazy(() => import("../Page/productDetail/productDetail")),
   },
   {

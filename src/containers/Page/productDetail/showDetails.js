@@ -80,9 +80,9 @@ const setBgImg = (p) => {
 }; 
 var bg = "";
 
-export default function ShowDetails({ props }) {
+export default function ShowDetails(props ) {
   const classes = useStyles();
-  const post = props;
+  const post = props.productProps;
   // const currentDate = new Date();
   // const year =
   //   currentDate.getMonth() === 11 && currentDate.getDate() > 23
@@ -145,7 +145,7 @@ export default function ShowDetails({ props }) {
       {ImageGrid(post && post.images)}
       <Paper className={classes.mainFeaturedPostContent}>
         {post ? (
-          getRemainingProductDetails(post)
+          getRemainingProductDetails(post, props.isSeller)
         ) : (
           <CircularProgressbar></CircularProgressbar>
         )}
@@ -154,7 +154,7 @@ export default function ShowDetails({ props }) {
   );
 }
 
-const getRemainingProductDetails = (post) => {
+const getRemainingProductDetails = (post, isSeller) => {
   const productData = {
     priceLabel: post.type === "auction" ? "Latest Bid: " : "Price: ",
     price: post.type === "auction" ? post.get_highest_bid : post.price,
@@ -170,16 +170,17 @@ const getRemainingProductDetails = (post) => {
   };
   return (
     <Box container>
-      {returnGrid(post, productData.priceLabel, productData.price)}
-      {returnGrid(post, productData.stockLabel, productData.stock)}
+      {returnGrid(post, productData.priceLabel, productData.price, isSeller)}
+      {returnGrid(post, productData.stockLabel, productData.stock, isSeller)}
     </Box>
   );
 };
 
-function returnGrid(post, label, data) {
+function returnGrid(post, label, data, isSeller) {
   return (
     <div>
-      {getButton(post, label)}
+      
+      {isSeller===false? getButton(post, label, isSeller) : null}
       <div
         style={{
           display: "flex",
@@ -201,6 +202,7 @@ function getButton(post, label) {
   if (label === "Price: ") {
     return (
       <div>
+        
         <TextField
           style={{ marginBottom: "15px" }}
           size="small"

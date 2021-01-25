@@ -6,35 +6,49 @@ import firebase from "firebase";
 // eslint-disable-next-line
 import FirebaseHelper from "../../../helpers/firebase/index";
 import ShowDetails from "./showDetails.js";
+import {getProductDetails} from '../../../services/productsServices'
 
 export default class ProductDetail extends Component {
-  constructor(props, context) {
-    super();
-    this.state = {
-      product: {
-      },
-    };
+    constructor(props, context) {
+        super();
+        this.state = {
+            product: {},
+            is_seller:false,
+        };
 
-    this.state.product = null;
-  }
+        this.state.product = null;
+    }
 
+    async componentDidMount() {
+        if (this.props.match.params.is_seller) {
+          this.setState({is_seller:true})
+          const response = await getProductDetails(this.props.match.params.key);
+          if(response.data.status==="success"){
+            this.setState({ product: response.data.data });
+          }
+          else{
+            alert("Unexpected Error");
+          }
+        } else {
+            this.setState({is_seller:false})
+            const listRef = firebase
+                .database()
+                .ref("products/" + this.props.match.params.key);
+            listRef.on("value", (snapshot) => {
+                this.setState({ product: snapshot.val() });
+            });
+        }
+    }
 
-  componentDidMount(){
-    const listRef = firebase.database().ref("products/"+this.props.match.params.firebaseKey);
-    listRef.on("value", (snapshot) => {
-      this.setState({ product: snapshot.val() });
-    });
-  }
-
-  render() {
-    return (
-      <LayoutWrapper>
-        <FullColumn>
-          <Papersheet>
-            <ShowDetails props={this.state.product} />
-          </Papersheet>
-        </FullColumn>
-      </LayoutWrapper>
-    );
-  }
+    render() {
+        return (
+            <LayoutWrapper>
+                <FullColumn>
+                    <Papersheet>
+                        <ShowDetails productProps={this.state.product} isSeller={this.state.is_seller}/>
+                    </Papersheet>
+                </FullColumn>
+            </LayoutWrapper>
+        );
+    }
 }
