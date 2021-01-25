@@ -70,19 +70,28 @@ const MyInnerForm = ({
   setType,
 }) => {
   function handleStartingDate() {
-    let startTime = new Date(document.getElementById("open_time").value);
-    console.log("start_time; ", startTime);
-    if (startTime <= Date.now()) {
-      alert("Start time cannot be less than current date");
+    let startTime = new Date(document.getElementById("open_Time").value);
+    let endObj = document.getElementById("close_Time");
+    let endTime = null;
+    if (endObj) {
+      endTime = new Date(endObj.value);
+    }
+
+    if (startTime <= Date.now() || (endTime != null && startTime >= endTime)) {
+      alert(
+        "Start time cannot be less than current date or greater than end date"
+      );
+      document.getElementById("open_Time").value = "";
     }
   }
   function handleEndingDate() {
-    let endTime = new Date(document.getElementById("close_time").value);
-    console.log("close_time; ", endTime);
+    let endTime = new Date(document.getElementById("close_Time").value);
+
     if (
       endTime <= Date.now() ||
-      endTime <= new Date(document.getElementById("open_time").value)
+      endTime <= new Date(document.getElementById("open_Time").value)
     ) {
+      document.getElementById("close_Time").value = "";
       alert("End time cannot be less than current date or open date");
     }
   }
@@ -115,7 +124,9 @@ const MyInnerForm = ({
 
           <div className="mainFormsInfoField">
             <FormControl>
-              <InputLabel id="demo-simple-select-label">Featured Image</InputLabel>
+              <InputLabel id="demo-simple-select-label">
+                Featured Image
+              </InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
@@ -129,7 +140,6 @@ const MyInnerForm = ({
             </FormControl>
           </div>
 
-          
           <div className="mainFormsInfoField">
             <FormControl>
               <InputLabel id="demo-simple-select-label">
@@ -149,7 +159,7 @@ const MyInnerForm = ({
 
           <div className="mainFormsInfoField">
             <RenderDateTimeField
-              id="open_time"
+              id="open_Time"
               label="Starting Time"
               type="datetime-local"
               value={values.open_Time}
@@ -163,16 +173,16 @@ const MyInnerForm = ({
           </div>
           <div className="mainFormsInfoField">
             <RenderDateTimeField
-              id="close_time"
+              id="close_Time"
               label="Closing Time"
               type="datetime-local"
-              value={values.close_time}
+              value={values.close_Time}
               onChange={() => {
                 handleEndingDate();
               }}
               onBlur={handleBlur}
-              error={errors.close_time && touched.close_time}
-              errorText={errors.close_time}
+              error={errors.close_Time && touched.close_Time}
+              errorText={errors.close_Time}
             />
           </div>
           <div className="mainFormsInfoField">
@@ -260,7 +270,6 @@ const MyInnerForm = ({
         </div>
 
         <div className="mateFormsFooter">
-          
           <div className="mateFormsSubmit">
             <Button
               className={values.agredTerms ? "mateFormsSubmitBtn" : ""}
