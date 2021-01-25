@@ -12,15 +12,23 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import { store } from "./../../../redux/store";
 
 export default function BuyCoinPopupModal() {
     const [open, setOpen] = React.useState(false);
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
     const [alertSeverity, setAlertSeverity] = React.useState("");
-    const currentRate=100;
+    const currentRate = 100;
     const [amountInWon, setAmountInWon] = React.useState(0);
     const [numberOfCoins, setNumberOfCoins] = React.useState(0);
+    const [currentAvailableCoins, setCurrentAvailableCoins] = React.useState(
+        store.getState().user.coins
+    );
+
+    React.useEffect(() => {
+        setCurrentAvailableCoins(store.getState().user.coins);
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -92,6 +100,9 @@ export default function BuyCoinPopupModal() {
                     <DialogContentText>
                         {currentRate} ₩ = 1 Coin
                     </DialogContentText>
+                    <DialogContentText>
+                        Coins in Wallet = {currentAvailableCoins}
+                    </DialogContentText>
                     <br />
                     <br />
                     <div
@@ -101,6 +112,21 @@ export default function BuyCoinPopupModal() {
                             alignItems: "end",
                         }}
                     >
+                        <TextField
+                            style={{ width: "6rem" }}
+                            size="small"
+                            label="Coins"
+                            id="standard-start-adornment"
+                            onChange={handleCoinChange}
+                            value={numberOfCoins}
+                        />
+
+                        <div
+                            style={{ marginLeft: "10px", marginRight: "10px" , marginTop:"15px"}}
+                        >
+                            {" "}
+                            ={" "}
+                        </div>
                         <TextField
                             style={{ width: "6rem" }}
                             size="small"
@@ -116,22 +142,6 @@ export default function BuyCoinPopupModal() {
                             onChange={handleAmountChange}
                             value={amountInWon}
                             type="number"
-                        />
-
-                        <div
-                            style={{ marginLeft: "10px", marginRight: "10px" }}
-                        >
-                            {" "}
-                            ={" "}
-                        </div>
-
-                        <TextField
-                            style={{ width: "6rem" }}
-                            size="small"
-                            label="Coins"
-                            id="standard-start-adornment"
-                            onChange={handleCoinChange}
-                            value={numberOfCoins}
                         />
                     </div>
                     <br />
