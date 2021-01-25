@@ -13,6 +13,7 @@ import { addToCartAction } from "../../../redux/actions/cartAction";
 import { store } from "../../../redux/store";
 import TextField from "@material-ui/core/TextField";
 import CreateBidPopup from './createBidPopup';
+import './showDetails.css';
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {

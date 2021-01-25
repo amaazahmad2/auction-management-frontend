@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Scrollbars from '../../components/utility/customScrollBar';
 import IntlMessages from '../../components/utility/intlMessages';
 import appActions from '../../redux/app/actions';
+import {store} from "../../redux/store"
 // import Logo from '../../images/logo.png';
 import options from './options';
 import Drawer, {
@@ -84,6 +85,16 @@ class Sidebar extends Component {
     changeCurrent({});
     toggleCollapsed();
   };
+
+  componentWillMount(){
+    console.log(store.getState().user);
+    if(store.getState().user.is_seller){
+      options.push({
+            label:"My Products",
+            key:"my-products"
+          })
+    }
+  }
   render() {
     const {
       changeOpenKeys,

@@ -1,19 +1,15 @@
 import { getDefaultPath } from "../../helpers/urlSync";
 
+
 const options = [
-  {
-    label: "Create Product",
-    key: "seller/create-product",
-  },
   {
     label: "List of Products",
     key: "list-of-products",
   },
-  {
-    label:"My Products",
-    key:"my-products"
-  }
+  
 ];
+
+
 const getBreadcrumbOption = () => {
   const preKeys = getDefaultPath();
   let parent, activeChildren;
