@@ -5,12 +5,10 @@ import { withFormik } from "formik";
 import {
   FormControl,
   FormHelperText,
-  FormControlLabel,
 } from "../../../components/uielements/form";
 import validationSchema from "./validate";
 import Button from "../../../components/uielements/button";
 import TextField from "../../../components/uielements/textfield";
-import Radio, { RadioGroup } from "../../../components/uielements/radio";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -40,16 +38,6 @@ const RenderDateTimeField = ({ error, errorText, ...props }) => {
         {error ? <FormHelperText>{errorText}</FormHelperText> : ""}
       </FormControl>
     </div>
-  );
-};
-
-const RenderRadioGroup = ({ onChange, ...props }) => {
-  return (
-    <RadioGroup
-      {...props}
-      onChange={(event, value) => onChange(props.id, value)}
-      color="primary"
-    />
   );
 };
 
@@ -141,31 +129,7 @@ const MyInnerForm = ({
             </FormControl>
           </div>
 
-          <div className="mateFormsCheckList">
-            <h4 className="radiButtonHeader">Status</h4>
-            <RenderRadioGroup
-              label="Status"
-              id="status"
-              value={values.status}
-              onChange={setFieldValue}
-              color="primary"
-            >
-              <div className="mateFormsRadioList">
-                <FormControlLabel
-                  value="active"
-                  control={<Radio />}
-                  label="active"
-                  color="primary"
-                />
-                <FormControlLabel
-                  value="non active"
-                  control={<Radio />}
-                  label="non active"
-                  color="primary"
-                />
-              </div>
-            </RenderRadioGroup>
-          </div>
+          
           <div className="mainFormsInfoField">
             <FormControl>
               <InputLabel id="demo-simple-select-label">
