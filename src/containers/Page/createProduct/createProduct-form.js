@@ -248,14 +248,7 @@ const MyInnerForm = ({
             >
               Submit
             </Button>
-            <Button
-              color="secondary"
-              className="mateFormsClearBtn"
-              onClick={handleReset}
-              // disabled={!dirty || isSubmitting}
-            >
-              Reset
-            </Button>
+            
           </div>
         </div>
       </div>
