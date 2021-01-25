@@ -127,7 +127,7 @@ const MyInnerForm = ({
 
           <div className="mainFormsInfoField">
             <FormControl>
-              <InputLabel id="demo-simple-select-label">IS Featured</InputLabel>
+              <InputLabel id="demo-simple-select-label">Featured Image</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
