@@ -16,7 +16,7 @@ function ProductCreate() {
   const [images, setImages] = useState({});
   const [type, setType] = useState({});
   const [message, setmessage] = useState({});
-  const [snakBarClass, setsnakBarClass] = useState({});
+  const [snackBarClass, setsnackBarClass] = useState({});
   const [open, setOpen] = useState(false);
   const [isFeatured, setisFeatured] = useState({});
   const [tags, setTags] = useState([]);
@@ -67,13 +67,14 @@ function ProductCreate() {
     // }
 
     const createProductServiceResponse = await createProductService(values);
+    console.log("ppppp:", createProductServiceResponse);
 
-    if (createProductServiceResponse.status === 200) {
+    if (createProductServiceResponse.data.status === "success") {
       setmessage(createProductServiceResponse.data.Message);
-      setsnakBarClass("success");
+      setsnackBarClass("success");
       handleClick();
     } else {
-      setsnakBarClass("error");
+      setsnackBarClass("error");
       setmessage("Unable to create product");
       handleClick();
     }
@@ -105,7 +106,7 @@ function ProductCreate() {
             images={images}
           />
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-            <Alert onClose={handleClose} severity={snakBarClass}>
+            <Alert onClose={handleClose} severity={snackBarClass}>
               {message}
             </Alert>
           </Snackbar>
