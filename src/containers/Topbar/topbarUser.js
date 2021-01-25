@@ -17,6 +17,7 @@ import {store} from '../../redux/store'
 import {clearCartAction} from '../../redux/actions/cartAction';
 import { logoutUserAction } from '../../redux/actions/userAction';
 
+
 const { logout } = authAction;
 
 class TopbarUser extends Component {
@@ -41,6 +42,7 @@ class TopbarUser extends Component {
     this.props.logout();
   }
 
+
   render() {
     const content = (
       <TopbarDropdown>
@@ -50,8 +52,7 @@ class TopbarUser extends Component {
           </div>
 
           <div className="userDetails">
-            <h3>John Doe</h3>
-            <p>Sr. Marketing Officer</p>
+    <h3>{store.getState().user.username}</h3>
           </div>
         </UserInformation>
 
