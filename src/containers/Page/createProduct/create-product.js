@@ -42,8 +42,15 @@ function ProductCreate() {
       document.getElementById("open_time").value = "";
       e.target.value = null;
     }
+    const year = new Date(e.target.value).getUTCFullYear();
+    const month = new Date(e.target.value).getUTCMonth();
+    const day = new Date(e.target.value).getUTCDate();
+    const hour = new Date(e.target.value).getUTCHours();
+    const min = new Date(e.target.value).getUTCMinutes();
+    const sec = new Date(e.target.value).getUTCSeconds();
+    const ms = new Date(e.target.value).getUTCMilliseconds();
 
-    setOpenTime(e.target.value);
+    setOpenTime(new Date(Date.UTC(year, month, day, day, hour, min, sec, ms)));
   };
 
   const setClosingTime = (e) => {
@@ -57,7 +64,15 @@ function ProductCreate() {
       e.target.value = null;
       alert("End time cannot be less than current date or open date");
     }
-    setCloseTime(e.target.value);
+    const year = new Date(e.target.value).getUTCFullYear();
+    const month = new Date(e.target.value).getUTCMonth();
+    const day = new Date(e.target.value).getUTCDate();
+    const hour = new Date(e.target.value).getUTCHours();
+    const min = new Date(e.target.value).getUTCMinutes();
+    const sec = new Date(e.target.value).getUTCSeconds();
+    const ms = new Date(e.target.value).getUTCMilliseconds();
+
+    setCloseTime(new Date(Date.UTC(year, month, day, day, hour, min, sec, ms)));
   };
 
   const setProductType = (event) => {
@@ -103,18 +118,37 @@ function ProductCreate() {
     // if (values["open_time"] == null) {
     //   alert("Starting time is required!");
     // }
-
-    const createProductServiceResponse = await createProductService(values);
-    console.log("product service response:", createProductServiceResponse);
-    console.log("values array:", values);
-    if (createProductServiceResponse.data.status === "success") {
-      setmessage(createProductServiceResponse.data.Message);
-      setsnackBarClass("success");
-      handleClick();
+    if (
+      imageArray.length === 0 ||
+      tags.length === 0 ||
+      !type ||
+      document.getElementById("title").value === "" ||
+      document.getElementById("price").value === "" ||
+      (document.getElementById("demo-simple-select").value ===
+        "limited product" &&
+        document.getElementById("stock").value === "") ||
+      !isFeatured ||
+      !closeTime ||
+      closeTime.length <= 0 ||
+      !openTime ||
+      openTime.length <= 0 ||
+      document.getElementById("detail").value === "" ||
+      document.getElementById("link_video").value === ""
+    ) {
+      alert("Please fill all fields!");
     } else {
-      setsnackBarClass("error");
-      setmessage("Unable to create product");
-      handleClick();
+      const createProductServiceResponse = await createProductService(values);
+      console.log("product service response:", createProductServiceResponse);
+      console.log("values array:", values);
+      if (createProductServiceResponse.data.status === "success") {
+        setmessage(createProductServiceResponse.data.Message);
+        setsnackBarClass("success");
+        handleClick();
+      } else {
+        setsnackBarClass("error");
+        setmessage("Unable to create product");
+        handleClick();
+      }
     }
   };
 
