@@ -60,15 +60,15 @@ function ProductCreate() {
     values["tags"] = tags;
     values["type"] = type;
     // if (values["close_Time"] == null) {
-    //   alert("Closing time is required!");
+    //   alert("Closing Time is required!");
     // }
-    // if (values["open_Time"] == null) {
+    // if (values["open_time"] == null) {
     //   alert("Starting time is required!");
     // }
 
     const createProductServiceResponse = await createProductService(values);
-    console.log("ppppp:", createProductServiceResponse);
-
+    console.log("product service response:", createProductServiceResponse);
+    console.log("values:", values);
     if (createProductServiceResponse.data.status === "success") {
       setmessage(createProductServiceResponse.data.Message);
       setsnackBarClass("success");
