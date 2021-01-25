@@ -7,6 +7,7 @@ import { Pagination } from "@material-ui/lab";
 // eslint-disable-next-line
 import FirebaseHelper from "../../../helpers/firebase/index";
 import firebase from "firebase";
+import './listOfProducts.css';
 
 class ListOfProducts extends React.Component {
   constructor(props, context) {
