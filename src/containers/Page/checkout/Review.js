@@ -6,7 +6,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import { store } from "../../../redux/store";
-import { addressDetails} from "./checkout";
+import { addressDetails } from "./checkout";
 
 let products = store.getState().cart;
 
@@ -32,22 +32,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Review() {
   const classes = useStyles();
   var totalCost = 0;
-  if (products.length === 0) {
-    products.push({
-      price: 100,
-      product_name: "tesing9000",
-      quantity_ordered: 1,
-      quantity_in_stock: 69,
-      uuid: "626ed2a9-009f-495d-a6be-f1c98a24a8f4",
-    });
-    products.push({
-      price: 120,
-      product_name: "tesing9100",
-      quantity_ordered: 6,
-      quantity_in_stock: 420,
-      uuid: "69696ed2a9-009f-495d-a6be-f1c98a24a8f4",
-    });
-  }
+  // if (products.length === 0) {
+  //   products.push({
+  //     price: 100,
+  //     product_name: "tesing9000",
+  //     quantity_ordered: 1,
+  //     quantity_in_stock: 69,
+  //     uuid: "626ed2a9-009f-495d-a6be-f1c98a24a8f4",
+  //   });
+  //   products.push({
+  //     price: 120,
+  //     product_name: "tesing9100",
+  //     quantity_ordered: 6,
+  //     quantity_in_stock: 420,
+  //     uuid: "69696ed2a9-009f-495d-a6be-f1c98a24a8f4",
+  //   });
+  // }
   for (let i = 0; i < products.length; ++i) {
     totalCost += products[i].price * products[i].quantity_ordered;
   }
