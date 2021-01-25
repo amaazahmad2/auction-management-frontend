@@ -1,4 +1,5 @@
 import { getDefaultPath } from "../../helpers/urlSync";
+import {store} from "../../redux/store"
 
 const options = [
   {
@@ -9,11 +10,17 @@ const options = [
     label: "List of Products",
     key: "list-of-products",
   },
-  {
-    label:"My Products",
-    key:"my-products"
-  }
+  
 ];
+
+// const isSeller = store.getState().user.is_seller;
+// if(isSeller === true){
+//   options.push({
+//     label:"My Products",
+//     key:"my-products"
+//   })
+// }
+
 const getBreadcrumbOption = () => {
   const preKeys = getDefaultPath();
   let parent, activeChildren;
