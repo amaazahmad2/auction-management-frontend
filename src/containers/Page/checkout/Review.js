@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import { store } from "../../../redux/store";
 import { addressDetails } from "./checkout";
 
-let products = store.getState().cart;
+//let products = store.getState().cart;
 
 const payments = [
   { name: "Card type", detail: "Visa" },
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Review() {
   const classes = useStyles();
   var totalCost = 0;
+  const [products, setProducts] = React.useState(store.getState().cart);
   // if (products.length === 0) {
   //   products.push({
   //     price: 100,
@@ -51,6 +52,10 @@ export default function Review() {
   for (let i = 0; i < products.length; ++i) {
     totalCost += products[i].price * products[i].quantity_ordered;
   }
+
+  React.useEffect(()=>{
+    setProducts(store.getState().cart);
+  },[])
 
   return (
     <React.Fragment>
