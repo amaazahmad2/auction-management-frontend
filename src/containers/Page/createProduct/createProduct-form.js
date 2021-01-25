@@ -68,34 +68,9 @@ const MyInnerForm = ({
   images,
   type,
   setType,
+  setOpeningTime,
+  setClosingTime,
 }) => {
-  function handleStartingDate() {
-    let startTime = new Date(document.getElementById("open_Time").value);
-    let endObj = document.getElementById("close_Time");
-    let endTime = null;
-    if (endObj) {
-      endTime = new Date(endObj.value);
-    }
-
-    if (startTime <= Date.now() || (endTime != null && startTime >= endTime)) {
-      alert(
-        "Start time cannot be less than current date or greater than end date"
-      );
-      document.getElementById("open_Time").value = "";
-    }
-  }
-  function handleEndingDate() {
-    let endTime = new Date(document.getElementById("close_Time").value);
-
-    if (
-      endTime <= Date.now() ||
-      endTime <= new Date(document.getElementById("open_Time").value)
-    ) {
-      document.getElementById("close_Time").value = "";
-      alert("End time cannot be less than current date or open date");
-    }
-  }
-
   return (
     <form className="mainFormsWrapper">
       <div
@@ -159,13 +134,11 @@ const MyInnerForm = ({
 
           <div className="mainFormsInfoField">
             <RenderDateTimeField
-              id="open_Time"
+              id="open_time"
               label="Starting Time"
               type="datetime-local"
               value={values.open_Time}
-              onChange={() => {
-                handleStartingDate();
-              }}
+              onChange={setOpeningTime}
               onBlur={handleBlur}
               error={errors.open_Time && touched.open_Time}
               errorText={errors.open_Time}
@@ -173,13 +146,11 @@ const MyInnerForm = ({
           </div>
           <div className="mainFormsInfoField">
             <RenderDateTimeField
-              id="close_Time"
+              id="close_time"
               label="Closing Time"
               type="datetime-local"
               value={values.close_Time}
-              onChange={() => {
-                handleEndingDate();
-              }}
+              onChange={setClosingTime}
               onBlur={handleBlur}
               error={errors.close_Time && touched.close_Time}
               errorText={errors.close_Time}

@@ -20,9 +20,44 @@ function ProductCreate() {
   const [open, setOpen] = useState(false);
   const [isFeatured, setisFeatured] = useState({});
   const [tags, setTags] = useState([]);
+  const [openTime, setOpenTime] = useState([]);
+  const [closeTime, setCloseTime] = useState([]);
 
   const setTagsSelect = (e) => {
     setTags(e);
+  };
+
+  const setOpeningTime = (e) => {
+    let startTime = new Date(e.target.value);
+    let endObj = document.getElementById("close_time");
+    let endTime = null;
+    if (endObj) {
+      endTime = new Date(endObj.value);
+    }
+
+    if (startTime <= Date.now() || (endTime != null && startTime >= endTime)) {
+      alert(
+        "Start time cannot be less than current date or greater than end date"
+      );
+      document.getElementById("open_time").value = "";
+      e.target.value = null;
+    }
+
+    setOpenTime(e.target.value);
+  };
+
+  const setClosingTime = (e) => {
+    let endTime = new Date(e.target.value);
+
+    if (
+      endTime <= Date.now() ||
+      endTime <= new Date(document.getElementById("open_time").value)
+    ) {
+      document.getElementById("close_time").value = "";
+      e.target.value = null;
+      alert("End time cannot be less than current date or open date");
+    }
+    setCloseTime(e.target.value);
   };
 
   const setProductType = (event) => {
@@ -59,6 +94,9 @@ function ProductCreate() {
     values["images"] = imageArray;
     values["tags"] = tags;
     values["type"] = type;
+    values["open_time"] = openTime;
+    values["close_time"] = closeTime;
+
     // if (values["close_Time"] == null) {
     //   alert("Closing Time is required!");
     // }
@@ -68,7 +106,7 @@ function ProductCreate() {
 
     const createProductServiceResponse = await createProductService(values);
     console.log("product service response:", createProductServiceResponse);
-    console.log("values:", values);
+    console.log("values array:", values);
     if (createProductServiceResponse.data.status === "success") {
       setmessage(createProductServiceResponse.data.Message);
       setsnackBarClass("success");
@@ -104,6 +142,8 @@ function ProductCreate() {
             setType={setProductType}
             onSubmit={onSubmit}
             images={images}
+            setOpeningTime={setOpeningTime}
+            setClosingTime={setClosingTime}
           />
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={snackBarClass}>
