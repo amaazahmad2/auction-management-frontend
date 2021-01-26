@@ -87,7 +87,7 @@ function ProductCreate() {
   const setImageisFeatured = (event) => {
     setisFeatured(event.target.value);
   };
-  
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -113,6 +113,9 @@ function ProductCreate() {
     values["type"] = type;
     values["open_time"] = openTime;
     values["close_time"] = closeTime;
+    if (values["type"] === "auction") {
+      values["stock"] = 1;
+    }
 
     if (
       !type ||

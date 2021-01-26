@@ -247,7 +247,7 @@ const MyInnerForm = ({
             />
           </div>
 
-          {type === "limited" && (
+          {type === "limited" ? (
             <div className="mainFormsInfoField">
               <RenderTextField
                 label="Stock"
@@ -265,6 +265,8 @@ const MyInnerForm = ({
                 errorText={errors.stock}
               />
             </div>
+          ) : (
+            <div id="stock" value={1}></div>
           )}
         </div>
 
