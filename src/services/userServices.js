@@ -53,12 +53,10 @@ export async function facebookLoginService(first_name,last_name,email,facebook_t
     }
     const resp = await axios.post(apiEndpoint,userObj,config)
     .then((response) =>{
-        console.log("RESPONSE STATUS: ", response.status);
         return response;
     })
     .catch((error) => {
         error.status = error.response.status;
-        console.log("ERROR STATUS: ", error.status);
         return error;
     });
     return resp;
