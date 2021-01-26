@@ -187,12 +187,13 @@ class SignUp extends Component {
                             <div className="mateInputWrapper">
                                 <TextField
                                     label="DOB"
-                                    placeholder="DOB"
+                                    placeholder=""
                                     name="birthday"
                                     onChange={(event) => this.onChange(event)}
                                     margin="normal"
-                                    type="Date"
+                                    type="date"
                                     required
+                                    InputLabelProps={{ shrink: true }}
                                 />
                             </div>
                             <div className="mateInputWrapper">
