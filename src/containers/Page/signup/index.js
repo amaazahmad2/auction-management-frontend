@@ -37,13 +37,13 @@ class SignUp extends Component {
         this.setState({
           open: true,
           class: "error",
-          message: response.message,
+          message: response.data.message,
         });
       } else if(response.status===500){
         this.setState({
             open: true,
             class: "error",
-            message: "Error in registration",
+            message: response.data.message
           });
       }
        else {
