@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { CircularProgress } from "@material-ui/core";
-import "./displayProducts.css";
+import './displayProducts.css'
 
 import Countdown from "./countdown";
 
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   cardMedia: {
     // height: 100,
     paddingTop: "56.25%", // 16:9
+    paddingTop: "125%",
   },
   cardContent: {
     flexGrow: 1,
@@ -81,14 +82,15 @@ function returnColoredLabel(color, card) {
   return (
     <Box
       component="div"
-      fontSize={12}
+      fontSize={11}
       style={{
         color: "white",
         backgroundColor: color,
-        borderRadius: "7px",
-        width: "fit-content",
-        padding: "6px",
-        maxHeight: "20px",
+        borderRadius: "25px",
+        // width: "fit-content",
+        padding: "3px 8px",
+        margin: "3px 0",
+        // maxHeight: "20px",
       }}
     >
       {getSecondLabelText(card)}
@@ -112,7 +114,7 @@ export default function DisplayProducts(props) {
         break;
       }
     }
-
+    featuredImage = 'https://demo.alura-studio.com/orgafresh/wp-content/uploads/2018/05/3-1-370x463.jpg';
     return featuredImage;
   };
 
@@ -127,129 +129,138 @@ export default function DisplayProducts(props) {
       <CircularProgress />
     </Box>
   ) : (
-    <React.Fragment>
-      <main>
-        <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container justify="center" spacing={4}>
-            {cards.map((card) => (
-              <Grid
-                item
-                key={() => {
-                  if (card.product_uuid) return card.product_uuid;
-                  else return card.uuid;
-                }}
-                xs={12}
-                sm={6}
-                md={4}
-              >
-                <Card className={classes.card}>
-                  <CardMedia
-                    image={
-                      card && card.images ? getFeaturedImage(card.images) : ""
-                    }
-                    className={classes.cardMedia}
-                    z-index="1"
-                  >
-                    <Grid
-                      container
-                      spacing={1}
+      <React.Fragment>
+        <main>
+          <Container className={classes.cardGrid} maxWidth="lg">
+            <Grid container justify="center" spacing={4}>
+              {cards.map((card) => (
+                <Grid
+                  item
+                  key={() => {
+                    if (card.product_uuid) return card.product_uuid;
+                    else return card.uuid;
+                  }}
+                  xs={12}
+                  sm={6}
+                  md={4}
+                  className="product_wrap_col"
+                >
+                  <Card className={'product_wrap_inner ' + classes.card}>
+                    <CardMedia
+                      image={
+                        card && card.images ? getFeaturedImage(card.images) : ""
+                      }
+                      className={classes.cardMedia}
+                      z-index="1"
                       style={{
-                        justifyContent: "space-between",
+                        position: "relative",
                       }}
                     >
-                      <Box
-                        component="div"
-                        fontSize={12}
-                        style={{
-                          color: "white",
-                          backgroundColor: "darkblue",
-                          borderRadius: "7px",
-                          width: "max-content",
-                          padding: "5px",
-                        }}
+                      <Grid
+                        className="product_label_wrap"
+                      // container
+                      // spacing={0}
+                      // style={{
+                      //   justifyContent: "space-between",
+                      // }}
                       >
-                        {" "}
-                        {getFirstLabelText(card && card)}
-                      </Box>
-                      {card && card.stock
-                        ? card.stock > 0
-                          ? /*|| time is NOT up*/
+                        <Box
+                          className="product_limit_label"
+                          component="div"
+                          fontSize={11}
+                          style={{
+                            color: "white",
+                            backgroundColor: "darkblue",
+                            borderRadius: "25px",
+                            width: "max-content",
+                            padding: "3px 8px",
+                            margin: "3px 0",
+                          }}
+                        >
+                          {" "}
+                          {getFirstLabelText(card && card)}
+                        </Box>
+                        {card && card.stock
+                          ? card.stock > 0
+                            ? /*|| time is NOT up*/
                             returnColoredLabel("green", card)
-                          : returnColoredLabel("red", card)
-                        : ""}
-                    </Grid>
-                  </CardMedia>
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {" "}
-                      <span
-                        onClick={() => {
-                          if (card) {
-                            if (card.key) props.handleProductClick(card.key);
-                            else props.handleProductClick(card.uuid);
-                          }
-                        }}
-                        className="productCardTitle"
-                      >
-                        {card && card.title ? card.title : ""}
+                            : returnColoredLabel("red", card)
+                          : ""}
+                      </Grid>
+                      <div className="productCounterWrap">
+                        <span className="counterTxt">
+                          {new Date(card.open_time) > Date.now()
+                            ? card.type === "auction"
+                              ? "Bidding starts in "
+                              // : "Product goes on sale in "
+                              : "On sale in "
+                            : card.type === "auction"
+                              ? "Bidding ends in "
+                              : "Product sale ends in "}
+                            &#8691;
                       </span>
-                    </Typography>
+                        <Countdown
+                          date={
+                            new Date(card.open_time) > Date.now()
+                              ? card.open_time
+                              : card.close_time
+                          }
+                        />
+                      </div>
+                    </CardMedia>
+                    <CardContent className={'product_title_wrap ' + classes.cardContent}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {" "}
+                        <a className="productTitle"
+                          onClick={() => {
+                            if (card) {
+                              if (card.key) props.handleProductClick(card.key);
+                              else props.handleProductClick(card.uuid);
+                            }
+                          }}
+                        >
+                          <span>{card.title}</span>
+                          <p className="titleViewBtn">
+                            View Product
+                          </p>
+                        </a>
+                      </Typography>
 
-                    {card && card.type ? (
-                      card.type === "auction" ? (
-                        <span> {"Starting Bid: " + card.price + " coins"}</span>
+                      {card && card.type ? (
+                        card.type === "auction" ? (
+                          <span> {"Starting Bid: " + card.price + " coins"}</span>
+                        ) : (
+                            ""
+                          )
                       ) : (
-                        ""
-                      )
-                    ) : (
-                      ""
-                    )}
+                          ""
+                        )}
 
-                    {card && card.type ? (
-                      card.type === "auction" ? (
-                        <div>
-                          <span>
-                            {"\nHighest Bid: " +
-                              card.get_highest_bid +
-                              " coins\n"}{" "}
-                          </span>
-                        </div>
+                      {card && card.type ? (
+                        card.type === "auction" ? (
+                          <div>
+                            <span>
+                              {"\nHighest Bid: " +
+                                card.get_highest_bid +
+                                " coins\n"}{" "}
+                            </span>
+                          </div>
+                        ) : (
+                            <span>
+                              {"\nPrice: " + card.price + " coins\n  "}
+                              <br />
+                            </span>
+                          )
                       ) : (
-                        <span>
-                          {"\nPrice: " + card.price + " coins\n  "}
-                          <br />
-                        </span>
-                      )
-                    ) : (
-                      ""
-                    )}
-                    <span>
-                      {card
-                        ? new Date(card.open_time) > Date.now()
-                          ? card.type === "auction"
-                            ? "Bidding starts in: "
-                            : "Product goes on sale in: "
-                          : card.type === "auction"
-                          ? "Bidding ends in: "
-                          : "Product sale ends in: "
-                        : ""}
-                    </span>
-                    <Countdown
-                      date={
-                        card
-                          ? new Date(card.open_time) > Date.now()
-                            ? card.open_time
-                            : card.close_time
-                          : ""
-                      }
-                    />
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
-      </main>
-    </React.Fragment>
-  );
+                          ""
+                        )}
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </main>
+      </React.Fragment>
+    );
 }
