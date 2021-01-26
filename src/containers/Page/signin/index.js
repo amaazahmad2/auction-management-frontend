@@ -124,7 +124,7 @@ class SignIn extends Component {
             }
         } else {
             this.setState({
-                alertMessage: "Unexpected Error Occurred",
+                alertMessage: "Error in verifying your Google credentials",
                 alertSeverity: "error",
                 alertOpen: true,
             });
@@ -159,7 +159,14 @@ class SignIn extends Component {
                     alertSeverity: "error",
                     alertOpen: true,
                 });
-            } else {
+            }else if(loginServiceResponse.status===500){
+                this.setState({
+                    alertMessage: "Error in verifying your Facebook credentials",
+                    alertSeverity: "error",
+                    alertOpen: true,
+                });
+            } 
+            else {
                 this.setState({
                     alertMessage: "Unexpected Error Occurred",
                     alertSeverity: "error",
