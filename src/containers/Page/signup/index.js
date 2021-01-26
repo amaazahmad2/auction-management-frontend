@@ -30,17 +30,17 @@ class SignUp extends Component {
 
         if(response && response.data){
             if(response.data.status === "success"){
-                alert("SIGNED UP SUCCESSFULLY!");
+                this.setState({open:true, class:"success", message:"Registered successfully!"})
             }
             else if(response.data.status === "failure"){
-                alert(response.data.message);
+                this.setState({open:true, class:"error", message:response.data.message})
             }
             else{
-                alert("UNKNOWN ERROR");
+                this.setState({open:true, class:"error", message:"Unknown error occurred"})
             }
         }
         else{
-            alert("ERROR SIGNING UP!")
+            this.setState({open:true, class:"error", message:"Unknown error occurred"})
         }
     };
 
