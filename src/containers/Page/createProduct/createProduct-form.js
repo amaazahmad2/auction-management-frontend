@@ -133,8 +133,8 @@ const MyInnerForm = ({
                 value={type}
                 onChange={setType}
               >
-                <MenuItem value={"auction"}>auction product</MenuItem>
-                <MenuItem value={"limited"}>limited product</MenuItem>
+                <MenuItem value={"auction"}>Auction Product</MenuItem>
+                <MenuItem value={"limited"}>Limited Product</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -165,7 +165,7 @@ const MyInnerForm = ({
           </div>
           <div className="mainFormsInfoField">
             <RenderTextField
-              label="Enter product Detail"
+              label="Enter Product Detail"
               id="detail"
               value={values.detail}
               onChange={handleChange}
