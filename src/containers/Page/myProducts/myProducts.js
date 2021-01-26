@@ -9,6 +9,7 @@ import { CircularProgress } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import { Alert, AlertTitle } from "@material-ui/lab";
 import { Button } from "@material-ui/core";
+import { API_URL } from "../../../services/config";
 
 class MyProducts extends React.Component {
   constructor(props) {
@@ -25,9 +26,18 @@ class MyProducts extends React.Component {
   async setList(pageNum) {
     const response = await getProductsBySeller(pageNum);
     if (response.data.status === "success") {
+      let tempList = response.data.data.products;
+
+      for (let product of tempList) {
+        product.images &&
+          product.images.forEach((i) => {
+            i.image = API_URL + i.image;
+          });
+      }
+
       this.setState({
         responseStatus: true,
-        list: response.data.data.products,
+        list: tempList,
         totalPages: response.data.data.pages,
         currentPage: pageNum,
       });

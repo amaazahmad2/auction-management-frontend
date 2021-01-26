@@ -8,6 +8,7 @@ import FirebaseHelper from "../../../helpers/firebase/index";
 import ShowDetails from "./showDetails.js";
 import { getProductDetails } from "../../../services/productsServices";
 import "./productDetail.css";
+import { API_URL } from "../../../services/config";
 
 export default class ProductDetail extends Component {
   constructor(props, context) {
@@ -35,7 +36,12 @@ export default class ProductDetail extends Component {
         .database()
         .ref("products/" + this.props.match.params.key);
       listRef.on("value", (snapshot) => {
-        this.setState({ product: snapshot.val() });
+        let tempProduct = snapshot.val();
+        tempProduct.images &&
+          tempProduct.images.forEach((i) => {
+            i.image = API_URL + "/" + i.image;
+          });
+        this.setState({ product: tempProduct });
       });
     }
   }

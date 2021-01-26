@@ -7,7 +7,8 @@ import { Pagination } from "@material-ui/lab";
 // eslint-disable-next-line
 import FirebaseHelper from "../../../helpers/firebase/index";
 import firebase from "firebase";
-import './listOfProducts.css';
+import "./listOfProducts.css";
+import { API_URL } from "../../../services/config";
 
 class ListOfProducts extends React.Component {
   constructor(props, context) {
@@ -32,6 +33,10 @@ class ListOfProducts extends React.Component {
       for (let key in prods) {
         let obj = prods[key];
         obj.key = key;
+        obj.images &&
+          obj.images.forEach((i) => {
+            i.image = API_URL + "/" + i.image;
+          });
         tempList.push(obj);
       }
 
