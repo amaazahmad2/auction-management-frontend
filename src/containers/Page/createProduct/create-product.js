@@ -114,14 +114,9 @@ function ProductCreate() {
     values["open_time"] = openTime;
     values["close_time"] = closeTime;
 
-    // if (values["close_Time"] == null) {
-    //   alert("Closing Time is required!");
-    // }
-    // if (values["open_time"] == null) {
-    //   alert("Starting time is required!");
-    // }
     if (
       !type ||
+      isNaN(isFeatured) ||
       document.getElementById("title").value === "" ||
       isNaN(document.getElementById("price").value) ||
       document.getElementById("price").value <= 0 ||
