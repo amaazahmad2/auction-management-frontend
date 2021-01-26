@@ -36,9 +36,12 @@ function ProductCreate() {
     }
 
     if (startTime <= Date.now() || (endTime != null && startTime >= endTime)) {
-      alert(
+      setmessage(
         "Start time cannot be less than current date or greater than end date"
       );
+      setsnackBarClass("error");
+      setOpen(true);
+
       document.getElementById("open_time").value = "";
       e.target.value = null;
     }
@@ -122,23 +125,23 @@ function ProductCreate() {
     // }
     if (
       imageArray.length === 0 ||
-      tags.length === 0 ||
       !type ||
       document.getElementById("title").value === "" ||
-      document.getElementById("price").value === "" ||
+      isNaN(document.getElementById("price").value) ||
+      document.getElementById("price").value <= 0 ||
       (document.getElementById("demo-simple-select").value ===
         "limited product" &&
-        document.getElementById("stock").value === "") ||
+        isNaN(document.getElementById("stock").value)) ||
+      document.getElementById("stock").value <= 0 ||
       !isFeatured ||
       !closeTime ||
       closeTime.length <= 0 ||
       !openTime ||
       openTime.length <= 0 ||
-      document.getElementById("detail").value === "" ||
-      document.getElementById("link_video").value === ""
+      document.getElementById("detail").value === ""
     ) {
       setsnackBarClass("error");
-      setmessage("Please fill all details")
+      setmessage("Please fill all details correctly");
       setOpen(true);
     } else {
       const createProductServiceResponse = await createProductService(values);
