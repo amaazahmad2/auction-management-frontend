@@ -58,3 +58,25 @@ export async function facebookLoginService(first_name,last_name,email,facebook_t
     });
     return resp;
 }
+
+export async function signupUserService(userObj){
+    const apiEndpoint = API_URL + "/users/signup/";
+    //const userObj={username:username, password: password};
+    const config = {
+        headers: {
+          "content-type": "application/json",
+        }
+    }
+    console.log("USER OBJ: ",userObj)
+    const resp = await axios.post(apiEndpoint,userObj,config)
+    .then((response) =>{
+        return response;
+    })
+    .catch((error) => {
+        return error;
+    });
+
+    console.log("SIGNUP SERVICE RESPONSE: ",resp);
+
+    return resp;
+}

@@ -9,42 +9,39 @@ import SignUpStyleWrapper from "./signup.style";
 import { API_URL } from "./../../../services/config";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import {signupUserService} from '../../../services/userServices' 
 
 class SignUp extends Component {
    
-    handleSignUp = () => {
+     handleSignUp = async () => {
         const user = {
-            name: this.state.name,
-            email: this.state.email,
+            username: this.state.username,
             password: this.state.password,
             confirm_password: this.state.confirm_password,
-            username: this.state.username,
-            gender: this.state.gender,
+            name: this.state.name,
             phone_number: this.state.phone_number,
+            email: this.state.email,
+            gender: this.state.gender,
             birthday: this.state.birthday,
+            is_seller:false
         };
-        const config = {
-            headers: {
-                "content-type": "application/json",
-            },
-        };
-        const body = JSON.stringify(user);
-        axios
-            .post(API_URL.concat("/users/signup/"), body, config)
-            .then((response) => {
-                if (response.status === 201) {
-                    this.setState({ class: "success" });
-                    this.setState({ message: "User registered SuccessFully" });
-                }
-                if (response.status === 200) {
-                    this.setState({ message: response.data.message });
-                    this.setState({ class: "error" });
-                }
-                this.setState({ open: true });
-            })
-            .catch((error) => {
-                alert("Error signing up!")
-            });
+        
+        const response = await signupUserService(user);
+
+        if(response && response.data){
+            if(response.data.status === "success"){
+                alert("SIGNED UP SUCCESSFULLY!");
+            }
+            else if(response.data.status === "failure"){
+                alert(response.data.message);
+            }
+            else{
+                alert("UNKNOWN ERROR");
+            }
+        }
+        else{
+            alert("ERROR SIGNING UP!")
+        }
     };
 
     constructor(props) {
@@ -67,6 +64,10 @@ class SignUp extends Component {
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    handleGenderChange(gender){
+        this.setState({gender:gender})
     }
 
     handleClose = (event, reason) => {
@@ -172,6 +173,7 @@ class SignUp extends Component {
                                         name="gender"
                                         margin="normal"
                                         style={{marginLeft:"5rem"}}
+                                        onClick={()=>{this.handleGenderChange("M")}}
                                     />{" "}
                                     Male
                                     <input
@@ -180,6 +182,7 @@ class SignUp extends Component {
                                         name="gender"
                                         margin="normal"
                                         style={{marginLeft:"2rem"}}
+                                        onClick={()=>{this.handleGenderChange("F")}}
                                     />{" "}
                                     Female
                                 </div>

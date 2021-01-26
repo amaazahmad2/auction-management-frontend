@@ -14,7 +14,7 @@ import {
     loginUserService,
     googleLoginService,
     facebookLoginService
-} from "../../../services/loginServices";
+} from "../../../services/userServices";
 import { store } from "./../../../redux/store.js";
 import { loginUserAction } from "../../../redux/actions/userAction";
 import Snackbar from "@material-ui/core/Snackbar";
