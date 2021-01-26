@@ -9,12 +9,15 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import {placeBidService} from './../../../services/bidServices'
+import {store} from '../../../redux/store'
+
 
 export default function CreateBidPopup(props) {
     const [open, setOpen] = React.useState(false);
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
     const [alertSeverity, setAlertSeverity] = React.useState("");
+    let coinsInWallet = store.getState().user.coins;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -28,12 +31,12 @@ export default function CreateBidPopup(props) {
         let coinsInNewBid = parseFloat(document.getElementById("coins").value);
 
         if(coinsInNewBid <= post.get_highest_bid){
-            setAlertMessage("Your bid is lower than the highest bid!");
+            setAlertMessage("Your bid should be higher than the latest bid!");
             setAlertOpen(true);
             setAlertSeverity("error");
             return;
         } 
-        else if(coinsInNewBid > post.coins){
+        else if(coinsInNewBid > coinsInWallet){
             setAlertMessage("You do not have enough coins");
             setAlertOpen(true);
             setAlertSeverity("error");
@@ -41,26 +44,33 @@ export default function CreateBidPopup(props) {
         }
         else{
             let response = await placeBidService(post.product_uuid, coinsInNewBid);
-
-            if(response.data.status === "failure"){
-                setAlertMessage("Your bid is lower than the highest bid!");
-                setAlertOpen(true);
-                setAlertSeverity("error");
-                return;
-            }
-            else if(response.data.status === "Success"){
-                setAlertMessage("Bid Placed!");
-                setAlertOpen(true);
-                setAlertSeverity("success");
-    
-                setOpen(false);
-                return;
+            if(response.status===200){
+                if(response.data.status === "failure"){
+                    setAlertMessage("Failure");
+                    setAlertOpen(true);
+                    setAlertSeverity("error");
+                    return;
+                }
+                else if(response.data.status === "Success"){
+                    setAlertMessage("Bid Placed!");
+                    setAlertOpen(true);
+                    setAlertSeverity("success");
+        
+                    setOpen(false);
+                    return;
+                }
+                else{
+                    setAlertMessage("Unknown error occurred");
+                    setAlertOpen(true);
+                    setAlertSeverity("error");
+                    return;
+                }
             }
             else{
                 setAlertMessage("Unknown error occurred");
                 setAlertOpen(true);
                 setAlertSeverity("error");
-                return;
+                    return;
             }
 
             
@@ -70,7 +80,10 @@ export default function CreateBidPopup(props) {
     function handleQuantityChange(post) {
         let coins = parseFloat(document.getElementById("coins").value);
         if (isNaN(coins)) {
-          document.getElementById("coins").value = 0;
+          document.getElementById("coins").value = post.get_highest_bid+1;
+         }
+         else if(coins<post.get_highest_bid){
+            document.getElementById("coins").value = post.get_highest_bid+1;
          }
     }
 
@@ -116,14 +129,15 @@ export default function CreateBidPopup(props) {
                                 handleQuantityChange(props.post);
                               }}
                             type="number"
-                            defaultValue={props.post.get_highest_bid}
+                            defaultValue={props.post.get_highest_bid+1}
+                            inputProps={{min:props.post.get_highest_bid+1}}
                         />
                     </div>
                     <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} color="primary" variant="contained">
                         Cancel
                     </Button>
-                    <Button onClick={()=>{handlePlaceBid(props.post)}} color="primary">
+                    <Button onClick={()=>{handlePlaceBid(props.post)}} color="primary" variant="contained">
                         Place Bid
                     </Button>
                 </DialogActions>

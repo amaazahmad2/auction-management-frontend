@@ -41,9 +41,9 @@ export default function Orders() {
         );
 
         if (isNaN(qty)) {
-            document.getElementById("quantity" + row.uuid).value = 0;
+            document.getElementById("quantity" + row.uuid).value = 1;
         } else if (qty < 1)
-            document.getElementById("quantity" + row.uuid).value = 0;
+            document.getElementById("quantity" + row.uuid).value = 1;
         else if (qty >= row.quantity_in_stock) {
             document.getElementById("quantity" + row.uuid).value =
                 row.quantity_in_stock;
@@ -112,6 +112,7 @@ export default function Orders() {
                                             handleQuantityChange(row);
                                         }}
                                         type="number"
+                                        inputProps={{min:1}}
                                     />
                                 }
                             </TableCell>
