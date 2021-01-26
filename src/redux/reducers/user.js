@@ -2,6 +2,7 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
+    BECOME_SELLER_SUCCESS
 } from "../actions/types/auth";
 
 const initialState = {
@@ -46,6 +47,12 @@ export default function user(state = initialState, action) {
             is_seller:null,
             coins:null
         };
+    }
+    else if(action.type===BECOME_SELLER_SUCCESS){
+        return{
+            ...state,
+            is_seller:action.payload.is_seller,
+        }
     }
     return state;
 }

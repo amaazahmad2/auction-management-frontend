@@ -1,5 +1,5 @@
 
-import { LOGIN_SUCCESS,LOGOUT_SUCCESS } from './types/auth';
+import { LOGIN_SUCCESS,LOGOUT_SUCCESS, BECOME_SELLER_SUCCESS } from './types/auth';
 
 
 export function loginUserAction(userObj){
@@ -24,5 +24,12 @@ export function logoutUserAction(){
     return{
         type:LOGOUT_SUCCESS,
         payload:{}
+    }
+}
+
+export function becomeSellerAction(){
+    return{
+        type:BECOME_SELLER_SUCCESS,
+        payload:{is_seller:true}
     }
 }

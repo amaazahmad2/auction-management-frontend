@@ -15,6 +15,8 @@ import csc from "country-state-city";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import {becomeSellerService} from './../../../services/sellerServices';
+import {store} from '../../../redux/store';
+import { becomeSellerAction } from '../../../redux/actions/userAction';
 
 
 export default function SellerPopupModal() {
@@ -132,12 +134,19 @@ export default function SellerPopupModal() {
             account_number: bankAccountNumber
         }
         const response = await becomeSellerService(sellerObj);
-
-        if(response.status===200)
+        if(response.data.status==='failure')
         {   
-            setAlertMessage("A email has been sent to your email address. Kindly verify!");
+            setAlertMessage("A email has been sent to your email address. Kindly verify it and submit the form again!");
+            setAlertOpen(true);
+            setAlertSeverity("error");
+            return;
+        }
+        else if(response.data.status==='success'){
+            store.dispatch(becomeSellerAction());
+            setAlertMessage("You've successfully registered as a seller!");
             setAlertOpen(true);
             setAlertSeverity("success");
+            setTimeout(() => {  window.location.reload(); }, 2000);
             return;
         }
         else
