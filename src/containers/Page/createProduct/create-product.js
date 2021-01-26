@@ -135,18 +135,22 @@ function ProductCreate() {
       document.getElementById("detail").value === "" ||
       document.getElementById("link_video").value === ""
     ) {
-      alert("Please fill all fields!");
+      setsnackBarClass("error");
+      setmessage("Please fill all details")
+      setOpen(true);
     } else {
       const createProductServiceResponse = await createProductService(values);
-      console.log("product service response:", createProductServiceResponse);
-      console.log("values array:", values);
+      //console.log("product service response:", createProductServiceResponse);
+      //console.log("values array:", values);
       if (createProductServiceResponse.data.status === "success") {
         setmessage(createProductServiceResponse.data.Message);
         setsnackBarClass("success");
+        setOpen(true);
         handleClick();
       } else {
         setsnackBarClass("error");
         setmessage("Unable to create product");
+        setOpen(true);
         handleClick();
       }
     }
