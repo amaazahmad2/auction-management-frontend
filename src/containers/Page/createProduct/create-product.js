@@ -8,7 +8,7 @@ import MyInnerForm from "./createProduct-form";
 import { createProductService } from "../../../services/productsServices";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-import { useHistory } from 'react-router';
+import { useHistory } from "react-router";
 
 function ProductCreate() {
   let history = useHistory();
@@ -126,7 +126,6 @@ function ProductCreate() {
     //   alert("Starting time is required!");
     // }
     if (
-      imageArray.length === 0 ||
       !type ||
       document.getElementById("title").value === "" ||
       isNaN(document.getElementById("price").value) ||
@@ -145,6 +144,10 @@ function ProductCreate() {
       setsnackBarClass("error");
       setmessage("Please fill all details correctly");
       setOpen(true);
+    } else if (imageArray.length < 3) {
+      setsnackBarClass("error");
+      setmessage("Please enter at least 3 images");
+      setOpen(true);
     } else {
       const createProductServiceResponse = await createProductService(values);
       //console.log("product service response:", createProductServiceResponse);
@@ -153,8 +156,9 @@ function ProductCreate() {
         setmessage(createProductServiceResponse.data.Message);
         setsnackBarClass("success");
         setOpen(true);
-        setTimeout(() => {  history.push("/dashboard/my-products") }, 750);
-        
+        setTimeout(() => {
+          history.push("/dashboard/my-products");
+        }, 750);
       } else {
         setsnackBarClass("error");
         setmessage("Unable to create product");
