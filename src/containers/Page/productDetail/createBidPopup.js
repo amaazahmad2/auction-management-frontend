@@ -43,7 +43,7 @@ export default function CreateBidPopup(props) {
             let response = await placeBidService(post.product_uuid, coinsInNewBid);
 
             if(response.data.status === "failure"){
-                setAlertMessage("Your bid is lower than the highest bid!");
+                setAlertMessage("Failure");
                 setAlertOpen(true);
                 setAlertSeverity("error");
                 return;
