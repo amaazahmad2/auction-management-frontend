@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { CircularProgress } from "@material-ui/core";
-import './displayProducts.css'
+import "./displayProducts.css";
 
 import Countdown from "./countdown";
 
@@ -144,7 +144,9 @@ export default function DisplayProducts(props) {
               >
                 <Card className={classes.card}>
                   <CardMedia
-                    image={card ? getFeaturedImage(card.images) : ""}
+                    image={
+                      card && card.images ? getFeaturedImage(card.images) : ""
+                    }
                     className={classes.cardMedia}
                     z-index="1"
                   >
@@ -180,10 +182,8 @@ export default function DisplayProducts(props) {
                       {" "}
                       <span
                         onClick={() => {
-                            if(card.key)
-                                props.handleProductClick(card.key);
-                            else
-                                props.handleProductClick(card.uuid);    
+                          if (card.key) props.handleProductClick(card.key);
+                          else props.handleProductClick(card.uuid);
                         }}
                       >
                         {card.title}
