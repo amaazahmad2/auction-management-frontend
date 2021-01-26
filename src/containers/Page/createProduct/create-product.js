@@ -8,8 +8,10 @@ import MyInnerForm from "./createProduct-form";
 import { createProductService } from "../../../services/productsServices";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import { useHistory } from 'react-router';
 
 function ProductCreate() {
+  let history = useHistory();
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
@@ -151,12 +153,12 @@ function ProductCreate() {
         setmessage(createProductServiceResponse.data.Message);
         setsnackBarClass("success");
         setOpen(true);
-        handleClick();
+        setTimeout(() => {  history.push("/dashboard/my-products") }, 750);
+        
       } else {
         setsnackBarClass("error");
         setmessage("Unable to create product");
         setOpen(true);
-        handleClick();
       }
     }
   };
