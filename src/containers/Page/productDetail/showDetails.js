@@ -4,7 +4,7 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import ImageGrid from "./imageGrid";
-import { CircularProgress} from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import Countdown from "../listOfProducts/countdown";
 import { CircularProgressbar } from "react-circular-progressbar";
 import Button from "@material-ui/core/Button";
@@ -12,8 +12,8 @@ import Box from "@material-ui/core/Box";
 import { addToCartAction } from "../../../redux/actions/cartAction";
 import { store } from "../../../redux/store";
 import TextField from "@material-ui/core/TextField";
-import CreateBidPopup from './createBidPopup';
-import './showDetails.css';
+import CreateBidPopup from "./createBidPopup";
+import "./showDetails.css";
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -49,12 +49,11 @@ function handleAddToCart(post) {
     name: post.title,
     quantity_ordered: parseInt(document.getElementById("quantity").value),
     price: post.price,
-    quantity_in_stock:post.stock
+    quantity_in_stock: post.stock,
   };
 
   store.dispatch(addToCartAction(cardObj));
 }
-
 
 function handleQuantityChange(post) {
   let qty = parseInt(document.getElementById("quantity").value);
@@ -78,10 +77,10 @@ const setBgImg = (p) => {
     return "";
   }
   return "";
-}; 
+};
 var bg = "";
 
-export default function ShowDetails(props ) {
+export default function ShowDetails(props) {
   const classes = useStyles();
   const post = props.productProps;
   // const currentDate = new Date();
@@ -143,7 +142,7 @@ export default function ShowDetails(props ) {
         </Grid>
       </Paper>
 
-      {ImageGrid(post && post.images)}
+      {ImageGrid(post && post.images ? post.images : [])}
       <Paper className={classes.mainFeaturedPostContent}>
         {post ? (
           getRemainingProductDetails(post, props.isSeller)
@@ -167,7 +166,7 @@ const getRemainingProductDetails = (post, isSeller) => {
         : "Item Out of Stock!",
     stock: post.type === "auction" ? "" : post.stock > 0 ? post.stock : "",
     tagsLabel: "Tags: ",
-    tags: post.tags.toString(),
+    tags: post.tags && post.tags.toString(),
   };
   return (
     <Box container>
@@ -180,8 +179,7 @@ const getRemainingProductDetails = (post, isSeller) => {
 function returnGrid(post, label, data, isSeller) {
   return (
     <div>
-      
-      {isSeller===false? getButton(post, label, isSeller) : null}
+      {isSeller === false ? getButton(post, label, isSeller) : null}
       <div
         style={{
           display: "flex",
@@ -203,7 +201,6 @@ function getButton(post, label) {
   if (label === "Price: ") {
     return (
       <div>
-        
         <TextField
           style={{ marginBottom: "15px" }}
           size="small"
@@ -228,9 +225,7 @@ function getButton(post, label) {
       </div>
     );
   } else if (label === "Latest Bid: ") {
-    return (
-      <CreateBidPopup post={post}/>
-    );
+    return <CreateBidPopup post={post} />;
   } else {
     return null;
   }
