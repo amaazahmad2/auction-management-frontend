@@ -3,7 +3,7 @@ import { getDefaultPath } from "../../helpers/urlSync";
 
 const options = [
   {
-    label: "List of Products",
+    label: "Home",
     key: "list-of-products",
   },
   

@@ -52,7 +52,7 @@ class SignIn extends Component {
                     loginServiceResponse.data.data.token
                 );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
-                this.props.history.push("/dashboard");
+                this.props.history.push("/dashboard/list-of-products");
             } else if (loginServiceResponse.data.status === "failure") {
                 this.setState({
                     alertMessage: loginServiceResponse.data.message,
@@ -108,7 +108,7 @@ class SignIn extends Component {
                     loginServiceResponse.data.data.token
                 );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
-                this.props.history.push("/dashboard");
+                this.props.history.push("/dashboard/list-of-products");
             } else if (loginServiceResponse.status === 401) {
                 this.setState({
                     alertMessage: "Invalid Username or Password",
@@ -152,7 +152,7 @@ class SignIn extends Component {
                     loginServiceResponse.data.data.token
                 );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
-                this.props.history.push("/dashboard");
+                this.props.history.push("/dashboard/list-of-products");
             } else if (loginServiceResponse.status === 401) {
                 this.setState({
                     alertMessage: "Invalid Username or Password",
@@ -187,7 +187,7 @@ class SignIn extends Component {
     onChangePassword = (event) =>
         this.setState({ password: event.target.value });
     render() {
-        const from = { pathname: "/dashboard" };
+        const from = { pathname: "/dashboard/list-of-products" };
         const { redirectToReferrer, username, password } = this.state;
 
         if (redirectToReferrer) {
