@@ -26,7 +26,12 @@ export default class ProductDetail extends Component {
       this.setState({ is_seller: true });
       const response = await getProductDetails(this.props.match.params.key);
       if (response.data.status === "success") {
-        this.setState({ product: response.data.data });
+        let tempProduct = response.data.data;
+        tempProduct.images &&
+          tempProduct.images.forEach((i) => {
+            i.image = API_URL + i.image;
+          });
+        this.setState({ product: tempProduct });
       } else {
         alert("Unexpected Error");
       }
