@@ -87,10 +87,7 @@ function ProductCreate() {
   const setImageisFeatured = (event) => {
     setisFeatured(event.target.value);
   };
-  const handleClick = () => {
-    setOpen(true);
-  };
-
+  
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
