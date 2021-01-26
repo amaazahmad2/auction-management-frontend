@@ -29,6 +29,7 @@ class SignUp extends Component {
         if(response && response.data){
             if(response.data.status === "success"){
                 this.setState({open:true, class:"success", message:"Registered successfully!"})
+                this.props.history.push("/signin");
             }
             else if(response.data.status === "failure"){
                 this.setState({open:true, class:"error", message:response.data.message})
