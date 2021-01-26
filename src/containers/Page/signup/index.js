@@ -25,34 +25,35 @@ class SignUp extends Component {
 
     const response = await signupUserService(user);
 
-    if (response && response.data) {
-      if (response.data.status === "success") {
+    
+      if (response.status === 201) {
         this.setState({
           open: true,
           class: "success",
           message: "Registered successfully!",
         });
         this.props.history.push("/signin");
-      } else if (response.data.status === "failure") {
+      } else if (response.status === 200) {
         this.setState({
           open: true,
           class: "error",
-          message: response.data.message,
+          message: response.message,
         });
-      } else {
+      } else if(response.status===500){
+        this.setState({
+            open: true,
+            class: "error",
+            message: "Error in registration",
+          });
+      }
+       else {
         this.setState({
           open: true,
           class: "error",
           message: "Unknown error occurred",
         });
-      }
-    } else {
-      this.setState({
-        open: true,
-        class: "error",
-        message: "Unknown error occurred",
-      });
-    }
+      
+    } 
   };
 
   constructor(props) {
@@ -85,7 +86,7 @@ class SignUp extends Component {
     let dob = new Date(event.target.value);
     if (dob < Date.now()) {
       this.setState({
-        birthday: dob,
+        birthday: event.target.value,
       });
 
       return;

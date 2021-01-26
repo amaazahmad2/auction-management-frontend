@@ -132,7 +132,6 @@ class SignIn extends Component {
     };
 
     handleFacebookLogin = async (response) => {
-        console.log("FACEBOOK RESPONSE: ", response);
         if (!response.error) {
             //make the API call
             const loginServiceResponse = await facebookLoginService(
