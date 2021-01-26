@@ -13,7 +13,7 @@ export default function cart(state = initialState, action) {
 
             for (let i = 0; i < state.length; i++) {
                 if (action.payload.uuid === state[i].uuid) {
-                    newState[i].quantity_ordered =
+                    newState[i].quantity_ordered = newState[i].quantity_ordered+
                         action.payload.quantity_ordered;
                     return newState;
                 }
