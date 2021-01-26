@@ -1,3 +1,5 @@
+
+import { ADD_COINS } from '../actions/types/coins';
 import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
@@ -52,6 +54,13 @@ export default function user(state = initialState, action) {
         return{
             ...state,
             is_seller:action.payload.is_seller,
+        }
+    }
+    else if(action.type===ADD_COINS){
+        let newCoins = state.coins + action.payload.coins;
+        return{
+            ...state,
+            coins:newCoins,
         }
     }
     return state;

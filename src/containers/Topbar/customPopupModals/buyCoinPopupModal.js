@@ -13,6 +13,7 @@ import { buyCoinsService } from "./../../../services/coinsServices";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { store } from "./../../../redux/store";
+import { addCoinsAction } from '../../../redux/actions/coinAction';
 
 export default function BuyCoinPopupModal() {
   const [open, setOpen] = React.useState(false);
@@ -62,13 +63,17 @@ export default function BuyCoinPopupModal() {
       return;
     }
     const response = await buyCoinsService(numberOfCoins);
-
+    //console.log(typeof(numberOfCoins));
     if (response.status === 200) {
       if (numberOfCoins === 1)
         setAlertMessage(numberOfCoins + " coin purchased successfully!");
       else setAlertMessage(numberOfCoins + " coins purchased successfully!");
       setAlertOpen(true);
       setAlertSeverity("success");
+      store.dispatch(addCoinsAction(parseFloat(numberOfCoins)));
+      setCurrentAvailableCoins(store.getState().user.coins);
+      setNumberOfCoins(0);
+      setAmountInWon(0);
       return;
     } else {
       setAlertMessage("Error in Purchasing Coins");
