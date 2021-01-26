@@ -12,6 +12,7 @@ import TextField from "../../../components/uielements/textfield";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -34,6 +35,9 @@ const RenderDateTimeField = ({ error, errorText, ...props }) => {
           InputLabelProps={{
             shrink: true,
           }}
+          // inputProps={{
+          //   style: { width: "50%", size: "30px" },
+          // }}
         />
         {error ? <FormHelperText>{errorText}</FormHelperText> : ""}
       </FormControl>
@@ -88,8 +92,8 @@ const MyInnerForm = ({
           color: "white",
           backgroundColor: "white",
           borderRadius: "7px",
-          width: "fit-content",
-          padding: "5px",
+          width: "100%",
+          padding: "10px",
         }}
       >
         <div className="mainFormsInfoWrapper">
@@ -140,31 +144,36 @@ const MyInnerForm = ({
               </Select>
             </FormControl>
           </div>
-
-          <div className="mainFormsInfoField">
-            <RenderDateTimeField
-              id="open_time"
-              label="Starting Time"
-              type="datetime-local"
-              value={values.open_Time}
-              onChange={setOpeningTime}
-              onBlur={handleBlur}
-              error={errors.open_Time && touched.open_Time}
-              errorText={errors.open_Time}
-            />
-          </div>
-          <div className="mainFormsInfoField">
-            <RenderDateTimeField
-              id="close_time"
-              label="Closing Time"
-              type="datetime-local"
-              value={values.close_Time}
-              onChange={setClosingTime}
-              onBlur={handleBlur}
-              error={errors.close_Time && touched.close_Time}
-              errorText={errors.close_Time}
-            />
-          </div>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={6}>
+              <div className="mainFormsInfoField">
+                <RenderDateTimeField
+                  id="open_time"
+                  label="Starting Time"
+                  type="datetime-local"
+                  value={values.open_Time}
+                  onChange={setOpeningTime}
+                  onBlur={handleBlur}
+                  error={errors.open_Time && touched.open_Time}
+                  errorText={errors.open_Time}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div className="mainFormsInfoField">
+                <RenderDateTimeField
+                  id="close_time"
+                  label="Closing Time"
+                  type="datetime-local"
+                  value={values.close_Time}
+                  onChange={setClosingTime}
+                  onBlur={handleBlur}
+                  error={errors.close_Time && touched.close_Time}
+                  errorText={errors.close_Time}
+                />
+              </div>
+            </Grid>
+          </Grid>
           <div className="mainFormsInfoField">
             <RenderTextField
               label="Enter Product Detail"
