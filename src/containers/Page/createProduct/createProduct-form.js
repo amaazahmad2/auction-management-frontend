@@ -50,12 +50,14 @@ function makeImagesArray(images) {
   return imageArray;
 }
 
-function handlePriceAndStock(e) {
-  if (e.target.value < 0) {
-    e.target.value = 1;
-  }
-  document.getElementById("price").value = e.target.value;
-}
+// function handlePriceAndStock(e) {
+//   console.log("on change value:", e.target.value);
+//   // if (e.target.value < 0) {
+//   //   e.target.value = 1;
+//   // }
+//   // document.getElementById("price").value = e.target.value;
+//   return e.target.value;
+// }
 
 const MyInnerForm = ({
   values,
@@ -224,7 +226,12 @@ const MyInnerForm = ({
               id="price"
               type="number"
               value={values.price}
-              onChange={handlePriceAndStock}
+              onChange={(event) => {
+                if (event.target.value <= 0) {
+                  event.target.value = 1;
+                }
+                handleChange(event);
+              }}
               onBlur={handleBlur}
               error={errors.price && touched.price}
               errorText={errors.price}
@@ -238,7 +245,12 @@ const MyInnerForm = ({
                 id="stock"
                 type="number"
                 value={values.stock}
-                onChange={handlePriceAndStock}
+                onChange={(event) => {
+                  if (event.target.value <= 0) {
+                    event.target.value = 1;
+                  }
+                  handleChange(event);
+                }}
                 onBlur={handleBlur}
                 error={errors.stock && touched.stocks}
                 errorText={errors.stock}
@@ -269,8 +281,8 @@ export default withFormik({
     close_time: "",
     title: "",
     type: "",
-    price: 0,
-    stock: 0,
+    price: 1,
+    stock: 1,
     open_time: "",
     detail: "",
     status: "",
