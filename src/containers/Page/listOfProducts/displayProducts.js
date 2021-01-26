@@ -169,12 +169,14 @@ export default function DisplayProducts(props) {
                         }}
                       >
                         {" "}
-                        {getFirstLabelText(card)}
+                        {getFirstLabelText(card && card)}
                       </Box>
-                      {card.stock > 0
-                        ? /*|| time is NOT up*/
-                          returnColoredLabel("green", card)
-                        : returnColoredLabel("red", card)}
+                      {card && card.stock
+                        ? card.stock > 0
+                          ? /*|| time is NOT up*/
+                            returnColoredLabel("green", card)
+                          : returnColoredLabel("red", card)
+                        : ""}
                     </Grid>
                   </CardMedia>
                   <CardContent className={classes.cardContent}>
@@ -182,49 +184,63 @@ export default function DisplayProducts(props) {
                       {" "}
                       <span
                         onClick={() => {
-                          if (card.key) props.handleProductClick(card.key);
-                          else props.handleProductClick(card.uuid);
+                          if (card) {
+                            if (card.key) props.handleProductClick(card.key);
+                            else props.handleProductClick(card.uuid);
+                          }
                         }}
                         className="productCardTitle"
                       >
-                        {card.title}
+                        {card && card.title ? card.title : ""}
                       </span>
                     </Typography>
 
-                    {card.type === "auction" ? (
-                      <span> {"Starting Bid: " + card.price + " coins"}</span>
+                    {card && card.type ? (
+                      card.type === "auction" ? (
+                        <span> {"Starting Bid: " + card.price + " coins"}</span>
+                      ) : (
+                        ""
+                      )
                     ) : (
                       ""
                     )}
 
-                    {card.type === "auction" ? (
-                      <div>
+                    {card && card.type ? (
+                      card.type === "auction" ? (
+                        <div>
+                          <span>
+                            {"\nHighest Bid: " +
+                              card.get_highest_bid +
+                              " coins\n"}{" "}
+                          </span>
+                        </div>
+                      ) : (
                         <span>
-                          {"\nHighest Bid: " +
-                            card.get_highest_bid +
-                            " coins\n"}{" "}
+                          {"\nPrice: " + card.price + " coins\n  "}
+                          <br />
                         </span>
-                      </div>
+                      )
                     ) : (
-                      <span>
-                        {"\nPrice: " + card.price + " coins\n  "}
-                        <br />
-                      </span>
+                      ""
                     )}
                     <span>
-                      {new Date(card.open_time) > Date.now()
-                        ? card.type === "auction"
-                          ? "Bidding starts in: "
-                          : "Product goes on sale in: "
-                        : card.type === "auction"
-                        ? "Bidding ends in: "
-                        : "Product sale ends in: "}
+                      {card
+                        ? new Date(card.open_time) > Date.now()
+                          ? card.type === "auction"
+                            ? "Bidding starts in: "
+                            : "Product goes on sale in: "
+                          : card.type === "auction"
+                          ? "Bidding ends in: "
+                          : "Product sale ends in: "
+                        : ""}
                     </span>
                     <Countdown
                       date={
-                        new Date(card.open_time) > Date.now()
-                          ? card.open_time
-                          : card.close_time
+                        card
+                          ? new Date(card.open_time) > Date.now()
+                            ? card.open_time
+                            : card.close_time
+                          : ""
                       }
                     />
                   </CardContent>
