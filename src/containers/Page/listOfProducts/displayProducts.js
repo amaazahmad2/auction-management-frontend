@@ -185,6 +185,7 @@ export default function DisplayProducts(props) {
                           if (card.key) props.handleProductClick(card.key);
                           else props.handleProductClick(card.uuid);
                         }}
+                        className="productCardTitle"
                       >
                         {card.title}
                       </span>
