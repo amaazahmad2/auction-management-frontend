@@ -12,6 +12,7 @@ import TextField from "../../../components/uielements/textfield";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import Grid from "@material-ui/core/Grid";
 
 const RenderTextField = ({ error, errorText, ...props }) => {
   return (
@@ -34,6 +35,9 @@ const RenderDateTimeField = ({ error, errorText, ...props }) => {
           InputLabelProps={{
             shrink: true,
           }}
+          // inputProps={{
+          //   style: { width: "50%", size: "30px" },
+          // }}
         />
         {error ? <FormHelperText>{errorText}</FormHelperText> : ""}
       </FormControl>
@@ -50,12 +54,14 @@ function makeImagesArray(images) {
   return imageArray;
 }
 
-function handlePriceAndStock(e) {
-  if (e.target.value < 0) {
-    e.target.value = 1;
-  }
-  document.getElementById("price").value = e.target.value;
-}
+// function handlePriceAndStock(e) {
+//   console.log("on change value:", e.target.value);
+//   // if (e.target.value < 0) {
+//   //   e.target.value = 1;
+//   // }
+//   // document.getElementById("price").value = e.target.value;
+//   return e.target.value;
+// }
 
 const MyInnerForm = ({
   values,
@@ -86,8 +92,8 @@ const MyInnerForm = ({
           color: "white",
           backgroundColor: "white",
           borderRadius: "7px",
-          width: "fit-content",
-          padding: "5px",
+          width: "100%",
+          padding: "10px",
         }}
       >
         <div className="mainFormsInfoWrapper">
@@ -138,31 +144,36 @@ const MyInnerForm = ({
               </Select>
             </FormControl>
           </div>
-
-          <div className="mainFormsInfoField">
-            <RenderDateTimeField
-              id="open_time"
-              label="Starting Time"
-              type="datetime-local"
-              value={values.open_Time}
-              onChange={setOpeningTime}
-              onBlur={handleBlur}
-              error={errors.open_Time && touched.open_Time}
-              errorText={errors.open_Time}
-            />
-          </div>
-          <div className="mainFormsInfoField">
-            <RenderDateTimeField
-              id="close_time"
-              label="Closing Time"
-              type="datetime-local"
-              value={values.close_Time}
-              onChange={setClosingTime}
-              onBlur={handleBlur}
-              error={errors.close_Time && touched.close_Time}
-              errorText={errors.close_Time}
-            />
-          </div>
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={6}>
+              <div className="mainFormsInfoField">
+                <RenderDateTimeField
+                  id="open_time"
+                  label="Starting Time"
+                  type="datetime-local"
+                  value={values.open_Time}
+                  onChange={setOpeningTime}
+                  onBlur={handleBlur}
+                  error={errors.open_Time && touched.open_Time}
+                  errorText={errors.open_Time}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <div className="mainFormsInfoField">
+                <RenderDateTimeField
+                  id="close_time"
+                  label="Closing Time"
+                  type="datetime-local"
+                  value={values.close_Time}
+                  onChange={setClosingTime}
+                  onBlur={handleBlur}
+                  error={errors.close_Time && touched.close_Time}
+                  errorText={errors.close_Time}
+                />
+              </div>
+            </Grid>
+          </Grid>
           <div className="mainFormsInfoField">
             <RenderTextField
               label="Enter Product Detail"
@@ -224,7 +235,12 @@ const MyInnerForm = ({
               id="price"
               type="number"
               value={values.price}
-              onChange={handlePriceAndStock}
+              onChange={(event) => {
+                if (event.target.value <= 0) {
+                  event.target.value = 1;
+                }
+                handleChange(event);
+              }}
               onBlur={handleBlur}
               error={errors.price && touched.price}
               errorText={errors.price}
@@ -238,7 +254,12 @@ const MyInnerForm = ({
                 id="stock"
                 type="number"
                 value={values.stock}
-                onChange={handlePriceAndStock}
+                onChange={(event) => {
+                  if (event.target.value <= 0) {
+                    event.target.value = 1;
+                  }
+                  handleChange(event);
+                }}
                 onBlur={handleBlur}
                 error={errors.stock && touched.stocks}
                 errorText={errors.stock}
@@ -269,8 +290,8 @@ export default withFormik({
     close_time: "",
     title: "",
     type: "",
-    price: 0,
-    stock: 0,
+    price: 1,
+    stock: 1,
     open_time: "",
     detail: "",
     status: "",
