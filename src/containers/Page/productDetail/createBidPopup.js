@@ -98,7 +98,7 @@ export default function CreateBidPopup(props) {
                         Starting Bid: {props.post.price}
                     </DialogContentText>
                     <DialogContentText>
-                        Highest Bid: {props.post.get_highest_bid}
+                        Latest Bid: {props.post.get_highest_bid}
                     </DialogContentText>
                     <div
                         style={{
