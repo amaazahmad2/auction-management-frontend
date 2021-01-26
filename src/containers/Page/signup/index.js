@@ -8,6 +8,7 @@ import SignUpStyleWrapper from "./signup.style";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { signupUserService } from "../../../services/userServices";
+import { isDate } from "moment";
 
 class SignUp extends Component {
   handleSignUp = async () => {
@@ -23,37 +24,60 @@ class SignUp extends Component {
       is_seller: false,
     };
 
+    if (
+      this.state.username === "" ||
+      this.state.password === "" ||
+      this.state.confirm_password === "" ||
+      this.state.name === "" ||
+      this.state.phone_number === "" ||
+      this.state.email === "" ||
+      this.state.gender === "" ||
+      this.state.birthday === ""
+    ) {
+      this.setState({
+        open: true,
+        class: "error",
+        message: "Please fill all fields",
+      });
+
+      return;
+    } else if (this.state.password !== this.state.confirm_password) {
+      this.setState({
+        open: true,
+        class: "error",
+        message: "Both password fields should be identical",
+      });
+      return;
+    }
+
     const response = await signupUserService(user);
 
-    
-      if (response.status === 201) {
-        this.setState({
-          open: true,
-          class: "success",
-          message: "Registered successfully!",
-        });
-        this.props.history.push("/signin");
-      } else if (response.status === 200) {
-        this.setState({
-          open: true,
-          class: "error",
-          message: response.data.message,
-        });
-      } else if(response.status===500){
-        this.setState({
-            open: true,
-            class: "error",
-            message: response.data.message
-          });
-      }
-       else {
-        this.setState({
-          open: true,
-          class: "error",
-          message: "Unknown error occurred",
-        });
-      
-    } 
+    if (response.status === 201) {
+      this.setState({
+        open: true,
+        class: "success",
+        message: "Registered successfully!",
+      });
+      this.props.history.push("/signin");
+    } else if (response.status === 200) {
+      this.setState({
+        open: true,
+        class: "error",
+        message: response.data.message,
+      });
+    } else if (response.status === 500) {
+      this.setState({
+        open: true,
+        class: "error",
+        message: response.data.message,
+      });
+    } else {
+      this.setState({
+        open: true,
+        class: "error",
+        message: "Unknown error occurred",
+      });
+    }
   };
 
   constructor(props) {
