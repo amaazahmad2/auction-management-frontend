@@ -9,6 +9,8 @@ import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import {placeBidService} from './../../../services/bidServices'
+import {store} from '../../../redux/store'
+
 
 export default function CreateBidPopup(props) {
     const [open, setOpen] = React.useState(false);
@@ -27,13 +29,15 @@ export default function CreateBidPopup(props) {
     async function handlePlaceBid(post) {
         let coinsInNewBid = parseFloat(document.getElementById("coins").value);
 
+        let coinsInWallet = store.getState().user.coins;
+
         if(coinsInNewBid <= post.get_highest_bid){
-            setAlertMessage("Your bid is lower than the highest bid!");
+            setAlertMessage("Your bid should be higher than the latest bid!");
             setAlertOpen(true);
             setAlertSeverity("error");
             return;
         } 
-        else if(coinsInNewBid > post.coins){
+        else if(coinsInNewBid > coinsInWallet){
             setAlertMessage("You do not have enough coins");
             setAlertOpen(true);
             setAlertSeverity("error");
@@ -41,26 +45,33 @@ export default function CreateBidPopup(props) {
         }
         else{
             let response = await placeBidService(post.product_uuid, coinsInNewBid);
-
-            if(response.data.status === "failure"){
-                setAlertMessage("Failure");
-                setAlertOpen(true);
-                setAlertSeverity("error");
-                return;
-            }
-            else if(response.data.status === "Success"){
-                setAlertMessage("Bid Placed!");
-                setAlertOpen(true);
-                setAlertSeverity("success");
-    
-                setOpen(false);
-                return;
+            if(response.status===200){
+                if(response.data.status === "failure"){
+                    setAlertMessage("Failure");
+                    setAlertOpen(true);
+                    setAlertSeverity("error");
+                    return;
+                }
+                else if(response.data.status === "Success"){
+                    setAlertMessage("Bid Placed!");
+                    setAlertOpen(true);
+                    setAlertSeverity("success");
+        
+                    setOpen(false);
+                    return;
+                }
+                else{
+                    setAlertMessage("Unknown error occurred");
+                    setAlertOpen(true);
+                    setAlertSeverity("error");
+                    return;
+                }
             }
             else{
                 setAlertMessage("Unknown error occurred");
                 setAlertOpen(true);
                 setAlertSeverity("error");
-                return;
+                    return;
             }
 
             
@@ -120,10 +131,10 @@ export default function CreateBidPopup(props) {
                         />
                     </div>
                     <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} color="primary" variant="contained">
                         Cancel
                     </Button>
-                    <Button onClick={()=>{handlePlaceBid(props.post)}} color="primary">
+                    <Button onClick={()=>{handlePlaceBid(props.post)}} color="primary" variant="contained">
                         Place Bid
                     </Button>
                 </DialogActions>
