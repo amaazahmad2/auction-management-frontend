@@ -62,7 +62,9 @@ function ProductCreate() {
     ) {
       document.getElementById("close_time").value = "";
       e.target.value = null;
-      alert("End time cannot be less than current date or open date");
+      setmessage("End time cannot be less than current date or open date");
+      setsnackBarClass("error");
+      setOpen(true);
     }
     const year = new Date(e.target.value).getUTCFullYear();
     const month = new Date(e.target.value).getUTCMonth();
