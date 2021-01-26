@@ -105,7 +105,7 @@ export default function DisplayProducts(props) {
   let cards = props.cardProps;
   const getFeaturedImage = (images) => {
     let imgArr = images.map((i) => {
-      return i.is_featured === true ? API_URL+ '/'+ i.image : false;
+      return i.is_featured === true ? i.image : false;
     });
     let featuredImage = "";
 
