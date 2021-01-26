@@ -17,6 +17,7 @@ export default function CreateBidPopup(props) {
     const [alertOpen, setAlertOpen] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
     const [alertSeverity, setAlertSeverity] = React.useState("");
+    let coinsInWallet = store.getState().user.coins;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -28,8 +29,6 @@ export default function CreateBidPopup(props) {
 
     async function handlePlaceBid(post) {
         let coinsInNewBid = parseFloat(document.getElementById("coins").value);
-
-        let coinsInWallet = store.getState().user.coins;
 
         if(coinsInNewBid <= post.get_highest_bid){
             setAlertMessage("Your bid should be higher than the latest bid!");
@@ -81,7 +80,10 @@ export default function CreateBidPopup(props) {
     function handleQuantityChange(post) {
         let coins = parseFloat(document.getElementById("coins").value);
         if (isNaN(coins)) {
-          document.getElementById("coins").value = 0;
+          document.getElementById("coins").value = post.get_highest_bid+1;
+         }
+         else if(coins<post.get_highest_bid){
+            document.getElementById("coins").value = post.get_highest_bid+1;
          }
     }
 
@@ -127,7 +129,8 @@ export default function CreateBidPopup(props) {
                                 handleQuantityChange(props.post);
                               }}
                             type="number"
-                            defaultValue={props.post.get_highest_bid}
+                            defaultValue={props.post.get_highest_bid+1}
+                            inputProps={{min:props.post.get_highest_bid+1}}
                         />
                     </div>
                     <DialogActions>
