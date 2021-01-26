@@ -85,3 +85,25 @@ export async function getProductDetails(uuid){
   //console.log(resp);
   return resp;
 }
+
+export async function deleteProduct(uuid){
+  const apiEndpoint = API_URL + "/product/remove-product/";
+  const headerObj= {
+    "content-type": "application/json",
+    Authorization: "Token " + localStorage.token,
+  };
+  const resp = await axios
+    .delete(apiEndpoint,{data:{product_uuid:uuid},headers:headerObj})
+    .then((response) => {
+      //console.log("RESPONSE STATUS: ", response.status);
+      return response;
+    })
+    .catch((error) => {
+      error.status=error.response.status;
+      //console.log("ERROR STATUS: ",error.status);
+      return error;
+    });
+
+  //console.log(resp);
+  return resp;
+}

@@ -9,7 +9,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { CircularProgress } from "@material-ui/core";
 import './displayProducts.css';
-import {API_URL} from '../../../services/config'
 
 import Countdown from "./countdown";
 

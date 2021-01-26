@@ -8,7 +8,6 @@ import SignUpStyleWrapper from "./signup.style";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { signupUserService } from "../../../services/userServices";
-import { isDate } from "moment";
 
 class SignUp extends Component {
   handleSignUp = async () => {
