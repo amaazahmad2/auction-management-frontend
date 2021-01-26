@@ -114,7 +114,6 @@ export default function DisplayProducts(props) {
         break;
       }
     }
-    featuredImage = 'https://demo.alura-studio.com/orgafresh/wp-content/uploads/2018/05/3-1-370x463.jpg';
     return featuredImage;
   };
 
