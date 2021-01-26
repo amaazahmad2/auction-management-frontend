@@ -221,6 +221,14 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
   };
   return (
     <Box container>
+      {post.type === "auction" ? (
+        <div>
+          <Typography variant={"h6"}>{"Starting Bid: "}</Typography>
+          <Typography style={{ marginLeft: "5px", marginTop: "3px" }}>
+            {post.price}
+          </Typography>
+        </div>
+      ) : null}
       {returnGrid(post, productData.priceLabel, productData.price, isSeller)}
       {returnGrid(post, productData.stockLabel, productData.stock, isSeller)}
       {isSeller === true ? (
@@ -241,7 +249,6 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
 function returnGrid(post, label, data, isSeller) {
   return (
     <div>
-      {getButton(post, label, isSeller)}
       <div
         style={{
           display: "flex",
@@ -255,6 +262,7 @@ function returnGrid(post, label, data, isSeller) {
           {data}
         </Typography>
       </div>
+      {getButton(post, label, isSeller)}
     </div>
   );
 }
@@ -276,7 +284,13 @@ function getButton(post, label, isSeller) {
             type="number"
           />
           <br />
+
           <Button
+            disabled={
+              post.open_time < Date.now() && post.close_time > Date.now()
+                ? false
+                : true
+            }
             onClick={() => {
               handleAddToCart(post);
             }}
