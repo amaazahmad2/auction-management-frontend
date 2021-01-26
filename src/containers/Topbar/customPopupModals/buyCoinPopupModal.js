@@ -148,10 +148,12 @@ export default function BuyCoinPopupModal() {
           <br />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} color="primary" variant="contained"
+                >
             Cancel
           </Button>
-          <Button onClick={handlePurchase} color="primary">
+          <Button onClick={handlePurchase} color="primary" variant="contained"
+                >
             Buy
           </Button>
         </DialogActions>
