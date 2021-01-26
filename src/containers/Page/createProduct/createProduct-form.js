@@ -243,6 +243,8 @@ const MyInnerForm = ({
         <div className="mateFormsFooter">
           <div className="mateFormsSubmit">
             <Button
+              variant="contained"
+              color="primary"
               className={values.agredTerms ? "mateFormsSubmitBtn" : ""}
               onClick={() => onSubmit(values)}
             >
