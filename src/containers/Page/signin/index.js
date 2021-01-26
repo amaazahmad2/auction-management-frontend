@@ -240,7 +240,7 @@ class SignIn extends Component {
                         <div className="mateSignInPageGreet">
                             <h1>Hello User,</h1>
                             <p>
-                                Welcome to Mate Admin, Please Login with your
+                                Welcome to UNDEDY, Please Login with your
                                 personal account information.
                             </p>
                         </div>
