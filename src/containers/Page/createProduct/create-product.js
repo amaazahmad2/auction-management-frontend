@@ -38,9 +38,7 @@ function ProductCreate() {
     }
 
     if (startTime <= Date.now() || (endTime != null && startTime >= endTime)) {
-      setmessage(
-        "Start time cannot be less than current date or greater than end date"
-      );
+      setmessage("Start time should be greater than current date");
       setsnackBarClass("error");
       setOpen(true);
 
@@ -67,7 +65,7 @@ function ProductCreate() {
     ) {
       document.getElementById("close_time").value = "";
       e.target.value = null;
-      setmessage("End time cannot be less than current date or open date");
+      setmessage("End date should be greater than start date");
       setsnackBarClass("error");
       setOpen(true);
     }
