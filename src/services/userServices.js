@@ -17,6 +17,7 @@ export async function loginUserService(username,password ){
         return response;
     })
     .catch((error) => {
+        error.status=error.response.status;
         return error;
     });
 
@@ -67,7 +68,6 @@ export async function signupUserService(userObj){
           "content-type": "application/json",
         }
     }
-    console.log("USER OBJ: ",userObj)
     const resp = await axios.post(apiEndpoint,userObj,config)
     .then((response) =>{
         return response;
@@ -75,8 +75,6 @@ export async function signupUserService(userObj){
     .catch((error) => {
         return error;
     });
-
-    console.log("SIGNUP SERVICE RESPONSE: ",resp);
 
     return resp;
 }

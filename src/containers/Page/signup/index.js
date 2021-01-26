@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import signinImg from "../../../images/signin.svg";
 import TextField from "../../../components/uielements/textfield";
 import Scrollbars from "../../../components/utility/customScrollBar";
 import Button from "../../../components/uielements/button";
 import SignUpStyleWrapper from "./signup.style";
-import { API_URL } from "./../../../services/config";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import {signupUserService} from '../../../services/userServices' 

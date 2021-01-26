@@ -13,19 +13,19 @@ import SignInStyleWrapper from "./signin.style";
 import {
     loginUserService,
     googleLoginService,
-    facebookLoginService
+    facebookLoginService,
 } from "../../../services/userServices";
 import { store } from "./../../../redux/store.js";
 import { loginUserAction } from "../../../redux/actions/userAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { GoogleLogin } from "react-google-login";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 const { login } = authAction;
 const googleClientID =
     "61733361845-j03c3vnkmcutgehstvfhkpa842tamaej.apps.googleusercontent.com";
-const facebookAppID="448728193170790";
+const facebookAppID = "448728193170790";
 class SignIn extends Component {
     state = {
         username: "hamza",
@@ -39,27 +39,48 @@ class SignIn extends Component {
             this.state.username,
             this.state.password
         );
-        if (loginServiceResponse.status === 200) {
+        if (loginServiceResponse.status===200) {
+            
+            if (loginServiceResponse.data.status === "success") {
+                this.setState({
+                    alertMessage: "Logged-In Successfully",
+                    alertSeverity: "success",
+                    alertOpen: true,
+                });
+                localStorage.setItem(
+                    "token",
+                    loginServiceResponse.data.data.token
+                );
+                store.dispatch(loginUserAction(loginServiceResponse.data.data));
+                this.props.history.push("/dashboard");
+            } else if (loginServiceResponse.data.status === "failure") {
+                this.setState({
+                    alertMessage: loginServiceResponse.data.message,
+                    alertSeverity: "error",
+                    alertOpen: true,
+                });
+            } else {
+                this.setState({
+                    alertMessage: "Unexpected Error Occurred",
+                    alertSeverity: "error",
+                    alertOpen: true,
+                });
+            }
+        }
+        else if(loginServiceResponse.status===401){
             this.setState({
-                alertMessage: "Logged-In Successfully",
-                alertSeverity: "success",
-                alertOpen: true,
-            });
-            localStorage.setItem("token", loginServiceResponse.data.data.token);
-            store.dispatch(loginUserAction(loginServiceResponse.data.data));
-            this.props.history.push("/dashboard");
-        } else if (loginServiceResponse.status === 401) {
-            this.setState({
-                alertMessage: "Invalid Username or Password",
+                alertMessage: "Invalid Credentials",
                 alertSeverity: "error",
                 alertOpen: true,
             });
-        } else {
+        }
+        else{
             this.setState({
-                alertMessage: "Unexpected Error Occurred",
-                alertSeverity: "error",
-                alertOpen: true,
-            });
+            alertMessage: "Unexpected Error Occurred",
+            alertSeverity: "error",
+            alertOpen: true,
+        });
+
         }
     };
 
@@ -69,17 +90,23 @@ class SignIn extends Component {
 
     handleGoogleLogin = async (response) => {
         if (!response.error) {
-            
+            const loginServiceResponse = await googleLoginService(
+                response.profileObj.givenName,
+                response.profileObj.familyName,
+                response.profileObj.email,
+                response.googleId
+            );
 
-            const loginServiceResponse = await googleLoginService(response.profileObj.givenName, response.profileObj.familyName, response.profileObj.email, response.googleId);
-
-            if(loginServiceResponse.status === 200){    
+            if (loginServiceResponse.status === 200) {
                 this.setState({
                     alertMessage: "Logged-In Successfully",
                     alertSeverity: "success",
                     alertOpen: true,
                 });
-                localStorage.setItem("token", loginServiceResponse.data.data.token);
+                localStorage.setItem(
+                    "token",
+                    loginServiceResponse.data.data.token
+                );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
                 this.props.history.push("/dashboard");
             } else if (loginServiceResponse.status === 401) {
@@ -95,7 +122,7 @@ class SignIn extends Component {
                     alertOpen: true,
                 });
             }
-        }else {
+        } else {
             this.setState({
                 alertMessage: "Unexpected Error Occurred",
                 alertSeverity: "error",
@@ -106,18 +133,24 @@ class SignIn extends Component {
 
     handleFacebookLogin = async (response) => {
         if (!response.error) {
-
             //make the API call
-            const loginServiceResponse = await facebookLoginService(response.first_name, response.last_name, response.email, response.id);
-            
+            const loginServiceResponse = await facebookLoginService(
+                response.first_name,
+                response.last_name,
+                response.email,
+                response.id
+            );
 
-            if(loginServiceResponse.status === 200){    
+            if (loginServiceResponse.status === 200) {
                 this.setState({
                     alertMessage: "Logged-In Successfully",
                     alertSeverity: "success",
                     alertOpen: true,
                 });
-                localStorage.setItem("token", loginServiceResponse.data.data.token);
+                localStorage.setItem(
+                    "token",
+                    loginServiceResponse.data.data.token
+                );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
                 this.props.history.push("/dashboard");
             } else if (loginServiceResponse.status === 401) {
@@ -133,7 +166,7 @@ class SignIn extends Component {
                     alertOpen: true,
                 });
             }
-        }else {
+        } else {
             this.setState({
                 alertMessage: "Unexpected Error Occurred",
                 alertSeverity: "error",
@@ -247,7 +280,7 @@ class SignIn extends Component {
                                     fields="first_name,last_name,email"
                                     // scope="public_profile,user_friends,user_actions.books"
                                     callback={this.handleFacebookLogin}
-                                    render={renderProps => (
+                                    render={(renderProps) => (
                                         // <button onClick={renderProps.onClick}>This is my custom FB button</button>
                                         <Button
                                             onClick={renderProps.onClick}
