@@ -16,6 +16,7 @@ export function loginUserAction(userObj){
             gender: userObj.gender,
             is_seller:userObj.is_seller,
             coins: userObj.coins,
+            name: userObj.name
         }
     }
 }
