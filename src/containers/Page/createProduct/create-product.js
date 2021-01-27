@@ -10,7 +10,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useHistory } from "react-router";
 
-function ProductCreate() {
+export function ProductCreate(props) {
   let history = useHistory();
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -24,6 +24,8 @@ function ProductCreate() {
   const [tags, setTags] = useState([]);
   const [openTime, setOpenTime] = useState([]);
   const [closeTime, setCloseTime] = useState([]);
+
+  const isEditPage = props.isEditPage;
 
   const setTagsSelect = (e) => {
     setTags(e);
