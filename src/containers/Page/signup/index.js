@@ -47,6 +47,13 @@ class SignUp extends Component {
         message: "Both password fields should be identical",
       });
       return;
+    } else if (this.state.phone_number.length > 15 || this.state.phone_number[0] != "+") {
+      this.setState({
+        open: true,
+        class: "error",
+        message: "Enter a valid phone number",
+      });
+      return;
     }
 
     const response = await signupUserService(user);
