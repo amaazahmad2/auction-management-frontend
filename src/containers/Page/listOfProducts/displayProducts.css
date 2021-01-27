@@ -1,7 +1,7 @@
 .product_wrap_col .product_label_wrap {
     position: absolute;
-    left: 5px;
-    top: 2px;
+    left: 2px;
+    top: 0px;
 }
 .product_wrap_col .productTitle {
     cursor: pointer;
@@ -80,13 +80,16 @@
     right: 0;
     font-size: 13px;
     /* width: calc(100% - 32px); */
-    padding: 3px 5px;
+    padding: 3px 3px;
     /* background: rgba(255, 255, 255, 0.5); */
 }
 .product_wrap_col .counterTxt {
     display: block;
     -webkit-text-shadow: 2px 2px 9px rgba(255,255,255,0.81);
     text-shadow: 2px 2px 9px rgba(255,255,255,0.81);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, .5);
+    padding: 0 3px;
 }
 .product_wrap_col .product_title_wrap {
     position: relative;
@@ -99,10 +102,12 @@
     font-size: 13px;
     text-align: right;
 }
-
-.product_wrap_col .Countdown .Countdown-col span {
+.product_wrap_col .Countdown .Countdown-col>span {
     -webkit-text-shadow: 2px 2px 9px rgba(255,255,255,0.81);
     text-shadow: 2px 2px 9px rgba(255,255,255,0.81);
+    border-radius: 3px;
+    background: rgba(255, 255, 255, .5);
+    padding: 0 3px;
 }
 .product_wrap_col .Countdown .Countdown-col:nth-child(2) {
     transform: translateY(-100%);
