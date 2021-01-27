@@ -187,7 +187,7 @@ const MyInnerForm = ({
           </div>
           <div className="mainFormsInfoField">
             <RenderTextField
-              label="Enter video link"
+              label="Enter Video Link"
               id="link_video"
               value={values.link_video}
               onChange={handleChange}
