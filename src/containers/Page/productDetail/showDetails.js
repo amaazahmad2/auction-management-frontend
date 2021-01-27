@@ -13,6 +13,7 @@ import { addToCartAction } from "../../../redux/actions/cartAction";
 import { store } from "../../../redux/store";
 import TextField from "@material-ui/core/TextField";
 import CreateBidPopup from "./createBidPopup";
+import Container from "@material-ui/core/Container";
 import "./showDetails.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -93,40 +94,41 @@ export default function ShowDetails(props) {
     bg = setBgImg(post);
   }
   return (
-    <div>
-      <Paper
-        className={classes.mainFeaturedPost}
-        style={{
-          backgroundImage: `url(${bg})`,
-        }}
-      >
-        <div className={classes.overlay} />
-        <Grid container>
-          <Grid item md={6}>
-            <div className={classes.mainFeaturedPostContent}>
-              <Typography
+    <Container className={classes.cardGrid} style={{ padding: "0" }} maxWidth="lg">
+      <Grid style={{ width: "100%", margin: "0" }} container spacing={4} className="productDetail_container">
+        {/* <Grid item xs={12}></Grid> */}
+        <Grid className="productDetail_col_left" item md={7} sm={12} xs={12}>
+          <Paper
+            className={'prodDetail_feat_img_wrap ' + classes.mainFeaturedPost}
+            style={{
+              backgroundImage: `url(${bg})`,
+            }}
+          >
+            <div className={classes.overlay} />
+            <div className={'prodDetail_feat_img_txt ' + classes.mainFeaturedPostContent}>
+              {/* <Typography
                 component="h1"
                 variant="h3"
                 color="inherit"
                 gutterBottom
               >
                 {post ? post.title : <CircularProgress></CircularProgress>}
-              </Typography>
-              <Typography variant="h5" color="inherit" paragraph>
+              </Typography> */}
+              {/* <Typography variant="h5" color="inherit" paragraph>
                 {post ? post.detail : <CircularProgress></CircularProgress>}
-              </Typography>
-              <Typography>
+              </Typography> */}
+              {/* <Typography>
                 {post
                   ? new Date(post.open_time) > Date.now()
                     ? post.type === "auction"
                       ? "Bidding starts in: "
                       : "Product goes on sale in: "
                     : post.type === "auction"
-                    ? "Bidding ends in: "
-                    : "Product sale ends in: "
+                      ? "Bidding ends in: "
+                      : "Product sale ends in: "
                   : ""}
-              </Typography>
-              {post ? (
+              </Typography> */}
+              {/* {post ? (
                 <Countdown
                   date={
                     new Date(post.open_time) > Date.now()
@@ -135,22 +137,57 @@ export default function ShowDetails(props) {
                   }
                 />
               ) : (
+                  ""
+                )} */}
+            </div>
+          </Paper>
+          {ImageGrid(post && post.images ? post.images : [])}
+        </Grid>
+        <Grid className="productDetail_col_right" item md={5} sm={12} xs={12}>
+          <Paper className={'productDetail_content_right ' + classes.mainFeaturedPostContent}>
+            <Typography
+              component="h1"
+              variant="h3"
+              color="inherit"
+              gutterBottom
+              className="productDetail_title"
+            >
+              {post ? post.title : <CircularProgress></CircularProgress>}
+            </Typography>
+            <Typography className="productDetail_desc_txt" variant="h5" color="inherit" paragraph>
+              {post ? post.detail : <CircularProgress></CircularProgress>}
+            </Typography>
+            <Typography>
+              {post
+                ? new Date(post.open_time) > Date.now()
+                  ? post.type === "auction"
+                    ? "Bidding starts in: "
+                    : "Product goes on sale in: "
+                  : post.type === "auction"
+                    ? "Bidding ends in: "
+                    : "Product sale ends in: "
+                : ""}
+            </Typography>
+            {post ? (
+              <Countdown
+                date={
+                  new Date(post.open_time) > Date.now()
+                    ? post.open_time
+                    : post.close_time
+                }
+              />
+            ) : (
                 ""
               )}
-            </div>
-          </Grid>
+            {post ? (
+              getRemainingProductDetails(post, props.isSeller)
+            ) : (
+                <CircularProgressbar></CircularProgressbar>
+              )}
+          </Paper>
         </Grid>
-      </Paper>
-
-      {ImageGrid(post && post.images ? post.images : [])}
-      <Paper className={classes.mainFeaturedPostContent}>
-        {post ? (
-          getRemainingProductDetails(post, props.isSeller)
-        ) : (
-          <CircularProgressbar></CircularProgressbar>
-        )}
-      </Paper>
-    </div>
+      </Grid>
+    </Container>
   );
 }
 
@@ -162,8 +199,8 @@ const getRemainingProductDetails = (post, isSeller) => {
       post.type === "auction"
         ? ""
         : post.stock > 0
-        ? "Items in Stock: "
-        : "Item Out of Stock!",
+          ? "Items in Stock: "
+          : "Item Out of Stock!",
     stock: post.type === "auction" ? "" : post.stock > 0 ? post.stock : "",
     tagsLabel: "Tags: ",
     tags: post.tags && post.tags.toString(),
@@ -179,20 +216,22 @@ const getRemainingProductDetails = (post, isSeller) => {
 function returnGrid(post, label, data, isSeller) {
   return (
     <div>
-      {isSeller === false ? getButton(post, label, isSeller) : null}
       <div
         style={{
           display: "flex",
           flexDirection: "row",
           justifyContent: "flex-start",
           alignItems: "center",
+          marginBottom: "10px",
+          marginTop: "10px",
         }}
       >
-        <Typography variant={"h6"}>{label}</Typography>
-        <Typography style={{ marginLeft: "5px", marginTop: "3px" }}>
+        <Typography className="prodDetail_stock_title" variant={"h6"}>{label}</Typography>
+        <Typography className="prodDetail_stock_count" style={{ marginLeft: "5px" }}>
           {data}
         </Typography>
       </div>
+      {isSeller === false ? getButton(post, label, isSeller) : null}
     </div>
   );
 }
@@ -200,25 +239,43 @@ function returnGrid(post, label, data, isSeller) {
 function getButton(post, label) {
   if (label === "Price: ") {
     return (
-      <div>
-        <TextField
-          style={{ marginBottom: "15px" }}
-          size="small"
-          label="Quantity"
-          defaultValue={1}
-          id="quantity"
-          onChange={() => {
-            handleQuantityChange(post);
-          }}
-          type="number"
-        />
-        <br />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginBottom: "10px",
+          marginTop: "10px",
+        }}
+      >
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+        }}>
+          <span className="prodDetail_inc_btn">+</span>
+          <TextField
+            // style={{ marginBottom: "15px" }}
+            size="small"
+            // label="Quantity"
+            defaultValue={1}
+            id="quantity"
+            onChange={() => {
+              handleQuantityChange(post);
+            }}
+            type="number"
+            className="prodDetail_inc_input"
+          />
+          <span className="prodDetail_inc_btn">-</span>
+        </div>
+        {/* <br /> */}
         <Button
           onClick={() => {
             handleAddToCart(post);
           }}
           variant={"contained"}
           color="primary"
+          className="prodDetail_add_cart_btn"
         >
           {"Add to Cart"}
         </Button>

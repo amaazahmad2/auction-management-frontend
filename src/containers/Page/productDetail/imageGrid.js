@@ -70,13 +70,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ImageGrid(images) {
   const classes = useStyles();
-  
+
   tileData = images;
 
   return images ? (
     <div className={classes.root}>
       <GridList
-        className={classes.gridList}
+        className={'prodDetail_img_list ' + classes.gridList}
         cols={2.5}
         justifyContent="flex-start"
         align
@@ -84,11 +84,14 @@ export default function ImageGrid(images) {
         {tileData.map((tile) => {
           if (tile) {
             return (
-              <GridListTile key={tile.image}>
-                <img
+              <GridListTile className="prodDetail_img_li" key={tile.image}
+                style={{
+                  backgroundImage: `url(${tile.image})`,
+                }}>
+                {/* <img
                   src={tile.image}
                   alt={tile.title ? tile.title : "alt-text"}
-                />
+                /> */}
                 <GridListTileBar
                   actionIcon={
                     <IconButton
@@ -113,6 +116,6 @@ export default function ImageGrid(images) {
       </GridList>
     </div>
   ) : (
-    <LinearProgress></LinearProgress>
-  );
+      <LinearProgress></LinearProgress>
+    );
 }

@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { CircularProgress } from "@material-ui/core";
 import './displayProducts.css';
-import {API_URL} from '../../../services/config'
+import { API_URL } from '../../../services/config'
 
 import Countdown from "./countdown";
 
@@ -105,7 +105,7 @@ export default function DisplayProducts(props) {
   let cards = props.cardProps;
   const getFeaturedImage = (images) => {
     let imgArr = images.map((i) => {
-      return i.is_featured === true ? API_URL+ '/'+ i.image : false;
+      return i.is_featured === true ? API_URL + '/' + i.image : false;
     });
     let featuredImage = "";
 
@@ -143,6 +143,7 @@ export default function DisplayProducts(props) {
                   xs={12}
                   sm={6}
                   md={4}
+                  lg={3}
                   className="product_wrap_col"
                 >
                   <Card className={'product_wrap_inner ' + classes.card}>
