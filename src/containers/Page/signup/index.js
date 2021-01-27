@@ -59,14 +59,22 @@ class SignUp extends Component {
 
     const response = await signupUserService(user);
 
-    if (response.status === 201) {
+    if(response.status===201){
       this.setState({
         open: true,
         class: "success",
         message: "Registered successfully!",
       });
       this.props.history.push("/signin");
-    } else if (response.status === 200) {
+    }
+    else if (response.status === 200 && response.data.status==="success") {
+      this.setState({
+        open: true,
+        class: "success",
+        message: "Registered successfully!",
+      });
+      this.props.history.push("/signin");
+    } else if (response.status === 200 && response.data.status==='failure') {
       this.setState({
         open: true,
         class: "error",
