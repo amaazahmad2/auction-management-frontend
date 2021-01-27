@@ -97,13 +97,10 @@ class Sidebar extends Component {
 
 
 componentWillUnmount(){
-  // let newOptions = options.filter(function(e){
-  //   return e.key!=="my-products"
-  // });
-  // options = newOptions;
 
-  let ind = options.findIndex(e => e.key === 'my-products')
-  options.splice(ind, 1);
+    let ind = options.findIndex(e => e.key === 'my-products');
+    if(ind!==-1)
+      options.splice(ind, 1);
 }
 
   render() {
