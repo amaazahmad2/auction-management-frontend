@@ -89,8 +89,8 @@ export default function CreateBidPopup(props) {
         variant={"contained"}
         color={"primary"}
         disabled={
-          props.post.open_time < Date.now() &&
-          props.post.close_time > Date.now()
+          new Date(props.post.open_time) < Date.now() &&
+          new Date(props.post.close_time) > Date.now()
             ? false
             : true
         }
