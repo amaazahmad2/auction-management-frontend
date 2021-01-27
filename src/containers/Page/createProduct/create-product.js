@@ -9,6 +9,9 @@ import { createProductService } from "../../../services/productsServices";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useHistory } from "react-router";
+import { getProductDetails } from "../../../services/productsServices";
+import { CircularProgress } from "@material-ui/core";
+import { API_URL } from "../../../services/config";
 
 export function ProductCreate(props) {
   let history = useHistory();
@@ -24,8 +27,27 @@ export function ProductCreate(props) {
   const [tags, setTags] = useState([]);
   const [openTime, setOpenTime] = useState([]);
   const [closeTime, setCloseTime] = useState([]);
+  const [product, setProduct] = useState({});
 
   const isEditPage = props.isEditPage;
+  const productUUID = props.productUUID;
+  console.log("propspsosp", props);
+
+  React.useEffect(() => {
+    if (isEditPage) {
+      (async function anyNameFunction() {
+        let prod = await getProductDetails(productUUID);
+        prod = prod.data.data;
+        if (prod.images) {
+          for (let i of prod.images) {
+            i.image = API_URL + i.image;
+            console.log("image url", i.image);
+          }
+        }
+        setProduct(prod);
+      })();
+    }
+  }, []);
 
   const setTagsSelect = (e) => {
     setTags(e);
@@ -162,7 +184,7 @@ export function ProductCreate(props) {
     }
   };
 
-  return (
+  return product ? (
     <FormsMainWrapper>
       <FormsComponentWrapper
         className="mateFormsComponent"
@@ -188,6 +210,9 @@ export function ProductCreate(props) {
             images={images}
             setOpeningTime={setOpeningTime}
             setClosingTime={setClosingTime}
+            isEditPage={isEditPage}
+            product={product}
+            //title={"jksdajask"}
           />
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity={snackBarClass}>
@@ -197,6 +222,8 @@ export function ProductCreate(props) {
         </FullColumn>
       </FormsComponentWrapper>
     </FormsMainWrapper>
+  ) : (
+    <CircularProgress></CircularProgress>
   );
 }
 //export default ProductCreate;
