@@ -101,6 +101,10 @@ export default function ShowDetails(props) {
     setAlertOpen(false);
   };
 
+  function handleEdit(post){
+    history.push("/dashboard/edit-product/"+post.uuid)
+  }
+
   async function handleDelete(post, history) {
     let response = await deleteProduct(post.uuid);
 
@@ -121,6 +125,7 @@ export default function ShowDetails(props) {
       setAlertOpen(true);
     }
   }
+
 
   if (post) {
     bg = setBgImg(post);
@@ -249,7 +254,7 @@ export default function ShowDetails(props) {
                 ""
               )}
             {post ? (
-              getRemainingProductDetails(post, props.isSeller)
+              getRemainingProductDetails(post, props.isSeller,history, handleDelete, handleEdit)
             ) : (
                 <CircularProgressbar></CircularProgressbar>
               )}
@@ -260,7 +265,7 @@ export default function ShowDetails(props) {
   );
 }
 
-const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
+const getRemainingProductDetails = (post, isSeller, history, handleDelete, handleEdit) => {
   const productData = {
     priceLabel: post.type === "auction" ? "Latest Bid: " : "Price: ",
     price: post.type === "auction" ? post.get_highest_bid : post.price,
@@ -305,9 +310,9 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
           <Grid container spacing={1}>
             <Grid item >
               <Button
-                //  onClick={() => {
-                //    handleDelete(post, history);
-                //  }}
+                 onClick={() => {
+                   handleEdit(post);
+                 }}
                 variant={"contained"}
                 color="primary"
               >

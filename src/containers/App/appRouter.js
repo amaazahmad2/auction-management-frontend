@@ -35,6 +35,10 @@ const routes = [
     path: "my-products",
     component: lazy(() => import("../Page/myProducts/myProducts")),
   },
+  {
+    path:'edit-product/:key',
+    component:lazy(()=> import("../Page/editProduct/editProduct"))
+  }
 ];
 
 class AppRouter extends Component {
