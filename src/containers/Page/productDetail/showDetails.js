@@ -254,9 +254,16 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
   return (
     <Box container>
       {post.type === "auction" ? (
-        <div>
-          <Typography variant={"h6"}>{"Starting Bid: "}</Typography>
-          <Typography style={{ marginLeft: "5px", marginTop: "3px" }}>
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginBottom: "10px",
+          marginTop: "10px",
+        }}>
+          <Typography className="prodDetail_stock_title" variant={"h6"}>{"Starting Bid: "}</Typography>
+          <Typography className="prodDetail_stock_count" style={{ marginLeft: "5px"}}>
             {post.price}
           </Typography>
         </div>
