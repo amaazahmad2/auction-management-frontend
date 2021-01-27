@@ -32,6 +32,9 @@
     font-size: 15px;
     margin-bottom: 10px;
 }
+.productDetail_container .prodDetail_counter, .productDetail_container .Countdown {
+    font-size: 15px;
+}
 .productDetail_container .prodDetail_add_cart_btn {
     border-radius: 0;
     box-shadow: none;

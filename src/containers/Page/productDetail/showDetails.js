@@ -203,7 +203,7 @@ export default function ShowDetails(props) {
             <Typography className="productDetail_desc_txt" variant="h5" color="inherit" paragraph>
               {post ? post.detail : <CircularProgress></CircularProgress>}
             </Typography>
-            <Typography>
+            <Typography className="prodDetail_counter">
               {post
                 ? new Date(post.open_time) > Date.now()
                   ? post.type === "auction"
@@ -319,7 +319,7 @@ function getButton(post, label, isSeller) {
             display: "flex",
             flexDirection: "column",
           }}>
-            <span className="prodDetail_inc_btn">+</span>
+            <span onClick={() => { updateCartQty(1, post) }} className="prodDetail_inc_btn">+</span>
             <TextField
               // style={{ marginBottom: "15px" }}
               size="small"
@@ -332,7 +332,7 @@ function getButton(post, label, isSeller) {
               type="number"
               className="prodDetail_inc_input"
             />
-            <span className="prodDetail_inc_btn">-</span>
+            <span onClick={() => { updateCartQty(-1, post) }} className="prodDetail_inc_btn">-</span>
           </div>
           {/* <br /> */}
           <Button
@@ -352,5 +352,17 @@ function getButton(post, label, isSeller) {
     } else {
       return null;
     }
+  }
+}
+function updateCartQty(id, post) {
+  let qtyVal = document.getElementById("quantity").value;
+  qtyVal = parseInt(qtyVal);
+  qtyVal = qtyVal + id;
+  if (qtyVal < 1) {
+    document.getElementById("quantity").value = 1;
+  } else if (qtyVal >= post.stock) {
+    document.getElementById("quantity").value = post.stock;
+  } else {
+    document.getElementById("quantity").value = qtyVal;
   }
 }
