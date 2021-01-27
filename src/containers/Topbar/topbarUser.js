@@ -52,7 +52,7 @@ class TopbarUser extends Component {
           </div>
 
           <div className="userDetails">
-    <h3>{store.getState().user.username}</h3>
+    <h3>{store.getState().user.name}</h3>
     <p>{store.getState().user.email}</p>
           </div>
         </UserInformation>

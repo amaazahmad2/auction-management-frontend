@@ -20,7 +20,6 @@ const initialState = {
 
 export default function user(state = initialState, action) {
     if (action.type === LOGIN_SUCCESS) {
-        
         return {
             ...state,
             uuid: action.payload.uuid,
@@ -32,7 +31,8 @@ export default function user(state = initialState, action) {
             birthday: action.payload.birthday,
             gender: action.payload.gender,
             is_seller:action.payload.is_seller,
-            coins: action.payload.coins
+            coins: action.payload.coins,
+            name:action.payload.name,
         };
     } else if (action.type === LOGIN_FAIL) {
     } else if (action.type === LOGOUT_SUCCESS) {
@@ -47,7 +47,8 @@ export default function user(state = initialState, action) {
             birthday: null,
             gender: null,
             is_seller:null,
-            coins:null
+            coins:null,
+            name:null,
         };
     }
     else if(action.type===BECOME_SELLER_SUCCESS){
