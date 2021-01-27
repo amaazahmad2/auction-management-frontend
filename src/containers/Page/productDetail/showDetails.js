@@ -237,8 +237,8 @@ export default function ShowDetails(props) {
                     ? "Bidding starts in: "
                     : "Product goes on sale in: "
                   : post.type === "auction"
-                  ? "Bidding ends in: "
-                  : "Product sale ends in: "
+                    ? "Bidding ends in: "
+                    : "Product sale ends in: "
                 : ""}
             </Typography>
             {post ? (
@@ -251,13 +251,13 @@ export default function ShowDetails(props) {
                 post={post}
               />
             ) : (
-              ""
-            )}
+                ""
+              )}
             {post ? (
               getRemainingProductDetails(post, props.isSeller,history, handleDelete, handleEdit)
             ) : (
-              <CircularProgressbar></CircularProgressbar>
-            )}
+                <CircularProgressbar></CircularProgressbar>
+              )}
           </Paper>
         </Grid>
       </Grid>
@@ -273,8 +273,8 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete, handl
       post.type === "auction"
         ? ""
         : post.stock > 0
-        ? "Items in Stock: "
-        : "Item Out of Stock!",
+          ? "Items in Stock: "
+          : "Item Out of Stock!",
     stock: post.type === "auction" ? "" : post.stock > 0 ? post.stock : "",
     tagsLabel: "Tags: ",
     tags: post.tags && post.tags.toString(),
@@ -306,26 +306,32 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete, handl
       {returnGrid(post, productData.priceLabel, productData.price, isSeller)}
       {returnGrid(post, productData.stockLabel, productData.stock, isSeller)}
       {isSeller === true ? (
-        <div>
-          <Button
-             onClick={() => {
-               handleEdit(post);
-             }}
-            variant={"contained"}
-            color="primary"
-          >
-            Edit Product
+        <Container style={{paddingLeft: "0", paddingRight: "0"}}>
+          <Grid container spacing={1}>
+            <Grid item >
+              <Button
+                 onClick={() => {
+                   handleEdit(post);
+                 }}
+                variant={"contained"}
+                color="primary"
+              >
+                Edit Product
           </Button>
-          <Button
-            onClick={() => {
-              handleDelete(post, history);
-            }}
-            variant={"contained"}
-            color="secondary"
-          >
-            Delete Product
+            </Grid>
+            <Grid item >
+              <Button
+                onClick={() => {
+                  handleDelete(post, history);
+                }}
+                variant={"contained"}
+                color="secondary"
+              >
+                Delete Product
           </Button>
-        </div>
+            </Grid>
+          </Grid>
+        </Container>
       ) : null}
     </Box>
   );
@@ -418,8 +424,8 @@ function getButton(post, label, isSeller) {
             className="prodDetail_add_cart_btn"
             disabled={
               post.stock > 0 &&
-              new Date(post.open_time) < Date.now() &&
-              new Date(post.close_time) > Date.now()
+                new Date(post.open_time) < Date.now() &&
+                new Date(post.close_time) > Date.now()
                 ? false
                 : true
             }
