@@ -126,18 +126,31 @@ export default function ShowDetails(props) {
     bg = setBgImg(post);
   }
   return (
-    <Container className={classes.cardGrid} style={{ padding: "0" }} maxWidth="lg">
-      <Grid style={{ width: "100%", margin: "0" }} container spacing={4} className="productDetail_container">
+    <Container
+      className={classes.cardGrid}
+      style={{ padding: "0" }}
+      maxWidth="lg"
+    >
+      <Grid
+        style={{ width: "100%", margin: "0" }}
+        container
+        spacing={4}
+        className="productDetail_container"
+      >
         {/* <Grid item xs={12}></Grid> */}
         <Grid className="productDetail_col_left" item md={7} sm={12} xs={12}>
           <Paper
-            className={'prodDetail_feat_img_wrap ' + classes.mainFeaturedPost}
+            className={"prodDetail_feat_img_wrap " + classes.mainFeaturedPost}
             style={{
               backgroundImage: `url(${bg})`,
             }}
           >
             <div className={classes.overlay} />
-            <div className={'prodDetail_feat_img_txt ' + classes.mainFeaturedPostContent}>
+            <div
+              className={
+                "prodDetail_feat_img_txt " + classes.mainFeaturedPostContent
+              }
+            >
               {/* <Typography
                 component="h1"
                 variant="h3"
@@ -190,7 +203,11 @@ export default function ShowDetails(props) {
           {ImageGrid(post && post.images ? post.images : [])}
         </Grid>
         <Grid className="productDetail_col_right" item md={5} sm={12} xs={12}>
-          <Paper className={'productDetail_content_right ' + classes.mainFeaturedPostContent}>
+          <Paper
+            className={
+              "productDetail_content_right " + classes.mainFeaturedPostContent
+            }
+          >
             <Typography
               component="h1"
               variant="h3"
@@ -200,7 +217,12 @@ export default function ShowDetails(props) {
             >
               {post ? post.title : <CircularProgress></CircularProgress>}
             </Typography>
-            <Typography className="productDetail_desc_txt" variant="h5" color="inherit" paragraph>
+            <Typography
+              className="productDetail_desc_txt"
+              variant="h5"
+              color="inherit"
+              paragraph
+            >
               {post ? post.detail : <CircularProgress></CircularProgress>}
             </Typography>
             <Typography className="prodDetail_counter">
@@ -210,8 +232,8 @@ export default function ShowDetails(props) {
                     ? "Bidding starts in: "
                     : "Product goes on sale in: "
                   : post.type === "auction"
-                    ? "Bidding ends in: "
-                    : "Product sale ends in: "
+                  ? "Bidding ends in: "
+                  : "Product sale ends in: "
                 : ""}
             </Typography>
             {post ? (
@@ -221,15 +243,16 @@ export default function ShowDetails(props) {
                     ? post.open_time
                     : post.close_time
                 }
+                post={post}
               />
             ) : (
-                ""
-              )}
+              ""
+            )}
             {post ? (
               getRemainingProductDetails(post, props.isSeller)
             ) : (
-                <CircularProgressbar></CircularProgressbar>
-              )}
+              <CircularProgressbar></CircularProgressbar>
+            )}
           </Paper>
         </Grid>
       </Grid>
@@ -245,8 +268,8 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
       post.type === "auction"
         ? ""
         : post.stock > 0
-          ? "Items in Stock: "
-          : "Item Out of Stock!",
+        ? "Items in Stock: "
+        : "Item Out of Stock!",
     stock: post.type === "auction" ? "" : post.stock > 0 ? post.stock : "",
     tagsLabel: "Tags: ",
     tags: post.tags && post.tags.toString(),
@@ -254,9 +277,16 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
   return (
     <Box container>
       {post.type === "auction" ? (
-        <div>
-          <Typography variant={"h6"}>{"Starting Bid: "}</Typography>
-          <Typography style={{ marginLeft: "5px", marginTop: "3px" }}>
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-start",
+          alignItems: "center",
+          marginBottom: "10px",
+          marginTop: "10px",
+        }}>
+          <Typography className="prodDetail_stock_title" variant={"h6"}>{"Starting Bid: "}</Typography>
+          <Typography className="prodDetail_stock_count" style={{ marginLeft: "5px"}}>
             {post.price}
           </Typography>
         </div>
@@ -264,15 +294,26 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
       {returnGrid(post, productData.priceLabel, productData.price, isSeller)}
       {returnGrid(post, productData.stockLabel, productData.stock, isSeller)}
       {isSeller === true ? (
-        <Button
-          onClick={() => {
-            handleDelete(post, history);
-          }}
-          variant={"contained"}
-          color="secondary"
-        >
-          Delete Product
-        </Button>
+        <div>
+          <Button
+            //  onClick={() => {
+            //    handleDelete(post, history);
+            //  }}
+            variant={"contained"}
+            color="primary"
+          >
+            Edit Product
+          </Button>
+          <Button
+            onClick={() => {
+              handleDelete(post, history);
+            }}
+            variant={"contained"}
+            color="secondary"
+          >
+            Delete Product
+          </Button>
+        </div>
       ) : null}
     </Box>
   );
@@ -291,8 +332,13 @@ function returnGrid(post, label, data, isSeller) {
           marginTop: "10px",
         }}
       >
-        <Typography className="prodDetail_stock_title" variant={"h6"}>{label}</Typography>
-        <Typography className="prodDetail_stock_count" style={{ marginLeft: "5px" }}>
+        <Typography className="prodDetail_stock_title" variant={"h6"}>
+          {label}
+        </Typography>
+        <Typography
+          className="prodDetail_stock_count"
+          style={{ marginLeft: "5px" }}
+        >
           {data}
         </Typography>
       </div>
@@ -315,11 +361,20 @@ function getButton(post, label, isSeller) {
             marginTop: "10px",
           }}
         >
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-          }}>
-            <span onClick={() => { updateCartQty(1, post) }} className="prodDetail_inc_btn">+</span>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <span
+              onClick={() => {
+                updateCartQty(1, post);
+              }}
+              className="prodDetail_inc_btn"
+            >
+              +
+            </span>
             <TextField
               // style={{ marginBottom: "15px" }}
               size="small"
@@ -332,7 +387,14 @@ function getButton(post, label, isSeller) {
               type="number"
               className="prodDetail_inc_input"
             />
-            <span onClick={() => { updateCartQty(-1, post) }} className="prodDetail_inc_btn">-</span>
+            <span
+              onClick={() => {
+                updateCartQty(-1, post);
+              }}
+              className="prodDetail_inc_btn"
+            >
+              -
+            </span>
           </div>
           {/* <br /> */}
           <Button
@@ -342,6 +404,12 @@ function getButton(post, label, isSeller) {
             variant={"contained"}
             color="primary"
             className="prodDetail_add_cart_btn"
+            disabled={
+              new Date(post.open_time) < Date.now() &&
+              new Date(post.close_time) > Date.now()
+                ? false
+                : true
+            }
           >
             {"Add to Cart"}
           </Button>

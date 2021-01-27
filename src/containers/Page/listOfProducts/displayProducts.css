@@ -12,6 +12,12 @@
     /* position: relative; */
     overflow: hidden;
 }
+.product_wrap_col .productTitle span {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .product_wrap_col .productTitle .titleViewBtn {
     position: absolute;
     top: 0%;
@@ -55,6 +61,11 @@
 .product_wrap_col .product_wrap_inner {
     box-shadow: none;
 }
+.product_wrap_col .product_inner_img {
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
 .product_wrap_col:hover .product_wrap_inner {
     -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.075);
     -moz-box-shadow: 0 6px 12px rgba(0,0,0,.075);
@@ -67,6 +78,7 @@
     overflow: hidden;
     top: 0;
     right: 0;
+    font-size: 13px;
     /* width: calc(100% - 32px); */
     padding: 3px 5px;
     /* background: rgba(255, 255, 255, 0.5); */
@@ -79,9 +91,12 @@
 .product_wrap_col .product_title_wrap {
     position: relative;
 }
+.product_wrap_col .f14 {
+    font-size: 14px !important;
+}
 .product_wrap_col .Countdown .Countdown-col {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     text-align: right;
 }
 

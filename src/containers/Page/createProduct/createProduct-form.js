@@ -131,7 +131,7 @@ const MyInnerForm = ({
           <div className="mainFormsInfoField">
             <FormControl>
               <InputLabel id="demo-simple-select-label">
-                Product type
+                Product Type
               </InputLabel>
               <Select
                 labelId="demo-simple-select-label"

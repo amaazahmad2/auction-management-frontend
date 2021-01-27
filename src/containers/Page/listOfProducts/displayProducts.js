@@ -150,7 +150,7 @@ export default function DisplayProducts(props) {
                       image={
                         card && card.images ? getFeaturedImage(card.images) : ""
                       }
-                      className={classes.cardMedia}
+                      className={'product_inner_img '+ classes.cardMedia}
                       z-index="1"
                       style={{
                         position: "relative",
@@ -228,7 +228,7 @@ export default function DisplayProducts(props) {
 
                       {card && card.type ? (
                         card.type === "auction" ? (
-                          <span> {"Starting Bid: " + card.price + " coins"}</span>
+                          <span className="f14"> {"Starting Bid: " + card.price + " coins"}</span>
                         ) : (
                             ""
                           )
@@ -239,14 +239,14 @@ export default function DisplayProducts(props) {
                       {card && card.type ? (
                         card.type === "auction" ? (
                           <div>
-                            <span>
+                            <span className="f14">
                               {"\nHighest Bid: " +
                                 card.get_highest_bid +
                                 " coins\n"}{" "}
                             </span>
                           </div>
                         ) : (
-                            <span>
+                            <span className="f14">
                               {"\nPrice: " + card.price + " coins\n  "}
                               <br />
                             </span>
