@@ -243,6 +243,7 @@ export default function ShowDetails(props) {
                     ? post.open_time
                     : post.close_time
                 }
+                post={post}
               />
             ) : (
               ""
@@ -286,15 +287,26 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
       {returnGrid(post, productData.priceLabel, productData.price, isSeller)}
       {returnGrid(post, productData.stockLabel, productData.stock, isSeller)}
       {isSeller === true ? (
-        <Button
-          onClick={() => {
-            handleDelete(post, history);
-          }}
-          variant={"contained"}
-          color="secondary"
-        >
-          Delete Product
-        </Button>
+        <div>
+          <Button
+            //  onClick={() => {
+            //    handleDelete(post, history);
+            //  }}
+            variant={"contained"}
+            color="primary"
+          >
+            Edit Product
+          </Button>
+          <Button
+            onClick={() => {
+              handleDelete(post, history);
+            }}
+            variant={"contained"}
+            color="secondary"
+          >
+            Delete Product
+          </Button>
+        </div>
       ) : null}
     </Box>
   );

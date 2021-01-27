@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 class Countdown extends Component {
   constructor(props) {
     super(props);
+    // console.log("props:", props.post.);
 
     this.state = {
       days: 0,
@@ -22,9 +23,19 @@ class Countdown extends Component {
 
   componentDidMount() {
     // update every second
+
     this.interval = setInterval(() => {
       const date = this.calculateCountdown(this.props.date);
-      date ? this.setState(date) : this.stop();
+      date ===
+      {
+        years: 0,
+        days: 0,
+        hours: 0,
+        min: 0,
+        sec: 0,
+      }
+        ? this.stop()
+        : this.setState(date);
     }, 1000);
   }
 
@@ -35,8 +46,6 @@ class Countdown extends Component {
   calculateCountdown(endDate) {
     let diff = (Date.parse(new Date(endDate)) - Date.parse(new Date())) / 1000;
     // clear countdown when date is reached
-    if (diff <= 0) return false;
-
     const timeLeft = {
       years: 0,
       days: 0,
@@ -44,6 +53,7 @@ class Countdown extends Component {
       min: 0,
       sec: 0,
     };
+    if (diff <= 0) return timeLeft;
 
     // calculate time difference between now and expected date
     if (diff >= 365.25 * 86400) {
@@ -72,6 +82,13 @@ class Countdown extends Component {
 
   stop() {
     clearInterval(this.interval);
+    this.setState({
+      years: 0,
+      days: 0,
+      hours: 0,
+      min: 0,
+      sec: 0,
+    });
   }
 
   addLeadingZeros(value) {
