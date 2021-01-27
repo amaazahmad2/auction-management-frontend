@@ -73,12 +73,10 @@ export async function signupUserService(userObj){
     console.log("USER OBJ: ", userObj);
     const resp = await axios.post(apiEndpoint,userObj,config)
     .then((response) =>{
-        console.log("RESPONSE STATUS: ", response.status);
         return response;
     })
     .catch((error) => {
         error.status = error.response.status;
-        console.log("ERROR STATUS: ", error.response);
         return error;
     });
 
