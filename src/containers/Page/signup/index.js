@@ -47,7 +47,8 @@ class SignUp extends Component {
         message: "Both password fields should be identical",
       });
       return;
-    } else if (this.state.phone_number.length > 15 || this.state.phone_number[0] != "+") {
+    } else if (this.state.phone_number.length > 15 || this.state.phone_number[0] != "+" || isNaN(this.state.phone_number.substring(1) == true)) {
+      console.log("phone: " + this.state.phone_number.substring(1));
       this.setState({
         open: true,
         class: "error",
@@ -200,7 +201,7 @@ class SignUp extends Component {
               </div>
               <div className="mateInputWrapper">
                 <TextField
-                  label="Phone no"
+                  label="Phone number (+0000000000)"
                   placeholder="Phone no"
                   name="phone_number"
                   onChange={(event) => this.onChange(event)}
