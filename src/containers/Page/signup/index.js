@@ -58,7 +58,6 @@ class SignUp extends Component {
     }
 
     const response = await signupUserService(user);
-
     if(response.status===201){
       this.setState({
         open: true,
@@ -80,13 +79,13 @@ class SignUp extends Component {
         class: "error",
         message: response.data.message,
       });
-    } else if (response.status === 500) {
+    }  else if (response.status === 500) {
       this.setState({
         open: true,
         class: "error",
-        message: response.data.message,
+        message: response.response.data.message,
       });
-    } else {
+    }else {
       this.setState({
         open: true,
         class: "error",
