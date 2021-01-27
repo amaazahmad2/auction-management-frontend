@@ -15,6 +15,10 @@ import TextField from "@material-ui/core/TextField";
 import CreateBidPopup from "./createBidPopup";
 import Container from "@material-ui/core/Container";
 import "./showDetails.css";
+import { deleteProduct } from "../../../services/productsServices";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   mainFeaturedPost: {
@@ -67,28 +71,56 @@ function handleQuantityChange(post) {
 }
 
 const setBgImg = (p) => {
-  if (p && p.images) {
-    if (p.images) {
-      return p.images.map((i) => {
-        if (i && i.is_featured) return i.image;
-        return null;
-      })[0];
-    }
+  if (p.images) {
+    let imgArr = p.images.map((i) => {
+      return i.is_featured === true ? i.image : false;
+    });
+    let featuredImage = "";
 
-    return "";
+    for (let i of imgArr) {
+      if (i !== false) {
+        featuredImage = i;
+        break;
+      }
+    }
+    return featuredImage;
   }
-  return "";
 };
 var bg = "";
 
 export default function ShowDetails(props) {
   const classes = useStyles();
   const post = props.productProps;
-  // const currentDate = new Date();
-  // const year =
-  //   currentDate.getMonth() === 11 && currentDate.getDate() > 23
-  //     ? currentDate.getFullYear() + 1
-  //     : currentDate.getFullYear();
+  let history = useHistory();
+
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  const [alertSeverity, setAlertSeverity] = React.useState("");
+  const [alertMessage, setAlertMessage] = React.useState("");
+
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
+
+  async function handleDelete(post, history) {
+    let response = await deleteProduct(post.uuid);
+
+    if (response.status === 200) {
+      setAlertMessage("Product Deleted");
+      setAlertSeverity("success");
+      setAlertOpen(true);
+      setTimeout(() => {
+        history.push("/dashboard/my-products");
+      }, 800);
+    } else if (response.status === 401) {
+      setAlertMessage("You are unauthorized to perform this action");
+      setAlertSeverity("error");
+      setAlertOpen(true);
+    } else {
+      setAlertMessage("Unknown Error");
+      setAlertSeverity("error");
+      setAlertOpen(true);
+    }
+  }
 
   if (post) {
     bg = setBgImg(post);
@@ -140,6 +172,20 @@ export default function ShowDetails(props) {
                   ""
                 )} */}
             </div>
+            <Snackbar
+              open={alertOpen}
+              autoHideDuration={6000}
+              onClose={handleAlertClose}
+            >
+              <Alert
+                elevation={6}
+                variant="filled"
+                onClose={handleAlertClose}
+                severity={alertSeverity}
+              >
+                {alertMessage}
+              </Alert>
+            </Snackbar>
           </Paper>
           {ImageGrid(post && post.images ? post.images : [])}
         </Grid>
@@ -191,7 +237,7 @@ export default function ShowDetails(props) {
   );
 }
 
-const getRemainingProductDetails = (post, isSeller) => {
+const getRemainingProductDetails = (post, isSeller, history, handleDelete) => {
   const productData = {
     priceLabel: post.type === "auction" ? "Latest Bid: " : "Price: ",
     price: post.type === "auction" ? post.get_highest_bid : post.price,
@@ -207,8 +253,27 @@ const getRemainingProductDetails = (post, isSeller) => {
   };
   return (
     <Box container>
+      {post.type === "auction" ? (
+        <div>
+          <Typography variant={"h6"}>{"Starting Bid: "}</Typography>
+          <Typography style={{ marginLeft: "5px", marginTop: "3px" }}>
+            {post.price}
+          </Typography>
+        </div>
+      ) : null}
       {returnGrid(post, productData.priceLabel, productData.price, isSeller)}
       {returnGrid(post, productData.stockLabel, productData.stock, isSeller)}
+      {isSeller === true ? (
+        <Button
+          onClick={() => {
+            handleDelete(post, history);
+          }}
+          variant={"contained"}
+          color="secondary"
+        >
+          Delete Product
+        </Button>
+      ) : null}
     </Box>
   );
 };
@@ -231,59 +296,61 @@ function returnGrid(post, label, data, isSeller) {
           {data}
         </Typography>
       </div>
-      {isSeller === false ? getButton(post, label, isSeller) : null}
+      {getButton(post, label, isSeller)}
     </div>
   );
 }
 
-function getButton(post, label) {
-  if (label === "Price: ") {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-start",
-          alignItems: "center",
-          marginBottom: "10px",
-          marginTop: "10px",
-        }}
-      >
-        <div style={{
-          display: "flex",
-          flexDirection: "column",
-        }}>
-          <span className="prodDetail_inc_btn">+</span>
-          <TextField
-            // style={{ marginBottom: "15px" }}
-            size="small"
-            // label="Quantity"
-            defaultValue={1}
-            id="quantity"
-            onChange={() => {
-              handleQuantityChange(post);
-            }}
-            type="number"
-            className="prodDetail_inc_input"
-          />
-          <span className="prodDetail_inc_btn">-</span>
-        </div>
-        {/* <br /> */}
-        <Button
-          onClick={() => {
-            handleAddToCart(post);
+function getButton(post, label, isSeller) {
+  if (isSeller === false) {
+    if (label === "Price: ") {
+      return (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            marginBottom: "10px",
+            marginTop: "10px",
           }}
-          variant={"contained"}
-          color="primary"
-          className="prodDetail_add_cart_btn"
         >
-          {"Add to Cart"}
-        </Button>
-      </div>
-    );
-  } else if (label === "Latest Bid: ") {
-    return <CreateBidPopup post={post} />;
-  } else {
-    return null;
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+          }}>
+            <span className="prodDetail_inc_btn">+</span>
+            <TextField
+              // style={{ marginBottom: "15px" }}
+              size="small"
+              // label="Quantity"
+              defaultValue={1}
+              id="quantity"
+              onChange={() => {
+                handleQuantityChange(post);
+              }}
+              type="number"
+              className="prodDetail_inc_input"
+            />
+            <span className="prodDetail_inc_btn">-</span>
+          </div>
+          {/* <br /> */}
+          <Button
+            onClick={() => {
+              handleAddToCart(post);
+            }}
+            variant={"contained"}
+            color="primary"
+            className="prodDetail_add_cart_btn"
+          >
+            {"Add to Cart"}
+          </Button>
+        </div>
+      );
+    } else if (label === "Latest Bid: ") {
+      return <CreateBidPopup post={post} />;
+    } else {
+      return null;
+    }
   }
 }

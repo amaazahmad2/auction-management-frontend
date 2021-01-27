@@ -16,6 +16,7 @@ export async function placeBidService(productUUID, numberOfCoins) {
             return response;
         })
         .catch((error) => {
+            error.status = error.response.status;
             return error;
         });
 

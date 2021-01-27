@@ -87,7 +87,6 @@ class Sidebar extends Component {
   };
 
   componentWillMount(){
-    console.log(store.getState().user);
     if(store.getState().user.is_seller){
       options.push({
             label:"My Products",
@@ -95,6 +94,18 @@ class Sidebar extends Component {
           })
     }
   }
+
+
+componentWillUnmount(){
+  // let newOptions = options.filter(function(e){
+  //   return e.key!=="my-products"
+  // });
+  // options = newOptions;
+
+  let ind = options.findIndex(e => e.key === 'my-products')
+  options.splice(ind, 1);
+}
+
   render() {
     const {
       changeOpenKeys,

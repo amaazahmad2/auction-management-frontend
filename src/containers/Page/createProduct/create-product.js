@@ -87,9 +87,6 @@ function ProductCreate() {
   const setImageisFeatured = (event) => {
     setisFeatured(event.target.value);
   };
-  const handleClick = () => {
-    setOpen(true);
-  };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -116,15 +113,13 @@ function ProductCreate() {
     values["type"] = type;
     values["open_time"] = openTime;
     values["close_time"] = closeTime;
+    if (values["type"] === "auction") {
+      values["stock"] = 1;
+    }
 
-    // if (values["close_Time"] == null) {
-    //   alert("Closing Time is required!");
-    // }
-    // if (values["open_time"] == null) {
-    //   alert("Starting time is required!");
-    // }
     if (
       !type ||
+      isNaN(isFeatured) ||
       document.getElementById("title").value === "" ||
       isNaN(document.getElementById("price").value) ||
       document.getElementById("price").value <= 0 ||

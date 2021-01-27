@@ -20,7 +20,7 @@ class ListOfProducts extends React.Component {
       currentPage: 1,
       productFirebaseKey: "",
     };
-    this.productsPerPage = props.productsPerPage ? props.productsPerPage : 6; //set custom default value=10 if not given in props
+    this.productsPerPage = props.productsPerPage ? props.productsPerPage : 15; //set custom default value=10 if not given in props
     // firebase.initializeApp({ firebaseConfig });
   }
 
