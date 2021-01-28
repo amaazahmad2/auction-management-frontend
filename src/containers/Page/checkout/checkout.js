@@ -104,7 +104,7 @@ export default function Checkout() {
   const handleAlertClose = () => {
     setAlertOpen(false);
   };
-  
+
   const handleNext = async () => {
     if (activeStep === 0) {
       addressDetails.firstName = document.getElementById("firstName").value;
@@ -124,7 +124,7 @@ export default function Checkout() {
     if(activeStep == 2){
       const products = store.getState().cart;
       for (let i = 0; i < products.length; ++i) {
-        checkoutObjList.push( { uuid: products[i].uuid , quantity: 1});
+        checkoutObjList.push( { uuid: products[i].uuid , quantity: products[i].quantity_ordered});
       }
       let response = await checkout(checkoutObjList);
       debugger;
