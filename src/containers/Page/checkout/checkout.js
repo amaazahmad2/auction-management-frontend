@@ -12,7 +12,11 @@ import Typography from "@material-ui/core/Typography";
 import AddressForm from "./AddressForm";
 import PaymentForm from "./PaymentForm";
 import Review from "./Review";
-
+import { checkout} from "./../../../services/checkoutService";
+import { store } from "../../../redux/store";
+import { clearCartAction } from "../../../redux/actions/cartAction";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -66,6 +70,8 @@ function getStepContent(step) {
   }
 }
 
+
+
 export let addressDetails = {
   firstName: "",
   lastName: "",
@@ -88,9 +94,18 @@ export let paymentDetails = {
 
 export default function Checkout() {
   const classes = useStyles();
+  var checkoutObjList =[];
   const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
+  const [open, setOpen] = React.useState(false);
+  const [alertMessage, setAlertMessage] = React.useState("");
+  const [alertSeverity, setAlertSeverity] = React.useState("");
+  const [alertOpen, setAlertOpen] = React.useState(false);
+  
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
+  
+  const handleNext = async () => {
     if (activeStep === 0) {
       addressDetails.firstName = document.getElementById("firstName").value;
       addressDetails.lastName = document.getElementById("lastName").value;
@@ -106,7 +121,31 @@ export default function Checkout() {
         "saveAddress"
       ).value;
     }
+    if(activeStep == 2){
+      const products = store.getState().cart;
+      for (let i = 0; i < products.length; ++i) {
+        checkoutObjList.push( { uuid: products[i].uuid , quantity: 1});
+      }
+      let response = await checkout(checkoutObjList);
+      debugger;
+        if (response.data.status === "failure") {
+          setAlertMessage("Failure");
+          setAlertOpen(true);
+          setAlertSeverity("error");
+          return;
+        } else if (response.data.status === "success") {
+          store.dispatch(clearCartAction());
+          setAlertMessage("Checkout successful!");
+          setAlertOpen(true);
+          setAlertSeverity("success");
+
+          setOpen(false);
+          return;
+        } 
+    
+    }
     setActiveStep(activeStep + 1);
+    
   };
 
   const handleBack = () => {
@@ -168,6 +207,20 @@ export default function Checkout() {
               </React.Fragment>
             )}
           </React.Fragment>
+          <Snackbar
+              open={alertOpen}
+              autoHideDuration={6000}
+              onClose={handleAlertClose}
+            >
+              <Alert
+                elevation={6}
+                variant="filled"
+                onClose={handleAlertClose}
+                severity={alertSeverity}
+              >
+                {alertMessage}
+              </Alert>
+            </Snackbar>
         </Paper>
       </main>
     </React.Fragment>

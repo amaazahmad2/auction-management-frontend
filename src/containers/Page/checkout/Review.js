@@ -7,7 +7,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import { store } from "../../../redux/store";
 import { addressDetails } from "./checkout";
-
+import { checkoutService } from "./../../../services/checkoutService";
 //let products = store.getState().cart;
 
 const payments = [
