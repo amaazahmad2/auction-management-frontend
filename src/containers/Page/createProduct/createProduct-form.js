@@ -85,9 +85,46 @@ const MyInnerForm = ({
   setClosingTime,
   isEditPage,
   product,
-  //title,
 }) => {
-  console.log("product", product);
+  if (isEditPage && product && product.open_time) {
+    values.title = product.title;
+    values.detail = product.detail;
+    values.price = product.price;
+    values.stock = product.stock;
+    values.link_video = product.link_video;
+    values.tags = product.tags;
+
+    if (
+      product.open_time[product.open_time.length - 1] === "Z" ||
+      product.close_time[product.close_time.length - 1] === "Z"
+    ) {
+      for (let i = product.open_time.toString().length - 1; i >= 0; --i) {
+        if (product.open_time[i] !== ":") {
+          product.open_time =
+            product.open_time.slice(0, i) + product.open_time.slice(i + 1);
+        }
+        if (product.open_time[i] === ":") {
+          product.open_time =
+            product.open_time.slice(0, i) + product.open_time.slice(i + 1);
+          break;
+        }
+      }
+      for (let i = product.close_time.toString().length - 1; i >= 0; --i) {
+        if (product.close_time[i] !== ":") {
+          product.close_time =
+            product.close_time.slice(0, i) + product.close_time.slice(i + 1);
+        }
+        if (product.close_time[i] === ":") {
+          product.close_time =
+            product.close_time.slice(0, i) + product.close_time.slice(i + 1);
+          break;
+        }
+      }
+    }
+
+    values.open_Time = product.open_time;
+    values.close_Time = product.close_time;
+  }
   return (
     <form className="mainFormsWrapper">
       <div
@@ -106,8 +143,11 @@ const MyInnerForm = ({
               required
               label="Product Title"
               id="title"
-              value={isEditPage ? product.title : values.title}
-              onChange={handleChange}
+              value={values.title}
+              onChange={(event) => {
+                if (isEditPage) product.title = event.target.value;
+                handleChange(event);
+              }}
               onBlur={handleBlur}
               error={errors.title && touched.title}
               errorText={errors.title}
@@ -142,7 +182,7 @@ const MyInnerForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={isEditPage ? product.type : type}
+                value={type}
                 onChange={setType}
               >
                 <MenuItem value={"auction"}>Auction Product</MenuItem>
@@ -157,8 +197,11 @@ const MyInnerForm = ({
                   id="open_time"
                   label="Starting Time"
                   type="datetime-local"
-                  value={isEditPage ? product.open_time : values.open_Time}
-                  onChange={setOpeningTime}
+                  value={values.open_Time}
+                  onChange={(event) => {
+                    if (isEditPage) product.open_time = event.target.value;
+                    setOpeningTime(event);
+                  }}
                   onBlur={handleBlur}
                   error={errors.open_Time && touched.open_Time}
                   errorText={errors.open_Time}
@@ -171,8 +214,11 @@ const MyInnerForm = ({
                   id="close_time"
                   label="Closing Time"
                   type="datetime-local"
-                  value={isEditPage ? product.close_time : values.close_Time}
-                  onChange={setClosingTime}
+                  value={values.close_Time}
+                  onChange={(event) => {
+                    if (isEditPage) product.close_time = event.target.value;
+                    setClosingTime(event);
+                  }}
                   onBlur={handleBlur}
                   error={errors.close_Time && touched.close_Time}
                   errorText={errors.close_Time}
@@ -184,8 +230,11 @@ const MyInnerForm = ({
             <RenderTextField
               label="Enter Product Detail"
               id="detail"
-              value={isEditPage ? product.detail : values.detail}
-              onChange={handleChange}
+              value={values.detail}
+              onChange={(event) => {
+                if (isEditPage) product.detail = event.target.value;
+                handleChange(event);
+              }}
               onBlur={handleBlur}
               error={errors.detail && touched.detail}
               errorText={errors.detail}
@@ -196,8 +245,11 @@ const MyInnerForm = ({
             <RenderTextField
               label="Enter Video Link"
               id="link_video"
-              value={isEditPage ? product.link_video : values.link_video}
-              onChange={handleChange}
+              value={values.link_video}
+              onChange={(event) => {
+                if (isEditPage) product.link_video = event.target.value;
+                handleChange(event);
+              }}
               onBlur={handleBlur}
               error={errors.link_video && touched.link_video}
               errorText={errors.link_video}
@@ -210,30 +262,20 @@ const MyInnerForm = ({
                 multiple
                 id="tags-filled"
                 options={[]}
-                // value={values.tags}
+                value={tags}
                 onChange={(event, newValue) => {
                   setTags(newValue);
                 }}
                 defaultValue=""
                 freeSolo
-                renderTags={
-                  isEditPage
-                    ? (products, getTagProps) =>
-                        products.tags.map((option, index) => (
-                          <Chip
-                            variant="outlined"
-                            label={option}
-                            {...getTagProps({ index })}
-                          />
-                        ))
-                    : (value, getTagProps) =>
-                        value.map((option, index) => (
-                          <Chip
-                            variant="outlined"
-                            label={option}
-                            {...getTagProps({ index })}
-                          />
-                        ))
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip
+                      variant="outlined"
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
+                  ))
                 }
                 renderInput={(params) => (
                   <TextField
@@ -241,7 +283,7 @@ const MyInnerForm = ({
                     variant="filled"
                     label="Tags"
                     placeholder="tags"
-                    InputProps={{ shrink: true }}
+                    // InputProps={{ shrink: true }}
                   />
                 )}
               />
@@ -253,11 +295,12 @@ const MyInnerForm = ({
               label="Price"
               id="price"
               type="number"
-              value={isEditPage ? product.price : values.price}
+              value={values.price}
               onChange={(event) => {
                 if (event.target.value <= 0) {
                   event.target.value = 1;
                 }
+                if (isEditPage) product.price = event.target.value;
                 handleChange(event);
               }}
               onBlur={handleBlur}
@@ -274,11 +317,12 @@ const MyInnerForm = ({
                 label="Stock"
                 id="stock"
                 type="number"
-                value={isEditPage ? product.stock : values.stock}
+                value={values.stock}
                 onChange={(event) => {
                   if (event.target.value <= 0) {
                     event.target.value = 1;
                   }
+                  if (isEditPage) product.stock = event.target.value;
                   handleChange(event);
                 }}
                 onBlur={handleBlur}
@@ -321,6 +365,8 @@ export default withFormik({
     status: "",
     link_video: "",
   }),
+
   validationSchema,
+
   displayName: "BasicForm",
 })(MyInnerForm);

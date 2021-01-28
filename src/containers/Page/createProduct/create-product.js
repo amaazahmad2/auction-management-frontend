@@ -31,7 +31,7 @@ export function ProductCreate(props) {
 
   const isEditPage = props.isEditPage;
   const productUUID = props.productUUID;
-  console.log("propspsosp", props);
+  let imgs = [];
 
   React.useEffect(() => {
     if (isEditPage) {
@@ -39,11 +39,19 @@ export function ProductCreate(props) {
         let prod = await getProductDetails(productUUID);
         prod = prod.data.data;
         if (prod.images) {
+          let count = 0;
           for (let i of prod.images) {
             i.image = API_URL + i.image;
-            console.log("image url", i.image);
+
+            imgs.push(i.image);
+            if (i.isFeatured === true) {
+              setisFeatured("image - " + count);
+            }
+            count++;
           }
+          setImages(imgs);
         }
+        setTags(prod.tags);
         setProduct(prod);
       })();
     }
@@ -55,6 +63,7 @@ export function ProductCreate(props) {
 
   const setOpeningTime = (e) => {
     let startTime = new Date(e.target.value);
+
     let endObj = document.getElementById("close_time");
     let endTime = null;
     if (endObj) {
@@ -166,6 +175,7 @@ export function ProductCreate(props) {
       setmessage("Please enter at least 3 images");
       setOpen(true);
     } else {
+      // console.log("values", values);
       const createProductServiceResponse = await createProductService(values);
       //console.log("product service response:", createProductServiceResponse);
       //console.log("values array:", values);
@@ -212,6 +222,7 @@ export function ProductCreate(props) {
             setClosingTime={setClosingTime}
             isEditPage={isEditPage}
             product={product}
+
             //title={"jksdajask"}
           />
           <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
