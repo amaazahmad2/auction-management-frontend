@@ -10,6 +10,7 @@ import validationSchema from "./validate";
 import Button from "../../../components/uielements/button";
 import TextField from "../../../components/uielements/textfield";
 import Select from "@material-ui/core/Select";
+import Menu from "@material-ui/core/Menu";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Grid from "@material-ui/core/Grid";
@@ -85,6 +86,7 @@ const MyInnerForm = ({
   setClosingTime,
   isEditPage,
   product,
+  status
 }) => {
   if (isEditPage && product && product.open_time) {
     values.title = product.title;
@@ -93,7 +95,9 @@ const MyInnerForm = ({
     values.stock = product.stock;
     values.link_video = product.link_video;
     values.tags = product.tags;
-
+    values.type = product.type;
+    values.isFeatured = product.isFeatured ? product.isFeatured : product.images.findIndex(x => x.is_featured == true);
+    values.status = product.status
     if (
       product.open_time[product.open_time.length - 1] === "Z" ||
       product.close_time[product.close_time.length - 1] === "Z"
@@ -164,8 +168,11 @@ const MyInnerForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={isFeatured}
-                onChange={setisFeatured}
+                value={isEditPage ? values.isFeatured : isFeatured}
+                onChange={(event) => {
+                  if (isEditPage) product.isFeatured = event.target.value;
+                  setisFeatured(event);
+                }}
               >
                 {makeImagesArray(images).map((key) => (
                   <MenuItem value={key}>{"image - " + key} </MenuItem>
@@ -182,11 +189,14 @@ const MyInnerForm = ({
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={type}
-                onChange={setType}
+                value={isEditPage ? values.type : type}
+                onChange={(event) => {
+                  if (isEditPage) product.type = event.target.value;
+                  setType(event);
+                }}
               >
-                <MenuItem value={"auction"}>Auction Product</MenuItem>
-                <MenuItem value={"limited"}>Limited Product</MenuItem>
+                <MenuItem value="auction" >Auction Product</MenuItem>
+                <MenuItem value="limited" >Limited Product</MenuItem>
               </Select>
             </FormControl>
           </div>
@@ -358,6 +368,7 @@ export default withFormik({
     close_time: "",
     title: "",
     type: "",
+    isFeatured: "",
     price: 1,
     stock: 1,
     open_time: "",
