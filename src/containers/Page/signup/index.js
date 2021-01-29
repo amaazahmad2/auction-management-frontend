@@ -70,9 +70,10 @@ class SignUp extends Component {
       this.setState({
         open: true,
         class: "success",
-        message: "Registered successfully!",
+        message: "Registered successfully! Kindly login!",
       });
-      this.props.history.push("/signin");
+      setTimeout(() => {  this.props.history.push("/signin");}, 2500);
+      
     } else if (response.status === 200 && response.data.status==='failure') {
       this.setState({
         open: true,
