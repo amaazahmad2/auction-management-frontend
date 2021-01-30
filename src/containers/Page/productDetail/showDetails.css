@@ -90,3 +90,7 @@
     font-weight: bold;
     line-height: 1.4;
 }
+
+.disabled{
+    pointer-events: none;
+}

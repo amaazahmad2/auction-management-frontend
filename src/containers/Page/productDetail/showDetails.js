@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     left: 0,
     backgroundColor: "rgba(0,0,0,.3)",
   },
+ 
   mainFeaturedPostContent: {
     position: "relative",
     padding: theme.spacing(3),
@@ -309,12 +310,12 @@ const getRemainingProductDetails = (post, isSeller, history, handleDelete, handl
         <Container style={{paddingLeft: "0", paddingRight: "0"}}>
           <Grid container spacing={1}>
             <Grid item >
-              <Button
+              <Button className={(new Date(post.open_time) > Date.now()) ? null : 'disabled' }
                  onClick={() => {
                    handleEdit(post);
                  }}
                 variant={"contained"}
-                color="primary"
+                color={(new Date(post.open_time) > Date.now()) ?  "primary": "default"}
               >
                 Edit Product
           </Button>

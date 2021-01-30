@@ -6,6 +6,7 @@ import { FormsComponentWrapper, FormsMainWrapper } from "./product.style";
 import { FullColumn } from "../../../components/utility/rowColumn";
 import MyInnerForm from "./createProduct-form";
 import { createProductService } from "../../../services/productsServices";
+import { updateProductService } from "../../../services/productsServices";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { useHistory } from "react-router";
@@ -135,36 +136,36 @@ export function ProductCreate(props) {
     for (const [key, value] of Object.entries(images)) {
       imageArray[key] = {};
       imageArray[key]["image"] = value;
-      if (key === isFeatured) {
+      if (key === isFeatured || key === values.isFeatured.toString()) {
         imageArray[key]["is_featured"] = true;
       } else {
         imageArray[key]["is_featured"] = false;
       }
     }
+    values["isFeatured"] =  values.isFeatured.toString() || isFeatured;
     values["images"] = imageArray;
     values["tags"] = tags;
-    values["type"] = type;
-    values["open_time"] = openTime;
-    values["close_time"] = closeTime;
-    if (values["type"] === "auction") {
-      values["stock"] = 1;
-    }
+    values["type"] = type || values.type;
+    values["open_time"] =  values.open_Time || openTime;
+    values["close_time"] = values.close_Time || closeTime;
+
+    if(isEditPage)
+    values["product_uuid"]= productUUID;
 
     if (
-      !type ||
-      isNaN(isFeatured) ||
-      document.getElementById("title").value === "" ||
+      !values.type ||
+       document.getElementById("title").value === "" ||
       isNaN(document.getElementById("price").value) ||
       document.getElementById("price").value <= 0 ||
       (document.getElementById("demo-simple-select").value ===
         "limited product" &&
         isNaN(document.getElementById("stock").value)) ||
       document.getElementById("stock").value <= 0 ||
-      !isFeatured ||
-      !closeTime ||
-      closeTime.length <= 0 ||
-      !openTime ||
-      openTime.length <= 0 ||
+      values.isFeatured == "" ||
+      ! values.close_time ||
+      values.close_time.length <= 0 ||
+      !values.open_time ||
+      values.open_time.length <= 0 ||
       document.getElementById("detail").value === ""
     ) {
       setsnackBarClass("error");
@@ -175,10 +176,24 @@ export function ProductCreate(props) {
       setmessage("Please enter at least 3 images");
       setOpen(true);
     } else {
-      // console.log("values", values);
+      if(isEditPage){
+        delete values.open_Time 
+        delete values.close_Time
+        delete values.isFeatured 
+        values["status"] = '0'
+        const updateProductServiceResponse = await updateProductService(values);
+        if (updateProductServiceResponse.data.status === "success") {
+          setmessage(updateProductServiceResponse.data.Message);
+          setsnackBarClass("success");
+          setOpen(true);
+        } else {
+          setsnackBarClass("error");
+          setmessage("Unable to update product");
+          setOpen(true);
+        }
+      }
+      else{
       const createProductServiceResponse = await createProductService(values);
-      //console.log("product service response:", createProductServiceResponse);
-      //console.log("values array:", values);
       if (createProductServiceResponse.data.status === "success") {
         setmessage(createProductServiceResponse.data.Message);
         setsnackBarClass("success");
@@ -191,6 +206,7 @@ export function ProductCreate(props) {
         setmessage("Unable to create product");
         setOpen(true);
       }
+    }
     }
   };
 
@@ -218,6 +234,8 @@ export function ProductCreate(props) {
             setType={setProductType}
             onSubmit={onSubmit}
             images={images}
+            openTime={openTime}
+            closeTime={closeTime}
             setOpeningTime={setOpeningTime}
             setClosingTime={setClosingTime}
             isEditPage={isEditPage}

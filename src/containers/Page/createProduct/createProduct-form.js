@@ -190,12 +190,13 @@ const MyInnerForm = ({
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={isEditPage ? values.type : type}
+                disabled = {isEditPage}
                 onChange={(event) => {
                   if (isEditPage) product.type = event.target.value;
                   setType(event);
                 }}
               >
-                <MenuItem value="auction" >Auction Product</MenuItem>
+                <MenuItem value="auction">Auction Product</MenuItem>
                 <MenuItem value="limited" >Limited Product</MenuItem>
               </Select>
             </FormControl>
@@ -372,6 +373,7 @@ export default withFormik({
     price: 1,
     stock: 1,
     open_time: "",
+    close_time: "",
     detail: "",
     status: "",
     link_video: "",

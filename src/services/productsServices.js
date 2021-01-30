@@ -44,6 +44,29 @@ export async function createProductService(body) {
   return resp;
 }
 
+export async function updateProductService(body) {
+  const apiEndpoint = API_URL + "/product/update-product/";
+  const config = {
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Token " + localStorage.token,
+    },
+  };
+
+  const resp = await axios
+    .post(apiEndpoint, body, config)
+    .then((response) => {
+      console.log("RESPONSE STATUS: ",response.status);
+      return response;
+    })
+    .catch((error) => {
+      error.status=error.response.status;
+      console.log("ERROR STATUS: ", error.status);
+      return error;
+    });
+  return resp;
+}
+
 export async function getProductsBySeller(pageNum){
   const apiEndpoint = API_URL + "/product/my-products?page=" + pageNum;
   const config = {
