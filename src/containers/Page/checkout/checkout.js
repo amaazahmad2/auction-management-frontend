@@ -15,6 +15,7 @@ import Review from "./Review";
 import { checkout} from "./../../../services/checkoutService";
 import { store } from "../../../redux/store";
 import { clearCartAction } from "../../../redux/actions/cartAction";
+import { subtractCoinsAction } from '../../../redux/actions/coinAction';
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 
@@ -95,12 +96,21 @@ export let paymentDetails = {
 export default function Checkout() {
   const classes = useStyles();
   var checkoutObjList =[];
+  var total = 0;
   const [activeStep, setActiveStep] = React.useState(0);
   const [open, setOpen] = React.useState(false);
   const [alertMessage, setAlertMessage] = React.useState("");
   const [alertSeverity, setAlertSeverity] = React.useState("");
   const [alertOpen, setAlertOpen] = React.useState(false);
+  const [numberOfCoins, setNumberOfCoins] = React.useState(0);
+  const [currentAvailableCoins, setCurrentAvailableCoins] = React.useState(
+    store.getState().user.coins
+  );
   
+  React.useEffect(() => {
+    setCurrentAvailableCoins(store.getState().user.coins);
+  }, []);
+
   const handleAlertClose = () => {
     setAlertOpen(false);
   };
@@ -125,16 +135,18 @@ export default function Checkout() {
       const products = store.getState().cart;
       for (let i = 0; i < products.length; ++i) {
         checkoutObjList.push( { uuid: products[i].uuid , quantity: products[i].quantity_ordered});
+        total += products[i].price
       }
       let response = await checkout(checkoutObjList);
-      debugger;
         if (response.data.status === "failure") {
-          setAlertMessage("Failure");
+          setAlertMessage(response.data.message);
           setAlertOpen(true);
           setAlertSeverity("error");
           return;
         } else if (response.data.status === "success") {
           store.dispatch(clearCartAction());
+          store.dispatch(subtractCoinsAction(parseFloat(total)));
+          var a = store.getState().user.coins
           setAlertMessage("Checkout successful!");
           setAlertOpen(true);
           setAlertSeverity("success");

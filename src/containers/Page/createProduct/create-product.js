@@ -180,7 +180,6 @@ export function ProductCreate(props) {
         delete values.open_Time 
         delete values.close_Time
         delete values.isFeatured 
-        values["status"] = '0'
         const updateProductServiceResponse = await updateProductService(values);
         if (updateProductServiceResponse.data.status === "success") {
           setmessage(updateProductServiceResponse.data.Message);

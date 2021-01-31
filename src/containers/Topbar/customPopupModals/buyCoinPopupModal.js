@@ -29,7 +29,7 @@ export default function BuyCoinPopupModal() {
 
   React.useEffect(() => {
     setCurrentAvailableCoins(store.getState().user.coins);
-  }, []);
+  }, [store.getState().user.coins]);
 
   const handleClickOpen = () => {
     setOpen(true);

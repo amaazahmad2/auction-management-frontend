@@ -1,5 +1,5 @@
 
-import { ADD_COINS } from '../actions/types/coins';
+import { ADD_COINS, SUBTRACT_COINS } from '../actions/types/coins';
 import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
@@ -64,5 +64,13 @@ export default function user(state = initialState, action) {
             coins:newCoins,
         }
     }
+
+    else if(action.type===SUBTRACT_COINS){
+        let newCoins = state.coins - action.payload.coins;
+        return{
+            ...state,
+            coins:newCoins,
+        }
+    } 
     return state;
 }

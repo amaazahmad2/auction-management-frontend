@@ -25,7 +25,7 @@ import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props
 const { login } = authAction;
 const googleClientID =
     "61733361845-j03c3vnkmcutgehstvfhkpa842tamaej.apps.googleusercontent.com";
-const facebookAppID = "448728193170790";
+const facebookAppID = "2491740644463572";
 class SignIn extends Component {
     state = {
         username: "hamza",
