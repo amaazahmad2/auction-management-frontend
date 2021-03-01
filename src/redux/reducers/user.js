@@ -1,7 +1,10 @@
+
+import { ADD_COINS, SUBTRACT_COINS } from '../actions/types/coins';
 import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
+    BECOME_SELLER_SUCCESS
 } from "../actions/types/auth";
 
 const initialState = {
@@ -17,7 +20,6 @@ const initialState = {
 
 export default function user(state = initialState, action) {
     if (action.type === LOGIN_SUCCESS) {
-        
         return {
             ...state,
             uuid: action.payload.uuid,
@@ -28,6 +30,9 @@ export default function user(state = initialState, action) {
             name: action.payload.name,
             birthday: action.payload.birthday,
             gender: action.payload.gender,
+            is_seller:action.payload.is_seller,
+            coins: action.payload.coins,
+            name:action.payload.name,
         };
     } else if (action.type === LOGIN_FAIL) {
     } else if (action.type === LOGOUT_SUCCESS) {
@@ -41,7 +46,31 @@ export default function user(state = initialState, action) {
             name: null,
             birthday: null,
             gender: null,
+            is_seller:null,
+            coins:null,
+            name:null,
         };
     }
+    else if(action.type===BECOME_SELLER_SUCCESS){
+        return{
+            ...state,
+            is_seller:action.payload.is_seller,
+        }
+    }
+    else if(action.type===ADD_COINS){
+        let newCoins = state.coins + action.payload.coins;
+        return{
+            ...state,
+            coins:newCoins,
+        }
+    }
+
+    else if(action.type===SUBTRACT_COINS){
+        let newCoins = state.coins - action.payload.coins;
+        return{
+            ...state,
+            coins:newCoins,
+        }
+    } 
     return state;
 }

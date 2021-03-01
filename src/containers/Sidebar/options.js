@@ -1,22 +1,22 @@
-import { getDefaultPath } from '../../helpers/urlSync';
+import { getDefaultPath } from "../../helpers/urlSync";
+
 
 const options = [
-  // {
-  //   label: 'sidebar.dashboard',
-  //   key: 'dashboard',
-  // },
   {
-    label: 'sidebar.blankPage',
-    key: 'blank-page',
+    label: "Home",
+    key: "list-of-products",
   },
+  
 ];
+
+
 const getBreadcrumbOption = () => {
   const preKeys = getDefaultPath();
   let parent, activeChildren;
-  options.forEach(option => {
+  options.forEach((option) => {
     if (preKeys[option.key]) {
       parent = option;
-      (option.children || []).forEach(child => {
+      (option.children || []).forEach((child) => {
         if (preKeys[child.key]) {
           activeChildren = child;
         }

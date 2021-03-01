@@ -13,6 +13,10 @@ import {
 } from './topbarDropdown.style';
 import authAction from '../../redux/auth/actions';
 import Image from '../../images/user.jpg';
+import {store} from '../../redux/store'
+import {clearCartAction} from '../../redux/actions/cartAction';
+import { logoutUserAction } from '../../redux/actions/userAction';
+
 
 const { logout } = authAction;
 
@@ -30,6 +34,15 @@ class TopbarUser extends Component {
       anchorEl: findDOMNode(this.button),
     });
   };
+
+  handleLogout=()=>{
+    store.dispatch(clearCartAction());
+    store.dispatch(logoutUserAction());
+    localStorage.removeItem("token");
+    this.props.logout();
+  }
+
+
   render() {
     const content = (
       <TopbarDropdown>
@@ -39,8 +52,8 @@ class TopbarUser extends Component {
           </div>
 
           <div className="userDetails">
-            <h3>John Doe</h3>
-            <p>Sr. Marketing Officer</p>
+    <h3>{store.getState().user.name}</h3>
+    <p>{store.getState().user.email}</p>
           </div>
         </UserInformation>
 
@@ -57,7 +70,7 @@ class TopbarUser extends Component {
             <Icon>feedback</Icon>
             <IntlMessages id="topbar.help" />
           </a>
-          <Link to="/" onClick={this.props.logout} className="dropdownLink">
+          <Link to="/" onClick={this.handleLogout} className="dropdownLink">
             <Icon>input</Icon>
             <IntlMessages id="topbar.logout" />
           </Link>

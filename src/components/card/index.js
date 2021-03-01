@@ -26,7 +26,7 @@ const theme = createMuiTheme({
   },
 });
 
-export default class extends Component {
+export default class Card extends Component {
   render() {
     const {
       modalType,

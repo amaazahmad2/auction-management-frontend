@@ -4,74 +4,83 @@ import { connect } from "react-redux";
 import signinImg from "../../../images/signup.svg";
 import fbBtnSvg from "../../../images/facebook-app-symbol.svg";
 import gpBtnSvg from "../../../images/google-plus.svg";
-import authBtnSvg from "../../../images/auth0.svg";
 import Button from "../../../components/uielements/button";
 import authAction from "../../../redux/auth/actions";
 import TextField from "../../../components/uielements/textfield";
 import IntlMessages from "../../../components/utility/intlMessages";
 import Scrollbars from "../../../components/utility/customScrollBar";
 import SignInStyleWrapper from "./signin.style";
-import Auth0 from "../../../helpers/auth0";
-import Firebase from "../../../helpers/firebase";
-import FirebaseLogin from "../../../components/firebase";
 import {
     loginUserService,
     googleLoginService,
-    facebookLoginService
-} from "../../../services/loginServices";
-import { store, history } from "./../../../redux/store.js";
-import { loginUserAction } from "../../../redux/actions/loginAction";
+    facebookLoginService,
+} from "../../../services/userServices";
+import { store } from "./../../../redux/store.js";
+import { loginUserAction } from "../../../redux/actions/userAction";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import { GoogleLogin } from "react-google-login";
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 const { login } = authAction;
 const googleClientID =
     "61733361845-j03c3vnkmcutgehstvfhkpa842tamaej.apps.googleusercontent.com";
+const facebookAppID = "2491740644463572";
 class SignIn extends Component {
     state = {
-        // redirectToReferrer: false,
         username: "hamza",
         password: "123",
         alertOpen: false,
         alertMessage: "",
         alertSeverity: "info",
     };
-    // componentWillReceiveProps(nextProps) {
-    //   if (
-    //     this.props.isLoggedIn !== nextProps.isLoggedIn &&
-    //     nextProps.isLoggedIn === true
-    //   ) {
-    //     this.setState({ redirectToReferrer: true });
-    //   }
-    // }
     handleLogin = async () => {
         const loginServiceResponse = await loginUserService(
             this.state.username,
             this.state.password
         );
-        if (loginServiceResponse.status === 200) {
+        if (loginServiceResponse.status===200) {
+            
+            if (loginServiceResponse.data.status === "success") {
+                this.setState({
+                    alertMessage: "Logged-In Successfully",
+                    alertSeverity: "success",
+                    alertOpen: true,
+                });
+                localStorage.setItem(
+                    "token",
+                    loginServiceResponse.data.data.token
+                );
+                store.dispatch(loginUserAction(loginServiceResponse.data.data));
+                this.props.history.push("/dashboard/list-of-products");
+            } else if (loginServiceResponse.data.status === "failure") {
+                this.setState({
+                    alertMessage: loginServiceResponse.data.message,
+                    alertSeverity: "error",
+                    alertOpen: true,
+                });
+            } else {
+                this.setState({
+                    alertMessage: "Unexpected Error Occurred",
+                    alertSeverity: "error",
+                    alertOpen: true,
+                });
+            }
+        }
+        else if(loginServiceResponse.status===401){
             this.setState({
-                alertMessage: "Logged-In Successfully",
-                alertSeverity: "success",
-                alertOpen: true,
-            });
-            localStorage.setItem("token", loginServiceResponse.data.token);
-            store.dispatch(loginUserAction(loginServiceResponse.data));
-            this.props.history.push("/dashboard");
-        } else if (loginServiceResponse.status === 401) {
-            this.setState({
-                alertMessage: "Invalid Username or Password",
+                alertMessage: "Invalid Credentials",
                 alertSeverity: "error",
                 alertOpen: true,
             });
-        } else {
+        }
+        else{
             this.setState({
-                alertMessage: "Unexpected Error Occurred",
-                alertSeverity: "error",
-                alertOpen: true,
-            });
+            alertMessage: "Unexpected Error Occurred",
+            alertSeverity: "error",
+            alertOpen: true,
+        });
+
         }
     };
 
@@ -81,20 +90,25 @@ class SignIn extends Component {
 
     handleGoogleLogin = async (response) => {
         if (!response.error) {
-            console.log(response);
+            const loginServiceResponse = await googleLoginService(
+                response.profileObj.givenName,
+                response.profileObj.familyName,
+                response.profileObj.email,
+                response.googleId
+            );
 
-            const loginServiceResponse = await googleLoginService(response.profileObj.givenName, response.profileObj.familyName, response.profileObj.email, response.googleId);
-            console.log("STATUS: ",loginServiceResponse.status);
-
-            if(loginServiceResponse.status === 200){    
+            if (loginServiceResponse.status === 200) {
                 this.setState({
                     alertMessage: "Logged-In Successfully",
                     alertSeverity: "success",
                     alertOpen: true,
                 });
-                localStorage.setItem("token", loginServiceResponse.data.data.token);
+                localStorage.setItem(
+                    "token",
+                    loginServiceResponse.data.data.token
+                );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
-                this.props.history.push("/dashboard");
+                this.props.history.push("/dashboard/list-of-products");
             } else if (loginServiceResponse.status === 401) {
                 this.setState({
                     alertMessage: "Invalid Username or Password",
@@ -108,9 +122,9 @@ class SignIn extends Component {
                     alertOpen: true,
                 });
             }
-        }else {
+        } else {
             this.setState({
-                alertMessage: "Unexpected Error Occurred",
+                alertMessage: "Error in verifying your Google credentials",
                 alertSeverity: "error",
                 alertOpen: true,
             });
@@ -119,35 +133,47 @@ class SignIn extends Component {
 
     handleFacebookLogin = async (response) => {
         if (!response.error) {
-            console.log("FACEBOOK API RESPINSE: ",response);
-
             //make the API call
-            const loginServiceResponse = await facebookLoginService(response.first_name, response.last_name, response.email, response.id);
-            console.log("APNI API FACEBOOK RESPONSE: ",loginServiceResponse);
+            const loginServiceResponse = await facebookLoginService(
+                response.first_name,
+                response.last_name,
+                response.email,
+                response.id
+            );
 
-            if(loginServiceResponse.status === 200){    
+            if (loginServiceResponse.status === 200) {
                 this.setState({
                     alertMessage: "Logged-In Successfully",
                     alertSeverity: "success",
                     alertOpen: true,
                 });
-                localStorage.setItem("token", loginServiceResponse.data.data.token);
+                localStorage.setItem(
+                    "token",
+                    loginServiceResponse.data.data.token
+                );
                 store.dispatch(loginUserAction(loginServiceResponse.data.data));
-                this.props.history.push("/dashboard");
+                this.props.history.push("/dashboard/list-of-products");
             } else if (loginServiceResponse.status === 401) {
                 this.setState({
                     alertMessage: "Invalid Username or Password",
                     alertSeverity: "error",
                     alertOpen: true,
                 });
-            } else {
+            }else if(loginServiceResponse.status===500){
+                this.setState({
+                    alertMessage: "Error in verifying your Facebook credentials",
+                    alertSeverity: "error",
+                    alertOpen: true,
+                });
+            } 
+            else {
                 this.setState({
                     alertMessage: "Unexpected Error Occurred",
                     alertSeverity: "error",
                     alertOpen: true,
                 });
             }
-        }else {
+        } else {
             this.setState({
                 alertMessage: "Unexpected Error Occurred",
                 alertSeverity: "error",
@@ -161,7 +187,7 @@ class SignIn extends Component {
     onChangePassword = (event) =>
         this.setState({ password: event.target.value });
     render() {
-        const from = { pathname: "/dashboard" };
+        const from = { pathname: "/dashboard/list-of-products" };
         const { redirectToReferrer, username, password } = this.state;
 
         if (redirectToReferrer) {
@@ -214,7 +240,7 @@ class SignIn extends Component {
                         <div className="mateSignInPageGreet">
                             <h1>Hello User,</h1>
                             <p>
-                                Welcome to Mate Admin, Please Login with your
+                                Welcome to UNDEDY, Please Login with your
                                 personal account information.
                             </p>
                         </div>
@@ -256,12 +282,12 @@ class SignIn extends Component {
                         <div className="mateLoginOtherBtn">
                             <div className="mateLoginOtherBtnWrap">
                                 <FacebookLogin
-                                    appId="448728193170790"
+                                    appId={facebookAppID}
                                     //autoLoad
                                     fields="first_name,last_name,email"
                                     // scope="public_profile,user_friends,user_actions.books"
                                     callback={this.handleFacebookLogin}
-                                    render={renderProps => (
+                                    render={(renderProps) => (
                                         // <button onClick={renderProps.onClick}>This is my custom FB button</button>
                                         <Button
                                             onClick={renderProps.onClick}
@@ -304,44 +330,6 @@ class SignIn extends Component {
                                     onFailure={this.handleGoogleLogin}
                                     // cookiePolicy={'single_host_origin'}
                                 ></GoogleLogin>
-                            </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                {Auth0.isValid ? (
-                                    <Button
-                                        type="button"
-                                        className="btnAuthZero"
-                                        onClick={() => {
-                                            Auth0.login(this.handleLogin);
-                                        }}
-                                    >
-                                        <div className="mateLoginOtherIcon">
-                                            <img
-                                                src={authBtnSvg}
-                                                alt="Authentication Btn"
-                                            />
-                                        </div>
-                                        <IntlMessages id="page.signInAuth0" />
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        type="button"
-                                        className="primary btnAuthZero"
-                                        onClick={this.handleLogin}
-                                    >
-                                        <div className="mateLoginOtherIcon">
-                                            <img
-                                                src={authBtnSvg}
-                                                alt="Authentication Btn"
-                                            />
-                                        </div>
-                                        <IntlMessages id="page.signInAuth0" />
-                                    </Button>
-                                )}
-                            </div>
-                            <div className="mateLoginOtherBtnWrap">
-                                {Firebase.isValid && (
-                                    <FirebaseLogin login={this.handleLogin} />
-                                )}
                             </div>
                         </div>
                     </Scrollbars>

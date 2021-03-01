@@ -4,7 +4,7 @@ import { BoxCard } from './style';
 export default class BoxCards extends Component {
   render() {
     const { title, img, date, message } = this.props;
-
+    console.log(this.props);
     return (
       <BoxCard>
         {img ? (
